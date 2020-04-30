@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 python pretrain.py \
 --dataset_path cscd_r.pt \
---vocab_path models/google_vocab.txt \
+--vocab_path models/google_zh_vocab.txt \
 --pretrained_model_path models/google_zh_model.bin \
 --output_model_path models/cscd_R_based_on_google_zh.bin  \
 --world_size 2 \
