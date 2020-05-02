@@ -39,6 +39,10 @@ def build_model(args):
 
     print(embedding)
     print(type(embedding))
+    src = 0
+    seg = 0
+    emb = embedding(src, seg)
+
     exit()
 
     encoder = globals()[args.encoder.capitalize() + "Encoder"](args)
