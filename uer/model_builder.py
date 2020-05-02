@@ -36,6 +36,11 @@ def build_model(args):
         subencoder = None
 
     embedding = globals()[args.embedding.capitalize() + "Embedding"](args, len(args.vocab))
+
+    print(embedding)
+    print(type(embedding))
+    exit()
+
     encoder = globals()[args.encoder.capitalize() + "Encoder"](args)
     target = globals()[args.target.capitalize() + "Target"](args, len(args.vocab))
     model = Model(args, embedding, encoder, target, subencoder)
