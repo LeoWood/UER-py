@@ -682,19 +682,32 @@ class Csci_MlmDataset(Dataset):
                     finally:
                         pos += 1
 
-                    src = [self.vocab.get(w) for w in self.tokenizer.tokenize(line)]
+                    src_word = [self.vocab.get(w) for w in self.tokenizer.tokenize(line)]
 
-                    if len(src) > self.seq_length:
-                        src = src[:self.seq_length]
-                    seg = [1] * len(src)
 
-                    src, tgt = mask_seq(src, len(self.vocab))
+                    if len(src_word) > self.seq_length:
+                        src_word = src_word[:self.seq_length]
+                    seg = [1] * len(src_word)
 
-                    while len(src) != self.seq_length:
-                        src.append(PAD_ID)
+                    src_word, tgt = mask_seq(src_word, len(self.vocab))
+
+
+                    ## 加入pos和term
+
+                    src_pos = []
+
+                    src_term = []
+
+
+                    while len(src_word) != self.seq_length:
+                        src_word.append(PAD_ID)
+                        src_pos.append(PAD_ID)
+                        src_term.append(PAD_ID)
                         seg.append(PAD_ID)
 
-                    pickle.dump((src, tgt, seg), f_write)
+
+
+                    pickle.dump((src_word, src_pos, src_term, tgt, seg), f_write)
 
                     if pos >= end - 1:
                         break
@@ -714,23 +727,35 @@ class Csci_MlmDataLoader(DataLoader):
 
             self.start += self.batch_size
 
-            src = []
+            src_word = []
+
+            ## 加入pos和term
+            src_pos = []
+            src_term = []
+
             tgt = []
             seg = []
 
             masked_words_num = 0
             for ins in instances:
-                masked_words_num += len(ins[1])
+                masked_words_num += len(ins[3])
             if masked_words_num == 0:
                 continue
 
             for ins in instances:
-                src.append(ins[0])
-                seg.append(ins[2])
+                src_word.append(ins[0])
+
+                ## 加入pos和term
+                src_pos.append(ins[1])
+                src_term.append(ins[2])
+
+                seg.append(ins[4])
                 tgt.append([0]*len(ins[0]))
-                for mask in ins[1]:
+                for mask in ins[3]:
                     tgt[-1][mask[0]] = mask[1]
 
-            yield torch.LongTensor(src), \
+            yield torch.LongTensor(src_word), \
+                torch.LongTensor(src_pos), \
+                torch.LongTensor(src_term), \
                 torch.LongTensor(tgt), \
                 torch.LongTensor(seg)

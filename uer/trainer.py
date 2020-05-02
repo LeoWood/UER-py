@@ -523,6 +523,85 @@ def train_mlm(args, gpu_id, rank, loader, model, optimizer, scheduler):
         steps += 1
 
 
+def train_csci_mlm(args, gpu_id, rank, loader, model, optimizer, scheduler):
+    model.train()
+    start_time = time.time()
+    total_loss, total_loss_mlm, total_loss_nsp = 0., 0., 0.
+    # Calculate MLM accuracy.
+    total_correct, total_denominator = 0., 0.
+    # Calculate NSP accuracy.
+    total_instances = 0., 0.
+    steps = 1
+    total_steps = args.total_steps
+    loader_iter = iter(loader)
+
+    while True:
+        if steps == total_steps + 1:
+            break
+        src_word, src_pos, src_term, tgt, seg = next(loader_iter)
+
+        if gpu_id is not None:
+            src_word = src_word.cuda(gpu_id)
+            src_pos = src_pos.cuda(gpu_id)
+            src_term = src_term.cuda(gpu_id)
+            tgt = tgt.cuda(gpu_id)
+            seg = seg.cuda(gpu_id)
+
+        # Forward.
+        loss_info = model((src_word, src_pos, src_term), tgt, seg)
+        loss, correct, denominator = loss_info
+
+        # Backward.
+        total_loss += loss.item()
+        total_correct += correct.item()
+        total_denominator += denominator.item()
+
+        loss = loss / args.accumulation_steps
+
+        if args.fp16:
+            with args.amp.scale_loss(loss, optimizer) as scaled_loss:
+                scaled_loss.backward()
+        else:
+            loss.backward()
+
+        if steps % args.accumulation_steps == 0:
+            optimizer.step()
+            scheduler.step()
+            model.zero_grad()
+
+        if steps % args.report_steps == 0 and \
+                (not args.dist_train or (args.dist_train and rank == 0)):
+            loss = total_loss / args.report_steps
+
+            elapsed = time.time() - start_time
+
+            done_tokens = \
+                args.batch_size * src_word.size(1) * args.report_steps * args.world_size \
+                    if args.dist_train \
+                    else args.batch_size * src_word.size(1) * args.report_steps
+
+            print("| {:8d}/{:8d} steps"
+                  "| {:8.2f} tokens/s"
+                  "| loss {:7.2f}"
+                  "| acc: {:3.3f}".format(
+                steps,
+                total_steps,
+                done_tokens / elapsed,
+                loss,
+                total_correct / total_denominator))
+
+            total_loss = 0.
+            total_correct, total_denominator = 0., 0.
+
+            start_time = time.time()
+
+        if steps % args.save_checkpoint_steps == 0 and \
+                (not args.dist_train or (args.dist_train and rank == 0)):
+            save_model(model, args.output_model_path + "-" + str(steps))
+
+        steps += 1
+
+
 # def train_nsp(args, gpu_id, rank, loader, model, optimizer):
 #     model.train()
 #     start_time = time.time()
