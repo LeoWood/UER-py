@@ -8,6 +8,30 @@ from multiprocessing import Pool
 from uer.utils.constants import *
 from uer.utils.misc import count_lines
 from uer.utils.seed import set_seed
+import hanlp
+cut = hanlp.load('PKU_NAME_MERGED_SIX_MONTHS_CONVSEG')
+tagger = hanlp.load(hanlp.pretrained.pos.CTB5_POS_RNN_FASTTEXT_ZH)
+pos_dict = {}
+with open('uer/utils/pos_tags.txt','r',encoding='utf-8') as f:
+    i = 0
+    for line in f.readlines():
+        pos_dict[line.strip().split('\t')[0].upper()] = i
+        i += 1
+# print(pos_dict)
+
+# 获取本地术语表
+a = []
+term_dict = {}
+with open('uer/utils/Med_Keywords.txt', 'r', encoding='utf-8') as f:
+    for line in f.readlines():
+        line = line.strip()
+        a.append(line)
+        term_dict[line] = 1
+
+max_num = max([len(line) for line in a])
+print('max_num:',max_num)
+
+
 
 
 def mask_seq(src, vocab_size):
@@ -50,6 +74,55 @@ def merge_dataset(dataset_path, workers_num):
             tmp_dataset_reader.close()
             os.remove("dataset-tmp-"+str(i)+".pt")
         f_writer.close()
+
+
+def max_match(txt, ano_dict, max_num):
+    new_word_list = []
+    N = len(txt)
+    k = max_num
+    i = 0
+    while i < N:
+        if i <= N - k:
+            j = k
+            while j > 0:
+                token_tmp = txt[i:i + j]
+                # print(token_tmp)
+                if token_tmp in ano_dict.keys() or token_tmp.lower() in ano_dict.keys():
+                    # print(token_tmp,'！!！!!!！!!!！!！!！!')
+                    new_word_list.append(token_tmp)
+                    i += j
+                    break
+                else:
+                    j -= 1
+            if j == 0:
+                new_word_list += txt[i]
+                i += 1
+        else:
+            j = N - i
+            while j > 0:
+                token_tmp = txt[i:i + j]
+                # print(token_tmp)
+                if token_tmp in ano_dict.keys() or token_tmp.lower() in ano_dict.keys():
+                    # print(token_tmp, '！!！!!!！!!!！!！!！!')
+                    new_word_list.append(token_tmp)
+                    i += j
+                    break
+                else:
+                    j -= 1
+            if j == 0:
+                new_word_list += txt[i]
+                i += 1
+    return new_word_list
+
+# ## 最大匹配分词
+# txt = '我爱北京天安门，天安门上太阳升'
+#
+# ano_dict={'天安门':1,'北京':1,'太阳':1}
+#
+# max_num = 2
+#
+# print(max_match(txt,ano_dict,max_num))
+# exit()
 
 
 class Dataset(object):
@@ -655,9 +728,9 @@ class MlmDataLoader(DataLoader):
                 torch.LongTensor(seg)
 
 
-class Csci_MlmDataset(Dataset):
+class Csci_mlmDataset(Dataset):
     def __init__(self, args, vocab, tokenizer):
-        super(Csci_MlmDataset, self).__init__(args, vocab, tokenizer)
+        super(Csci_mlmDataset, self).__init__(args, vocab, tokenizer)
         self.dup_factor = args.dup_factor
 
     def worker(self, proc_id, start, end):
@@ -690,13 +763,45 @@ class Csci_MlmDataset(Dataset):
                     seg = [1] * len(src_word)
 
                     src_word, tgt = mask_seq(src_word, len(self.vocab))
+                    print('len(src_word)',len(src_word))
+
+                    print([w for w in self.tokenizer.tokenize(line)])
 
 
                     ## 加入pos和term
 
                     src_pos = []
 
+                    words = [w for w in cut(line.strip())]
+                    pos_labels = tagger(words)
+
+                    for i in range(len(words)):
+                        for w in self.tokenizer.tokenize(words[i]):
+                            src_pos.append(pos_dict[pos_labels[i]])
+
+                    if len(src_pos) > self.seq_length:
+                        src_pos = src_pos[:self.seq_length]
+
+                    print('len(src_pos)',len(src_pos))
+
+
                     src_term = []
+
+                    terms = max_match(line.strip(),term_dict,max_num)
+
+                    for term in terms:
+                        if len(term)> 1:
+                            for w in self.tokenizer.tokenize(term):
+                                src_term.append(1)
+                        else:
+                            src_term.append(0)
+
+                    if len(src_term) > self.seq_length:
+                        src_term = src_term[:self.seq_length]
+
+                    print('len(src_term)',len(src_term))
+
+                    exit()
 
 
                     while len(src_word) != self.seq_length:
@@ -715,7 +820,7 @@ class Csci_MlmDataset(Dataset):
         f_write.close()
 
 
-class Csci_MlmDataLoader(DataLoader):
+class Csci_mlmDataLoader(DataLoader):
     def __iter__(self):
         while True:
             while self._empty():

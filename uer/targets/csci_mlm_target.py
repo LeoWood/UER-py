@@ -6,13 +6,13 @@ from uer.layers.layer_norm import LayerNorm
 from uer.utils.act_fun import gelu
 
 
-class Csci_MlmTarget(nn.Module):
+class Csci_mlmTarget(nn.Module):
     """
     BERT exploits masked language modeling (MLM) 
     and next sentence prediction (NSP) for pretraining.
     """
     def __init__(self, args, vocab_size):
-        super(Csci_MlmTarget, self).__init__()
+        super(Csci_mlmTarget, self).__init__()
         self.vocab_size = vocab_size
         self.hidden_size = args.hidden_size
 
