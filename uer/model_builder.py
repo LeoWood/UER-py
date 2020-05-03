@@ -12,7 +12,7 @@ from uer.targets.bert_target import BertTarget
 from uer.targets.lm_target import LmTarget
 from uer.targets.cls_target import ClsTarget
 from uer.targets.mlm_target import MlmTarget
-from uer.targets.csci_mlm_target import Csci_MlmTarget
+from uer.targets.csci_mlm_target import Csci_mlmTarget
 from uer.targets.nsp_target import NspTarget
 from uer.targets.s2s_target import S2sTarget
 from uer.targets.bilm_target import BilmTarget
