@@ -26,7 +26,7 @@ term_dict = {}
 with open('uer/utils/Med_Keywords.txt', 'r', encoding='utf-8') as f:
     for line in f.readlines():
         line = line.strip()
-        if len(line)>200:
+        if len(line)>100:
             print(line)
         if len(line) <= 10:
             a.append(line)
