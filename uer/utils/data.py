@@ -18,7 +18,7 @@ with open('uer/utils/pos_label_PAD.txt','r',encoding='utf-8') as f:
         if line:
             pos_dict[line.strip()] = i
             i += 1
-print(pos_dict)
+
 
 # 获取本地术语表
 a = []
@@ -26,8 +26,12 @@ term_dict = {}
 with open('uer/utils/Med_Keywords.txt', 'r', encoding='utf-8') as f:
     for line in f.readlines():
         line = line.strip()
-        a.append(line)
-        term_dict[line] = 1
+        if len(line)>200:
+            print(line)
+        if len(line) <= 10:
+            a.append(line)
+            term_dict[line] = 1
+exit()
 
 max_num = max([len(line) for line in a])
 print('max_num:',max_num)
@@ -764,9 +768,9 @@ class Csci_mlmDataset(Dataset):
                     seg = [1] * len(src_word)
 
                     src_word, tgt = mask_seq(src_word, len(self.vocab))
-                    print('len(src_word)',len(src_word))
-
-                    print([w for w in self.tokenizer.tokenize(line)])
+                    # print('len(src_word)',len(src_word))
+                    #
+                    # print([w for w in self.tokenizer.tokenize(line)])
 
 
                     ## 加入pos
@@ -783,8 +787,8 @@ class Csci_mlmDataset(Dataset):
                     if len(src_pos) > self.seq_length:
                         src_pos = src_pos[:self.seq_length]
 
-                    print('len(src_pos)',len(src_pos))
-                    print('src_pos:',src_pos)
+                    # print('len(src_pos)',len(src_pos))
+                    # print('src_pos:',src_pos)
 
 
                     ## 加入term
@@ -802,9 +806,9 @@ class Csci_mlmDataset(Dataset):
                     if len(src_term) > self.seq_length:
                         src_term = src_term[:self.seq_length]
 
-                    print('len(src_term)',len(src_term))
-                    print('src_term:',src_term)
-                    exit()
+                    # print('len(src_term)',len(src_term))
+                    # print('src_term:',src_term)
+                    # exit()
 
 
                     while len(src_word) != self.seq_length:
