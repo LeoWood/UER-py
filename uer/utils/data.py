@@ -12,12 +12,13 @@ import hanlp
 cut = hanlp.load('PKU_NAME_MERGED_SIX_MONTHS_CONVSEG')
 tagger = hanlp.load(hanlp.pretrained.pos.CTB5_POS_RNN_FASTTEXT_ZH)
 pos_dict = {}
-with open('uer/utils/pos_tags.txt','r',encoding='utf-8') as f:
+with open('uer/utils/pos_label_PAD.txt','r',encoding='utf-8') as f:
     i = 0
     for line in f.readlines():
-        pos_dict[line.strip().split('\t')[0].upper()] = i
-        i += 1
-# print(pos_dict)
+        if line:
+            pos_dict[line.strip()] = i
+            i += 1
+print(pos_dict)
 
 # 获取本地术语表
 a = []
@@ -768,7 +769,7 @@ class Csci_mlmDataset(Dataset):
                     print([w for w in self.tokenizer.tokenize(line)])
 
 
-                    ## 加入pos和term
+                    ## 加入pos
 
                     src_pos = []
 
@@ -785,6 +786,7 @@ class Csci_mlmDataset(Dataset):
                     print('len(src_pos)',len(src_pos))
 
 
+                    ## 加入term
                     src_term = []
 
                     terms = max_match(line.strip(),term_dict,max_num)
@@ -806,8 +808,8 @@ class Csci_mlmDataset(Dataset):
 
                     while len(src_word) != self.seq_length:
                         src_word.append(PAD_ID)
-                        src_pos.append(PAD_ID)
-                        src_term.append(PAD_ID)
+                        src_pos.append(pos_dict['PAD'])
+                        src_term.append(2)
                         seg.append(PAD_ID)
 
 

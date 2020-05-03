@@ -549,6 +549,7 @@ def train_csci_mlm(args, gpu_id, rank, loader, model, optimizer, scheduler):
 
         # Forward.
         loss_info = model((src_word, src_pos, src_term), tgt, seg)
+
         loss, correct, denominator = loss_info
 
         # Backward.
