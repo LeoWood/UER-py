@@ -26,12 +26,8 @@ term_dict = {}
 with open('uer/utils/Med_Keywords.txt', 'r', encoding='utf-8') as f:
     for line in f.readlines():
         line = line.strip()
-        if len(line)>100:
-            print(line)
-        if len(line) <= 10:
-            a.append(line)
-            term_dict[line] = 1
-exit()
+        a.append(line)
+        term_dict[line.lower()] = 1
 
 max_num = max([len(line) for line in a])
 print('max_num:',max_num)
