@@ -784,6 +784,7 @@ class Csci_mlmDataset(Dataset):
                         src_pos = src_pos[:self.seq_length]
 
                     print('len(src_pos)',len(src_pos))
+                    print('src_pos:',src_pos)
 
 
                     ## 加入term
@@ -802,7 +803,7 @@ class Csci_mlmDataset(Dataset):
                         src_term = src_term[:self.seq_length]
 
                     print('len(src_term)',len(src_term))
-
+                    print('src_term:',src_term)
                     exit()
 
 
