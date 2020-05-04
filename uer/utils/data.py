@@ -768,7 +768,7 @@ class Csci_mlmDataset(Dataset):
                     seg = [1] * len(src_word)
 
                     src_word, tgt = mask_seq(src_word, len(self.vocab))
-                    # print('len(src_word)',len(src_word))
+                    print('len(src_word)',len(src_word))
                     #
                     # print([w for w in self.tokenizer.tokenize(line)])
 
@@ -787,7 +787,7 @@ class Csci_mlmDataset(Dataset):
                     if len(src_pos) > self.seq_length:
                         src_pos = src_pos[:self.seq_length]
 
-                    # print('len(src_pos)',len(src_pos))
+                    print('len(src_pos)',len(src_pos))
                     # print('src_pos:',src_pos)
 
 
