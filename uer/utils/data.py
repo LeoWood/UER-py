@@ -750,7 +750,8 @@ class Csci_mlmDataset(Dataset):
                         continue
                     finally:
                         pos += 1
-                pbar = tqdm(total=end - start + 1)
+                pbar = tqdm(total=end - start)
+                pbar.set_description("Worker %d:" % proc_id)
                 while True:
                     pbar.update(1)
                     try:
