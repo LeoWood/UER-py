@@ -1,6 +1,6 @@
 # -*- encoding:utf-8 -*-
 import torch
-from uer.layers.embeddings import BertEmbedding, WordEmbedding
+from uer.layers.embeddings import BertEmbedding, WordEmbedding, CscibertEmbedding
 from uer.encoders.bert_encoder import BertEncoder
 from uer.encoders.rnn_encoder import LstmEncoder, GruEncoder
 from uer.encoders.birnn_encoder import BilstmEncoder

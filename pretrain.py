@@ -21,6 +21,8 @@ def main():
                         help="Path of the output model.")
     parser.add_argument("--config_path", type=str, default=None,
                         help="Config file of model hyper-parameters.")
+    parser.add_argument("--output_log_path", type=str, default="models/train_log.csv",
+                        help="Path of the output log --must be *.csv !!!")
 
     # Training and saving options. 
     parser.add_argument("--total_steps", type=int, default=100000,

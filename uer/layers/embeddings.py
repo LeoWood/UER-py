@@ -29,13 +29,13 @@ class BertEmbedding(nn.Module):
         return emb
 
 
-class CsciBertEmbedding(nn.Module):
+class CscibertEmbedding(nn.Module):
     """
     BERT embedding consists of three parts:
     word embedding, position embedding, and segment embedding.
     """
     def __init__(self, args, vocab_size):
-        super(CsciBertEmbedding, self).__init__()
+        super(CscibertEmbedding, self).__init__()
         self.dropout = nn.Dropout(args.dropout)
         self.max_length = 512
         self.word_embedding = nn.Embedding(vocab_size, args.emb_size)

@@ -3,6 +3,7 @@ import os
 import sys
 import time
 import math
+import pandas as pd
 
 import torch
 import torch.nn as nn
@@ -457,6 +458,12 @@ def train_mlm(args, gpu_id, rank, loader, model, optimizer, scheduler):
     total_steps = args.total_steps
     loader_iter = iter(loader)
 
+    report_dict = {}
+    report_dict['steps'] = []
+    report_dict['loss'] = []
+    report_dict['acc'] = []
+
+
     while True:
         if steps == total_steps + 1:
             break
@@ -501,16 +508,29 @@ def train_mlm(args, gpu_id, rank, loader, model, optimizer, scheduler):
                 if args.dist_train \
                 else args.batch_size * src.size(1) * args.report_steps
 
+            acc = total_correct / total_denominator
             print("| {:8d}/{:8d} steps"
+                  "| {:7.2f} steps/s"
                   "| {:8.2f} tokens/s"
                   "| loss {:7.2f}"
                   "| acc: {:3.3f}".format(
-                    steps, 
+                    steps,
+                    steps / elapsed,
                     total_steps, 
                     done_tokens / elapsed, 
                     loss, 
-                    total_correct / total_denominator))
-            
+                    acc))
+
+            report_dict['steps'].append(steps)
+            report_dict['loss'].append(loss)
+            report_dict['acc'].append(acc)
+
+            best_score = max(report_dict['acc'])
+            if acc >= best_score and \
+                    (not args.dist_train or (args.dist_train and rank == 0)):
+                save_model(model, args.output_model_path + "-best")
+
+
             total_loss = 0.
             total_correct, total_denominator = 0., 0.
 
@@ -518,9 +538,13 @@ def train_mlm(args, gpu_id, rank, loader, model, optimizer, scheduler):
 
         if steps % args.save_checkpoint_steps == 0 and \
                 (not args.dist_train or (args.dist_train and rank == 0)):
-            save_model(model, args.output_model_path + "-" + str(steps))
+            save_model(model, args.output_model_path + "-" + str(steps) + "-" + str(loss))
 
         steps += 1
+
+    report = pd.DataFrame(report_dict)
+    report.to_csv(args.output_log_path)
+
 
 
 def train_csci_mlm(args, gpu_id, rank, loader, model, optimizer, scheduler):
@@ -534,6 +558,11 @@ def train_csci_mlm(args, gpu_id, rank, loader, model, optimizer, scheduler):
     steps = 1
     total_steps = args.total_steps
     loader_iter = iter(loader)
+
+    report_dict = {}
+    report_dict['steps'] = []
+    report_dict['loss'] = []
+    report_dict['acc'] = []
 
     while True:
         if steps == total_steps + 1:
@@ -582,10 +611,12 @@ def train_csci_mlm(args, gpu_id, rank, loader, model, optimizer, scheduler):
                     else args.batch_size * src_word.size(1) * args.report_steps
 
             print("| {:8d}/{:8d} steps"
+                  "| {:7.2f} steps/s"
                   "| {:8.2f} tokens/s"
                   "| loss {:7.2f}"
                   "| acc: {:3.3f}".format(
                 steps,
+                steps / elapsed,
                 total_steps,
                 done_tokens / elapsed,
                 loss,
@@ -598,7 +629,7 @@ def train_csci_mlm(args, gpu_id, rank, loader, model, optimizer, scheduler):
 
         if steps % args.save_checkpoint_steps == 0 and \
                 (not args.dist_train or (args.dist_train and rank == 0)):
-            save_model(model, args.output_model_path + "-" + str(steps))
+            save_model(model, args.output_model_path + "-" + str(steps) + "-" + str(loss))
 
         steps += 1
 
