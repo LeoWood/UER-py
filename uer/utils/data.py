@@ -4,6 +4,7 @@ import torch
 import codecs
 import random
 import pickle
+from tqdm import tqdm
 from multiprocessing import Pool
 from uer.utils.constants import *
 from uer.utils.misc import count_lines
@@ -141,6 +142,7 @@ class Dataset(object):
         Start workers_num processes and each process deals with a part of data.
         """
         lines_num = count_lines(self.corpus_path)
+        print("Total %d lines in courpus ... " % lines_num)
         print("Starting %d workers for building datasets ... " % workers_num)
         assert(workers_num >= 1)
         if workers_num == 1:
@@ -737,7 +739,7 @@ class Csci_mlmDataset(Dataset):
     def worker(self, proc_id, start, end):
         print("Worker %d is building dataset ... " % proc_id)
         set_seed(self.seed)
-        f_write = open("dataset-tmp-" + str(proc_id) + ".pt", "wb")
+        f_write = open("datasets/dataset-tmp-test-" + str(proc_id) + ".pt", "wb")
         for _ in range(self.dup_factor):
             pos = 0
             with open(self.corpus_path, mode="r", encoding="utf-8") as f:
@@ -748,7 +750,9 @@ class Csci_mlmDataset(Dataset):
                         continue
                     finally:
                         pos += 1
+                pbar = tqdm(total=end - start + 1)
                 while True:
+                    pbar.update(1)
                     try:
                         line = f.readline()
                     except:
@@ -819,7 +823,7 @@ class Csci_mlmDataset(Dataset):
 
                     if pos >= end - 1:
                         break
-
+                pbar.close()
         f_write.close()
 
 

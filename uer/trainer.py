@@ -516,7 +516,7 @@ def train_mlm(args, gpu_id, rank, loader, model, optimizer, scheduler):
                   "| acc: {:3.3f}".format(
                     steps,
                     total_steps,
-                    steps / elapsed,
+                    args.report_steps / elapsed,
                     done_tokens / elapsed, 
                     loss, 
                     acc))
@@ -617,7 +617,7 @@ def train_csci_mlm(args, gpu_id, rank, loader, model, optimizer, scheduler):
                   "| acc: {:3.3f}".format(
                 steps,
                 total_steps,
-                steps / elapsed,
+                args.report_steps / elapsed,
                 done_tokens / elapsed,
                 loss,
                 total_correct / total_denominator))
