@@ -813,7 +813,7 @@ class Csci_mlmDataset(Dataset):
 
                     while len(src_word) != self.seq_length:
                         src_word.append(PAD_ID)
-                        src_pos.append(pos_dict['PAD'])
+                        src_pos.append(pos_dict['[PAD]'])
                         src_term.append(2)
                         seg.append(PAD_ID)
 
