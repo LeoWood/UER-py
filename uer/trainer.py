@@ -509,15 +509,14 @@ def train_mlm(args, gpu_id, rank, loader, model, optimizer, scheduler):
                 else args.batch_size * src.size(1) * args.report_steps
 
             acc = total_correct / total_denominator
-            print('acc:',acc)
             print("| {:8d}/{:8d} steps"
                   "| {:7.2f} steps/s"
                   "| {:8.2f} tokens/s"
                   "| loss {:7.2f}"
                   "| acc: {:3.3f}".format(
                     steps,
+                    total_steps,
                     steps / elapsed,
-                    total_steps, 
                     done_tokens / elapsed, 
                     loss, 
                     acc))
@@ -617,8 +616,8 @@ def train_csci_mlm(args, gpu_id, rank, loader, model, optimizer, scheduler):
                   "| loss {:7.2f}"
                   "| acc: {:3.3f}".format(
                 steps,
-                steps / elapsed,
                 total_steps,
+                steps / elapsed,
                 done_tokens / elapsed,
                 loss,
                 total_correct / total_denominator))
