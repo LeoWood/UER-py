@@ -818,6 +818,7 @@ class Csci_mlmDataset(Dataset):
                         seg.append(PAD_ID)
 
 
+                    print((src_word, src_pos, src_term, tgt, seg))
 
                     pickle.dump((src_word, src_pos, src_term, tgt, seg), f_write)
 
