@@ -670,7 +670,10 @@ class MlmDataset(Dataset):
                         continue
                     finally:
                         pos += 1
+                pbar = tqdm(total=end - start)
+                pbar.set_description("Worker %d:" % proc_id)
                 while True:
+                    pbar.update(1)
                     try:
                         line = f.readline()
                     except:
@@ -694,7 +697,7 @@ class MlmDataset(Dataset):
 
                     if pos >= end - 1:
                         break
-
+                pbar.close()
         f_write.close()
 
 
