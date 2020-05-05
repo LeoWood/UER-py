@@ -43,6 +43,7 @@ def seg_char(sent):
 
 def max_match(txt, ano_dict, max_num):
     word_list = seg_char(txt) # 中文单字切割，保留英文和数字
+    print(word_list)
     new_word_list = []
     N = len(word_list)
     k = max_num
