@@ -45,6 +45,7 @@ def max_match(txt, ano_dict, max_num):
     word_list = seg_char(txt) # 中文单字切割，保留英文和数字
     print(word_list)
     new_word_list = []
+    term_labels = []
     N = len(word_list)
     k = max_num
     i = 0
@@ -57,12 +58,14 @@ def max_match(txt, ano_dict, max_num):
                 if token_tmp.lower() in ano_dict.keys():
                     # print(token_tmp,'！!！!!!！!!!！!！!！!')
                     new_word_list.append(token_tmp)
+                    term_labels.append(1)
                     i += j
                     break
                 else:
                     j -= 1
             if j == 0:
                 new_word_list.append(word_list[i])
+                term_labels.append(0)
                 i += 1
         else:
             j = N - i
@@ -72,14 +75,16 @@ def max_match(txt, ano_dict, max_num):
                 if token_tmp.lower() in ano_dict.keys():
                     # print(token_tmp, '！!！!!!！!!!！!！!！!')
                     new_word_list.append(token_tmp)
+                    term_labels.append(1)
                     i += j
                     break
                 else:
                     j -= 1
             if j == 0:
                 new_word_list.append(word_list[i])
+                term_labels.append(0)
                 i += 1
-    return new_word_list
+    return new_word_list,term_labels
 
 if __name__ == '__main__':
     while True:

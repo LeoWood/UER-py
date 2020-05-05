@@ -98,7 +98,9 @@ def seg_char(sent):
 
 def max_match(txt, ano_dict, max_num):
     word_list = seg_char(txt) # 中文单字切割，保留英文和数字
+    print(word_list)
     new_word_list = []
+    term_labels = []
     N = len(word_list)
     k = max_num
     i = 0
@@ -106,34 +108,38 @@ def max_match(txt, ano_dict, max_num):
         if i <= N - k:
             j = k
             while j > 0:
-                token_tmp = word_list[i:i + j]
+                token_tmp = ''.join(word_list[i:i + j])
                 # print(token_tmp)
                 if token_tmp.lower() in ano_dict.keys():
                     # print(token_tmp,'！!！!!!！!!!！!！!！!')
                     new_word_list.append(token_tmp)
+                    term_labels.append(1)
                     i += j
                     break
                 else:
                     j -= 1
             if j == 0:
-                new_word_list += word_list[i]
+                new_word_list.append(word_list[i])
+                term_labels.append(0)
                 i += 1
         else:
             j = N - i
             while j > 0:
-                token_tmp = word_list[i:i + j]
+                token_tmp = ''.join(word_list[i:i + j])
                 # print(token_tmp)
                 if token_tmp.lower() in ano_dict.keys():
                     # print(token_tmp, '！!！!!!！!!!！!！!！!')
                     new_word_list.append(token_tmp)
+                    term_labels.append(1)
                     i += j
                     break
                 else:
                     j -= 1
             if j == 0:
-                new_word_list += word_list[i]
+                new_word_list.append(word_list[i])
+                term_labels.append(0)
                 i += 1
-    return new_word_list
+    return new_word_list,term_labels
 
 # ## 最大匹配分词
 # txt = '我爱北京天安门，天安门上太阳升'
@@ -817,10 +823,10 @@ class Csci_mlmDataset(Dataset):
                     ## 加入term
                     src_term = []
 
-                    terms = max_match(line.strip(),term_dict,max_num)
+                    terms,labels = max_match(line.strip(),term_dict,max_num)
 
-                    for term in terms:
-                        if len(term)> 1:
+                    for i,term in enumerate(terms):
+                        if labels[i]:
                             for w in self.tokenizer.tokenize(term):
                                 src_term.append(1)
                         else:
