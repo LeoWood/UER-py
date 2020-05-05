@@ -4,4 +4,4 @@ python preprocess.py \
 --vocab_path models/google_zh_vocab.txt \
 --dataset_path dataset/book_review_bert.pt \
 --processes_num 2 \
---target mlm
+--target caci_mlm
