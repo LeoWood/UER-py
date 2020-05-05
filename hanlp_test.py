@@ -62,7 +62,7 @@ def max_match(txt, ano_dict, max_num):
                 else:
                     j -= 1
             if j == 0:
-                new_word_list += word_list[i]
+                new_word_list.append(word_list[i])
                 i += 1
         else:
             j = N - i
@@ -77,7 +77,7 @@ def max_match(txt, ano_dict, max_num):
                 else:
                     j -= 1
             if j == 0:
-                new_word_list += word_list[i]
+                new_word_list.append(word_list[i])
                 i += 1
     return new_word_list
 
