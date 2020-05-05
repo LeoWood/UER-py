@@ -4,6 +4,7 @@
 # Datetime: 2020/5/5 8:57
 
 import time
+import re
 import hanlp
 cut = hanlp.load('PKU_NAME_MERGED_SIX_MONTHS_CONVSEG')
 tagger = hanlp.load(hanlp.pretrained.pos.CTB5_POS_RNN_FASTTEXT_ZH)
