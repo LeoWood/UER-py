@@ -21,18 +21,38 @@ print('max_num:',max_num)
 
 
 
+def seg_char(sent):
+    """
+    把句子按字分开，不破坏英文及数字结构
+    """
+    # 按中文汉字分割
+    pattern = re.compile(r'([\u4e00-\u9fa5])')
+    parts = pattern.split(sent)
+    parts = [w for w in parts if len(w.strip())>0]
+
+    # 按英文标点符号分割
+    chars_list = []
+    pattern = re.compile(r'([-,?:;\'"!`()<>，。@#￥&*~；/=’‘、！])')
+    for part in parts:
+        chars = pattern.split(part)
+        chars = [w for w in chars if len(w.strip())>0]
+        chars_list += chars
+
+    return chars_list
+
 def max_match(txt, ano_dict, max_num):
+    word_list = seg_char(txt) # 中文单字切割，保留英文和数字
     new_word_list = []
-    N = len(txt)
+    N = len(word_list)
     k = max_num
     i = 0
     while i < N:
         if i <= N - k:
             j = k
             while j > 0:
-                token_tmp = txt[i:i + j]
+                token_tmp = word_list[i:i + j]
                 # print(token_tmp)
-                if token_tmp in ano_dict.keys() or token_tmp.lower() in ano_dict.keys():
+                if token_tmp.lower() in ano_dict.keys():
                     # print(token_tmp,'！!！!!!！!!!！!！!！!')
                     new_word_list.append(token_tmp)
                     i += j
@@ -40,14 +60,14 @@ def max_match(txt, ano_dict, max_num):
                 else:
                     j -= 1
             if j == 0:
-                new_word_list += txt[i]
+                new_word_list += word_list[i]
                 i += 1
         else:
             j = N - i
             while j > 0:
-                token_tmp = txt[i:i + j]
+                token_tmp = word_list[i:i + j]
                 # print(token_tmp)
-                if token_tmp in ano_dict.keys() or token_tmp.lower() in ano_dict.keys():
+                if token_tmp.lower() in ano_dict.keys():
                     # print(token_tmp, '！!！!!!！!!!！!！!！!')
                     new_word_list.append(token_tmp)
                     i += j
@@ -55,7 +75,7 @@ def max_match(txt, ano_dict, max_num):
                 else:
                     j -= 1
             if j == 0:
-                new_word_list += txt[i]
+                new_word_list += word_list[i]
                 i += 1
     return new_word_list
 
