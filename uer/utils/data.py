@@ -24,12 +24,11 @@ with open('uer/utils/pos_label_PAD.txt','r',encoding='utf-8') as f:
 # 获取本地术语表
 a = []
 term_dict = {}
-with open('uer/utils/Med_Keywords.txt', 'r', encoding='utf-8') as f:
+with open('uer/utils/MedicalTerms.txt', 'r', encoding='utf-8') as f:
     for line in f.readlines():
         line = line.strip()
-        if len(line) <=50:
-            a.append(line)
-            term_dict[line.lower()] = 1
+        a.append(line)
+        term_dict[line.lower()] = 1
 
 max_num = max([len(line) for line in a])
 print('max_num:',max_num)
@@ -90,7 +89,7 @@ def max_match(txt, ano_dict, max_num):
             while j > 0:
                 token_tmp = txt[i:i + j]
                 # print(token_tmp)
-                if token_tmp in ano_dict.keys() or token_tmp.lower() in ano_dict.keys():
+                if token_tmp.lower() in ano_dict.keys():
                     # print(token_tmp,'！!！!!!！!!!！!！!！!')
                     new_word_list.append(token_tmp)
                     i += j
@@ -105,7 +104,7 @@ def max_match(txt, ano_dict, max_num):
             while j > 0:
                 token_tmp = txt[i:i + j]
                 # print(token_tmp)
-                if token_tmp in ano_dict.keys() or token_tmp.lower() in ano_dict.keys():
+                if token_tmp.lower() in ano_dict.keys():
                     # print(token_tmp, '！!！!!!！!!!！!！!！!')
                     new_word_list.append(token_tmp)
                     i += j
