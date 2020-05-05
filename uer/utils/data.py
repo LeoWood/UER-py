@@ -742,7 +742,7 @@ class Csci_mlmDataset(Dataset):
     def worker(self, proc_id, start, end):
         print("Worker %d is building dataset ... " % proc_id)
         set_seed(self.seed)
-        f_write = open("datasets/dataset-tmp-test-" + str(proc_id) + ".pt", "wb")
+        f_write = open("dataset-tmp-" + str(proc_id) + ".pt", "wb")
         for _ in range(self.dup_factor):
             pos = 0
             with open(self.corpus_path, mode="r", encoding="utf-8") as f:
@@ -792,7 +792,7 @@ class Csci_mlmDataset(Dataset):
                         src_pos = src_pos[:self.seq_length]
 
                     # print('len(src_pos)',len(src_pos))
-                    print('src_pos:',src_pos)
+                    # print('src_pos:',src_pos)
 
 
                     ## 加入term
