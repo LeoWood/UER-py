@@ -538,7 +538,7 @@ def train_mlm(args, gpu_id, rank, loader, model, optimizer, scheduler):
 
         if steps % args.save_checkpoint_steps == 0 and \
                 (not args.dist_train or (args.dist_train and rank == 0)):
-            save_model(model, args.output_model_path + "-" + str(steps) + "-" + str(loss))
+            save_model(model, args.output_model_path + "-" + str(steps) + "-" + str(round(loss,2)))
 
         steps += 1
 
@@ -629,7 +629,7 @@ def train_csci_mlm(args, gpu_id, rank, loader, model, optimizer, scheduler):
 
         if steps % args.save_checkpoint_steps == 0 and \
                 (not args.dist_train or (args.dist_train and rank == 0)):
-            save_model(model, args.output_model_path + "-" + str(steps) + "-" + str(loss))
+            save_model(model, args.output_model_path + "-" + str(steps) + "-" + str(round(loss,2)))
 
         steps += 1
 
