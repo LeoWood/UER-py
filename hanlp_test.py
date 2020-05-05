@@ -60,14 +60,16 @@ def max_match(txt, ano_dict, max_num):
     return new_word_list
 
 if __name__ == '__main__':
-    t0 = time.time()
-    text = "怎么说呢，“这已经不是文学了，而是改造犯人的刑罚”，至少每个自己（并非每个人）都会有自己的地下室，幽暗深邃，时而歇斯底里地宣泄而出，又晦明晦暗；有理性，有规律，但我的独立与自由意志更为优先，由此人类也就是经常忘恩负义了，既是创造，又会毁灭，反而担心的是眼前没有路；观念与文明的面具"
-    print(tagger(cut(text)))
-    t1 = time.time()
-    print('hanlp用时：', t1-t0)
-    print(max_match(text, term_dict, max_num))
-    t2 = time.time()
-    print('max_match用时：', t2-t1)
-    print('总用时：', t2-t0)
+    while True:
+        text = input()
+        t0 = time.time()
+        # text = "怎么说呢，“这已经不是文学了，而是改造犯人的刑罚”，至少每个自己（并非每个人）都会有自己的地下室，幽暗深邃，时而歇斯底里地宣泄而出，又晦明晦暗；有理性，有规律，但我的独立与自由意志更为优先，由此人类也就是经常忘恩负义了，既是创造，又会毁灭，反而担心的是眼前没有路；观念与文明的面具"
+        print(tagger(cut(text)))
+        t1 = time.time()
+        print('hanlp用时：', t1-t0)
+        print(max_match(text, term_dict, max_num))
+        t2 = time.time()
+        print('max_match用时：', t2-t1)
+        print('总用时：', t2-t0)
 
 
