@@ -51,7 +51,7 @@ def max_match(txt, ano_dict, max_num):
         if i <= N - k:
             j = k
             while j > 0:
-                token_tmp = word_list[i:i + j]
+                token_tmp = ''.join(word_list[i:i + j])
                 # print(token_tmp)
                 if token_tmp.lower() in ano_dict.keys():
                     # print(token_tmp,'！!！!!!！!!!！!！!！!')
@@ -66,7 +66,7 @@ def max_match(txt, ano_dict, max_num):
         else:
             j = N - i
             while j > 0:
-                token_tmp = word_list[i:i + j]
+                token_tmp = ''.join(word_list[i:i + j])
                 # print(token_tmp)
                 if token_tmp.lower() in ano_dict.keys():
                     # print(token_tmp, '！!！!!!！!!!！!！!！!')
