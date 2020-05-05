@@ -17,6 +17,15 @@ with open('uer/utils/MedicalTerms.txt', 'r', encoding='utf-8') as f:
         a.append(line)
         term_dict[line.lower()] = 1
 
+term_dict = {}
+with open('uer/utils/Med_Keywords.txt', 'r', encoding='utf-8') as f:
+    for line in f.readlines():
+        line = line.strip()
+        if len(line)<=50:
+            a.append(line)
+            term_dict[line.lower()] = 1
+
+
 max_num = max([len(line) for line in a])
 print('max_num:',max_num)
 
@@ -43,7 +52,7 @@ def seg_char(sent):
 
 def max_match(txt, ano_dict, max_num):
     word_list = seg_char(txt) # 中文单字切割，保留英文和数字
-    print(word_list)
+    # print(word_list)
     new_word_list = []
     term_labels = []
     N = len(word_list)
