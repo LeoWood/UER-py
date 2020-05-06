@@ -802,7 +802,7 @@ class Csci_mlmDataset(Dataset):
                     src_word, tgt = mask_seq(src_word, len(self.vocab))
                     # print('len(src_word)',len(src_word))
 
-                    # tokens = [w for w in self.tokenizer.tokenize(line)]
+                    tokens = [w for w in self.tokenizer.tokenize(line)]
                     print([(i,a) for (i,a) in enumerate(tokens)])
 
 
