@@ -78,5 +78,5 @@ if __name__ == '__main__':
     # print('去掉HowNet:',len(final_terms))
 
     with open('medical_terms.txt','w',encoding='utf-8') as f:
-        [f.write(term + '\n') for term in final_terms]
+        [f.write(term + '\n') for term in final_terms if len(term) > 1]
 
