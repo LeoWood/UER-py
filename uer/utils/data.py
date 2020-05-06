@@ -803,7 +803,7 @@ class Csci_mlmDataset(Dataset):
                     print('len(src_word)',len(src_word))
                     #
                     tokens = [w for w in self.tokenizer.tokenize(line)]
-                    print((i,a) for (i,a) in tokens)
+                    print((i,a) for (i,a) in enumerate(tokens))
 
 
                     ## 加入pos
@@ -862,7 +862,7 @@ class Csci_mlmDataset(Dataset):
                     print([(i,a) for (i,a) in enumerate(src_term)])
                     print([(i,a) for (i,a) in enumerate(tgt)])
                     print([(i,a) for (i,a) in enumerate(seg)])
-                    exit()
+                    # exit()
 
                     if self.add_pos:
                         pickle.dump((src_word, src_pos, src_term, tgt, seg), f_write)
