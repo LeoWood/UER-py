@@ -41,7 +41,8 @@ def main():
                         help="Probability of truncating sequence."
                              "The larger value, the higher probability of using short (truncated) sequence.")
     parser.add_argument("--seed", type=int, default=7, help="Random seed.")
-    
+    parser.add_argument("--add_pos", type=int, default=0, help="if you want to add pos infomation in process procedure, use 1/0 = yes/no.")
+
     args = parser.parse_args()
     
     # Load vocabulary.

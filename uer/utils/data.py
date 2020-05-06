@@ -200,6 +200,7 @@ class DataLoader(object):
         self.start = 0
         self.end = 0
         self.buffer = []
+        self.add_pos = args.add_pos
 
     def _fill_buf(self):
         try:
@@ -763,6 +764,7 @@ class Csci_mlmDataset(Dataset):
     def __init__(self, args, vocab, tokenizer):
         super(Csci_mlmDataset, self).__init__(args, vocab, tokenizer)
         self.dup_factor = args.dup_factor
+        self.add_pos = args.add_pos
 
     def worker(self, proc_id, start, end):
         print("Worker %d is building dataset ... " % proc_id)
@@ -806,18 +808,20 @@ class Csci_mlmDataset(Dataset):
 
                     src_pos = []
 
-                    words = [w for w in cut(line.strip())]
-                    pos_labels = tagger(words)
+                    if self.add_pos:
 
-                    for i in range(len(words)):
-                        for w in self.tokenizer.tokenize(words[i]):
-                            src_pos.append(pos_dict[pos_labels[i]])
+                        words = [w for w in cut(line.strip())]
+                        pos_labels = tagger(words)
 
-                    if len(src_pos) > self.seq_length:
-                        src_pos = src_pos[:self.seq_length]
+                        for i in range(len(words)):
+                            for w in self.tokenizer.tokenize(words[i]):
+                                src_pos.append(pos_dict[pos_labels[i]])
 
-                    # print('len(src_pos)',len(src_pos))
-                    # print('src_pos:',src_pos)
+                        if len(src_pos) > self.seq_length:
+                            src_pos = src_pos[:self.seq_length]
+
+                        # print('len(src_pos)',len(src_pos))
+                        # print('src_pos:',src_pos)
 
 
                     ## 加入term
@@ -848,8 +852,11 @@ class Csci_mlmDataset(Dataset):
 
 
                     # print((src_word, src_pos, src_term, tgt, seg))
+                    if self.add_pos:
+                        pickle.dump((src_word, src_pos, src_term, tgt, seg), f_write)
+                    else:
+                        pickle.dump((src_word, src_term, tgt, seg), f_write)
 
-                    pickle.dump((src_word, src_pos, src_term, tgt, seg), f_write)
 
                     if pos >= end - 1:
                         break
@@ -884,20 +891,39 @@ class Csci_mlmDataLoader(DataLoader):
             if masked_words_num == 0:
                 continue
 
-            for ins in instances:
-                src_word.append(ins[0])
+            if self.add_pos:
+                for ins in instances:
+                    src_word.append(ins[0])
 
-                ## 加入pos和term
-                src_pos.append(ins[1])
-                src_term.append(ins[2])
+                    ## 加入pos和term
+                    src_pos.append(ins[1])
+                    src_term.append(ins[2])
 
-                seg.append(ins[4])
-                tgt.append([0]*len(ins[0]))
-                for mask in ins[3]:
-                    tgt[-1][mask[0]] = mask[1]
+                    seg.append(ins[4])
+                    tgt.append([0]*len(ins[0]))
+                    for mask in ins[3]:
+                        tgt[-1][mask[0]] = mask[1]
+            else:
+                for ins in instances:
+                    src_word.append(ins[0])
 
-            yield torch.LongTensor(src_word), \
-                torch.LongTensor(src_pos), \
-                torch.LongTensor(src_term), \
-                torch.LongTensor(tgt), \
-                torch.LongTensor(seg)
+                    ## 加入term
+                    src_term.append(ins[1])
+
+                    seg.append(ins[3])
+                    tgt.append([0]*len(ins[0]))
+                    for mask in ins[2]:
+                        tgt[-1][mask[0]] = mask[1]
+
+
+            if self.add_pos:
+                yield torch.LongTensor(src_word), \
+                    torch.LongTensor(src_pos), \
+                    torch.LongTensor(src_term), \
+                    torch.LongTensor(tgt), \
+                    torch.LongTensor(seg)
+            else:
+                yield torch.LongTensor(src_word), \
+                      torch.LongTensor(src_term), \
+                      torch.LongTensor(tgt), \
+                      torch.LongTensor(seg)

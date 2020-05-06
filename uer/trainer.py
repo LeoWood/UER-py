@@ -567,17 +567,25 @@ def train_csci_mlm(args, gpu_id, rank, loader, model, optimizer, scheduler):
     while True:
         if steps == total_steps + 1:
             break
-        src_word, src_pos, src_term, tgt, seg = next(loader_iter)
+        if args.add_pos:
+            src_word, src_pos, src_term, tgt, seg = next(loader_iter)
+        else:
+            src_word, src_term, tgt, seg = next(loader_iter)
+            src_pos = 0
 
         if gpu_id is not None:
             src_word = src_word.cuda(gpu_id)
-            src_pos = src_pos.cuda(gpu_id)
+            if args.add_pos:
+                src_pos = src_pos.cuda(gpu_id)
             src_term = src_term.cuda(gpu_id)
             tgt = tgt.cuda(gpu_id)
             seg = seg.cuda(gpu_id)
 
         # Forward.
-        loss_info = model((src_word, src_pos, src_term), tgt, seg)
+        if args.add_pos:
+            loss_info = model((src_word, src_pos, src_term), tgt, seg)
+        else:
+            loss_info = model((src_word, src_term), tgt, seg)
 
         loss, correct, denominator = loss_info
 
