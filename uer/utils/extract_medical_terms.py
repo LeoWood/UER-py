@@ -36,36 +36,47 @@ if __name__ == '__main__':
     print('初始大小：',len(final_terms))
 
     # 加入关键词
-    for word in tqdm(med_keywords):
-        if len(word)<=50 and word not in final_terms:
-            final_terms.append(word)
+    final_terms += [word for word in med_keywords if len(word)<=50]
     print('加入关键词:',len(final_terms))
+    final_terms = set(final_terms)
+    print('去重：',len(final_terms))
+
+
+    # for word in tqdm(med_keywords):
+    #     if len(word)<=50 and word not in final_terms:
+    #         final_terms.append(word)
+    # print('加入关键词:',len(final_terms))
 
 
     # 去掉wiki中文词表
-    for word in tqdm(wiki_vocabs):
-        if word in final_terms:
-            final_terms.remove(word)
-    print('去掉去掉wiki中文词表:',len(final_terms))
+    final_terms = final_terms.difference(set(wiki_vocabs))
+    print('去掉wiki中文词表:',len(final_terms))
+
+    # for word in tqdm(wiki_vocabs):
+    #     if word in final_terms:
+    #         final_terms.remove(word)
+    # print('去掉去掉wiki中文词表:',len(final_terms))
 
 
     # 去掉CNDbpedia
-    for word in tqdm(cn_dbpedia):
-        if word in final_terms:
-            final_terms.remove(word)
+    final_terms = final_terms.difference(set(cn_dbpedia))
     print('去掉CNDbpedia:',len(final_terms))
+
+    # for word in tqdm(cn_dbpedia):
+    #     if word in final_terms:
+    #         final_terms.remove(word)
+    # print('去掉CNDbpedia:',len(final_terms))
 
 
     # 去掉HowNet
-    for word in tqdm(hownet):
-        if word in final_terms:
-            final_terms.remove(word)
+    final_terms = final_terms.difference(set(hownet))
     print('去掉HowNet:',len(final_terms))
+
+    # for word in tqdm(hownet):
+    #     if word in final_terms:
+    #         final_terms.remove(word)
+    # print('去掉HowNet:',len(final_terms))
 
     with open('medical_terms.txt','w',encoding='utf-8') as f:
         [f.write(term + '\n') for term in final_terms]
-
-
-
-
 
