@@ -803,7 +803,7 @@ class Csci_mlmDataset(Dataset):
                     print('len(src_word)',len(src_word))
                     #
                     tokens = [w for w in self.tokenizer.tokenize(line)]
-                    print((i,a) for (i,a) in enumerate(tokens))
+                    print([(i,a) for (i,a) in enumerate(tokens)])
 
 
                     ## 加入pos
