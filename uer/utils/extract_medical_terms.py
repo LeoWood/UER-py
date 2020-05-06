@@ -2,7 +2,7 @@
 #-*- coding:utf-8 -*-
 # Author: LiuHuan
 # Datetime: 2020/5/6 9:32
-
+from tqdm import tqdm
 
 if __name__ == '__main__':
 
@@ -36,28 +36,28 @@ if __name__ == '__main__':
     print('初始大小：',len(final_terms))
 
     # 加入关键词
-    for word in med_keywords:
+    for word in tqdm(med_keywords):
         if len(word)<=50 and word not in final_terms:
             final_terms.append(word)
     print('加入关键词:',len(final_terms))
 
 
     # 去掉wiki中文词表
-    for word in wiki_vocabs:
+    for word in tqdm(wiki_vocabs):
         if word in final_terms:
             final_terms.remove(word)
     print('去掉去掉wiki中文词表:',len(final_terms))
 
 
     # 去掉CNDbpedia
-    for word in cn_dbpedia:
+    for word in tqdm(cn_dbpedia):
         if word in final_terms:
             final_terms.remove(word)
     print('去掉CNDbpedia:',len(final_terms))
 
 
     # 去掉HowNet
-    for word in hownet:
+    for word in tqdm(hownet):
         if word in final_terms:
             final_terms.remove(word)
     print('去掉HowNet:',len(final_terms))
