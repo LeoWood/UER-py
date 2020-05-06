@@ -800,10 +800,10 @@ class Csci_mlmDataset(Dataset):
                     seg = [1] * len(src_word)
 
                     src_word, tgt = mask_seq(src_word, len(self.vocab))
-                    print('len(src_word)',len(src_word))
-                    #
-                    tokens = [w for w in self.tokenizer.tokenize(line)]
-                    print([(i,a) for (i,a) in enumerate(tokens)])
+                    # print('len(src_word)',len(src_word))
+
+                    # tokens = [w for w in self.tokenizer.tokenize(line)]
+                    # print([(i,a) for (i,a) in enumerate(tokens)])
 
 
                     ## 加入pos
@@ -830,9 +830,6 @@ class Csci_mlmDataset(Dataset):
                     src_term = []
 
                     terms,labels = max_match(line.strip(),term_dict,max_num)
-                    print(line)
-                    print(terms)
-                    print(labels)
 
                     for i,term in enumerate(terms):
                         if labels[i]:
@@ -845,8 +842,8 @@ class Csci_mlmDataset(Dataset):
                     if len(src_term) > self.seq_length:
                         src_term = src_term[:self.seq_length]
 
-                    print('len(src_term)',len(src_term))
-                    print('src_term:',src_term)
+                    # print('len(src_term)',len(src_term))
+                    # print('src_term:',src_term)
                     # exit()
 
 
@@ -858,10 +855,10 @@ class Csci_mlmDataset(Dataset):
 
 
                     # print((src_word, src_pos, src_term, tgt, seg))
-                    print([(i,a) for (i,a) in enumerate(src_word)])
-                    print([(i,a) for (i,a) in enumerate(src_term)])
-                    print([(i,a) for (i,a) in enumerate(tgt)])
-                    print([(i,a) for (i,a) in enumerate(seg)])
+                    # print([(i,a) for (i,a) in enumerate(src_word)])
+                    # print([(i,a) for (i,a) in enumerate(src_term)])
+                    # print([(i,a) for (i,a) in enumerate(tgt)])
+                    # print([(i,a) for (i,a) in enumerate(seg)])
                     # exit()
 
                     if self.add_pos:
