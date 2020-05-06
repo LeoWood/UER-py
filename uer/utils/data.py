@@ -852,6 +852,11 @@ class Csci_mlmDataset(Dataset):
 
 
                     # print((src_word, src_pos, src_term, tgt, seg))
+                    print([(i,a) for (i,a) in enumerate(src_word)])
+                    print([(i,a) for (i,a) in enumerate(src_term)])
+                    print([(i,a) for (i,a) in enumerate(tgt)])
+                    print([(i,a) for (i,a) in enumerate(seg)])
+
                     if self.add_pos:
                         pickle.dump((src_word, src_pos, src_term, tgt, seg), f_write)
                     else:
