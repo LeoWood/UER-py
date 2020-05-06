@@ -802,7 +802,8 @@ class Csci_mlmDataset(Dataset):
                     src_word, tgt = mask_seq(src_word, len(self.vocab))
                     print('len(src_word)',len(src_word))
                     #
-                    print((i,a) for (i,a) in [w for w in self.tokenizer.tokenize(line)])
+                    tokens = [w for w in self.tokenizer.tokenize(line)]
+                    print((i,a) for (i,a) in tokens)
 
 
                     ## 加入pos
@@ -838,7 +839,8 @@ class Csci_mlmDataset(Dataset):
                             for w in self.tokenizer.tokenize(term):
                                 src_term.append(1)
                         else:
-                            src_term.append(0)
+                            for w in self.tokenizer.tokenize(term):
+                                src_term.append(0)
 
                     if len(src_term) > self.seq_length:
                         src_term = src_term[:self.seq_length]
