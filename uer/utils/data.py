@@ -25,11 +25,12 @@ with open('uer/utils/pos_label_PAD.txt','r',encoding='utf-8') as f:
 # 获取本地术语表
 a = []
 term_dict = {}
-with open('uer/utils/MedicalTerms.txt', 'r', encoding='utf-8') as f:
+with open('uer/utils/medical_terms/medical_terms.txt', 'r', encoding='utf-8') as f:
     for line in f.readlines():
         line = line.strip()
         a.append(line)
         term_dict[line.lower()] = 1
+
 
 max_num = max([len(line) for line in a])
 print('max_num:',max_num)
@@ -828,6 +829,9 @@ class Csci_mlmDataset(Dataset):
                     src_term = []
 
                     terms,labels = max_match(line.strip(),term_dict,max_num)
+                    print(line)
+                    print(terms)
+                    print(labels)
 
                     for i,term in enumerate(terms):
                         if labels[i]:
@@ -856,6 +860,7 @@ class Csci_mlmDataset(Dataset):
                     print([(i,a) for (i,a) in enumerate(src_term)])
                     print([(i,a) for (i,a) in enumerate(tgt)])
                     print([(i,a) for (i,a) in enumerate(seg)])
+                    exit()
 
                     if self.add_pos:
                         pickle.dump((src_word, src_pos, src_term, tgt, seg), f_write)

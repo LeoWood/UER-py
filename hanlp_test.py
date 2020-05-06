@@ -10,13 +10,6 @@ cut = hanlp.load('PKU_NAME_MERGED_SIX_MONTHS_CONVSEG')
 tagger = hanlp.load(hanlp.pretrained.pos.CTB5_POS_RNN_FASTTEXT_ZH)
 
 a = []
-# term_dict = {}
-# with open('uer/utils/MedicalTerms.txt', 'r', encoding='utf-8') as f:
-#     for line in f.readlines():
-#         line = line.strip()
-#         a.append(line)
-#         term_dict[line.lower()] = 1
-
 term_dict = {}
 with open('uer/utils/medical_terms/medical_terms.txt', 'r', encoding='utf-8') as f:
     for line in f.readlines():
