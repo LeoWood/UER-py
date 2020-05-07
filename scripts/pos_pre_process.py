@@ -23,12 +23,12 @@ if __name__ == '__main__':
         lines_temp = lines[i * batch: (i + 1) * batch]
         word_cuts = cut(lines_temp)
         word_cuts_all += word_cuts
-        tags = cut(word_cuts)
+        tags = tagger(word_cuts)
         tags_all += tags
 
     word_cuts = cut(lines[nums * batch: total_nums])
     word_cuts_all += word_cuts
-    tags = cut(word_cuts)
+    tags = tagger(word_cuts)
     tags_all += tags
 
     assert len(tags_all) == total_nums
@@ -36,6 +36,6 @@ if __name__ == '__main__':
     with open('corpora/R_word_cuts.txt','w',encoding='utf-8') as f:
         [f.write(str(word_cuts) + '\n') for word_cuts in word_cuts_all]
 
-    with open('corpora/R_tegs.txt','w',encoding='utf-8') as f:
+    with open('corpora/R_tags.txt','w',encoding='utf-8') as f:
         [f.write(str(tas) + '\n') for tas in tags_all]
 
