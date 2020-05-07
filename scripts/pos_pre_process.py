@@ -9,7 +9,7 @@ cut = hanlp.load('PKU_NAME_MERGED_SIX_MONTHS_CONVSEG')
 tagger = hanlp.load(hanlp.pretrained.pos.CTB5_POS_RNN_FASTTEXT_ZH)
 
 if __name__ == '__main__':
-    with open('corpora/R.txt','r',encoding='utf-8') as f:
+    with open('corpora/R_test.txt','r',encoding='utf-8') as f:
         lines = [line.strip() for line in f.readlines() if line.strip()]
     total_nums = len(lines)
     print('total lines:', total_nums)
