@@ -5,6 +5,7 @@
 
 import time
 import re
+from tqdm import tqdm
 import hanlp
 cut = hanlp.load('PKU_NAME_MERGED_SIX_MONTHS_CONVSEG')
 tagger = hanlp.load(hanlp.pretrained.pos.CTB5_POS_RNN_FASTTEXT_ZH)
@@ -107,6 +108,9 @@ if __name__ == '__main__':
     p = pipeline(lines)
     t3= time.time()
     print('tag用时：', t3 - t2)
+
+    for line in tqdm(lines):
+        p = pipeline(line)
     exit()
 
 
