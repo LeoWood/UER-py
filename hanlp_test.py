@@ -89,6 +89,10 @@ def max_match(txt, ano_dict, max_num):
 
 if __name__ == '__main__':
 
+    pipeline = hanlp.pipeline() \
+        .append(cut, output_key='tokens') \
+        .append(tagger, output_key='part_of_speech_tags')
+
     with open('corpora/R_test.txt','r',encoding='utf-8') as f:
         lines = [line.strip() for line in f.readlines() if line.strip()]
     print(len(lines))
@@ -98,7 +102,11 @@ if __name__ == '__main__':
     t1 = time.time()
     print('cut用时：', t1 - t0)
     tags = tagger(cut_lines)
-    print('tag用时：', time.time() - t1)
+    t2 = time.time()
+    print('tag用时：', t2 - t1)
+    p = pipeline(lines)
+    t3= time.time()
+    print('tag用时：', t3 - t2)
     exit()
 
 
