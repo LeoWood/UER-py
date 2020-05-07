@@ -9,5 +9,6 @@ python pretrain.py ^
 --total_steps 500000 ^
 --save_checkpoint_steps 10000 ^
 --encoder bert ^
+--embedding csci_mlm ^
 --target csci_mlm ^
 --add_pos 0
