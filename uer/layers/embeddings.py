@@ -42,9 +42,9 @@ class CscibertEmbedding(nn.Module):
 
         ## pos_embedding 嵌入词性标注特征
         self.add_pos = args.add_pos
-        self.pos_embedding = nn.Embedding(35, args.emb_size)
+        self.pos_embedding = nn.Embedding(33, args.emb_size)
         ## term_embedding 嵌入术语特征
-        self.term_embedding = nn.Embedding(2, args.emb_size)
+        self.term_embedding = nn.Embedding(3, args.emb_size)
 
         self.position_embedding = nn.Embedding(self.max_length, args.emb_size)
         self.segment_embedding = nn.Embedding(3, args.emb_size)
