@@ -17,7 +17,7 @@ if __name__ == '__main__':
     word_cuts_all = []
     tags_all = []
 
-    batch = 1000
+    batch = 32
     nums = int(total_nums / batch)
     for i in tqdm(range(nums)):
         lines_temp = lines[i * batch: (i + 1) * batch]
