@@ -34,8 +34,8 @@ if __name__ == '__main__':
     assert len(tags_all) == total_nums
 
     with open('corpora/R_word_cuts.txt','w',encoding='utf-8') as f:
-        [f.write(word_cuts + '\n') for word_cuts in word_cuts_all]
+        [f.write(str(word_cuts) + '\n') for word_cuts in word_cuts_all]
 
     with open('corpora/R_tegs.txt','w',encoding='utf-8') as f:
-        [f.write(tas + '\n') for tas in tags_all]
+        [f.write(str(tas) + '\n') for tas in tags_all]
 
