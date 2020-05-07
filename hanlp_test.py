@@ -113,7 +113,7 @@ if __name__ == '__main__':
     #     p = pipeline(line)
 
 
-    batch = 100
+    batch = 1000
     nums = int(len(lines) / batch)
     for i in tqdm(range(nums)):
         p = pipeline(lines[i * batch: (i + 1) * batch])
@@ -124,7 +124,6 @@ if __name__ == '__main__':
     print('batch用时：', t4 - t3)
 
     exit()
-
 
     while True:
         text = input()
