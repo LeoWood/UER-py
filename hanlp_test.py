@@ -88,6 +88,20 @@ def max_match(txt, ano_dict, max_num):
     return new_word_list,term_labels
 
 if __name__ == '__main__':
+
+    with open('corpopra/R_test.txt','r',encoding='utf-8') as f:
+        lines = [line.strip() for line in f.readlines() if line.strip()]
+    print(len(lines))
+    t0 = time.time()
+    cut_lines = cut(lines)
+    print(len(cut_lines))
+    t1 = time.time()
+    print('cut用时：', t1 - t0)
+    tags = tagger(cut_lines)
+    print('tag用时：', time.time() - t1)
+    exit()
+
+
     while True:
         text = input()
         t0 = time.time()
