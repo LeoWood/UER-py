@@ -89,7 +89,7 @@ def max_match(txt, ano_dict, max_num):
 
 if __name__ == '__main__':
 
-    with open('corpopra/R_test.txt','r',encoding='utf-8') as f:
+    with open('corpora/R_test.txt','r',encoding='utf-8') as f:
         lines = [line.strip() for line in f.readlines() if line.strip()]
     print(len(lines))
     t0 = time.time()
