@@ -107,10 +107,22 @@ if __name__ == '__main__':
     print('tag用时：', t2 - t1)
     p = pipeline(lines)
     t3= time.time()
-    print('tag用时：', t3 - t2)
+    print('pipeline用时：', t3 - t2)
 
-    for line in tqdm(lines):
-        p = pipeline(line)
+    # for line in tqdm(lines):
+    #     p = pipeline(line)
+
+
+    batch = 100
+    nums = int(len(lines) / batch)
+    for i in tqdm(range(nums)):
+        p = pipeline(lines[i * batch: (i + 1) * batch])
+
+        p = pipeline(lines[nums * batch:len(lines)])
+
+    t4 = time.time()
+    print('batch用时：', t4 - t3)
+
     exit()
 
 
