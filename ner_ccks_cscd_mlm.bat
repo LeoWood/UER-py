@@ -1,7 +1,7 @@
 python run_ner.py ^
---pretrained_model_path models/google_zh_model.bin ^
+--pretrained_model_path models/cscd_R_based_on_google_zh_600000_best.bin ^
 --vocab_path models/google_zh_vocab.txt ^
---output_model_path ./models/ner_ccks_bert_base.bin ^
+--output_model_path ./models/ner_ccks_cscd_mlm.bin ^
 --train_path datasets/ccks/train.tsv ^
 --dev_path datasets/ccks/dev.tsv ^
 --test_path datasets/ccks/test.tsv ^
