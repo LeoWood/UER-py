@@ -314,11 +314,21 @@ def main():
             print("Confusion matrix:")
             print(confusion)
             print("Report precision, recall, and f1:")
+            f1_all = []
             for i in range(confusion.size()[0]):
                 p = confusion[i,i].item()/confusion[i,:].sum().item()
                 r = confusion[i,i].item()/confusion[:,i].sum().item()
                 f1 = 2*p*r / (p+r)
+                f1_all.append((f1,confusion[i,:].sum().item()))
                 print("Label {}: {:.3f}, {:.3f}, {:.3f}".format(i,p,r,f1))
+            f1_weighted = 0
+            num_all = 0
+            for f1,num in f1_all:
+                f1_weighted += f1*num
+                num_all += num
+            f1_weighted = f1_weighted/num
+
+            print("weited_f1: {:.4f}".format(f1_weighted))
             print("Acc. (Correct/Total): {:.4f} ({}/{}) ".format(correct/len(dataset), correct, len(dataset)))
             return correct/len(dataset)
         else:
