@@ -8,7 +8,7 @@ python3 run_ner.py \
 --test_path datasets/amttl/test.tsv \
 --embedding bert \
 --encoder bert \
---learning_rate 2e-5\
+--learning_rate 2e-5 \
 --warmup 0.1 \
 --epochs_num 3 \
 --batch_size 32 \
