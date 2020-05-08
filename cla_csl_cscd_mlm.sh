@@ -13,4 +13,5 @@ python run_classifier.py \
 --epochs_num 5 \
 --seq_length 256 \
 --batch_size 10 \
---report_steps 100
+--report_steps 100 \
+--gpu_rank 1

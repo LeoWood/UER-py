@@ -10,7 +10,8 @@ python run_classifier.py \
 --encoder bert \
 --learning_rate 1e-5 \
 --warmup 0.1 \
---epochs_num 5 \
+--epochs_num 8 \
 --seq_length 256 \
 --batch_size 10 \
---report_steps 100
+--report_steps 100 \
+--gpu_rank 0
