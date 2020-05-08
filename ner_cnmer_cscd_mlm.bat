@@ -1,0 +1,16 @@
+python run_ner.py ^
+--pretrained_model_path models/cscd_R_based_on_google_zh_600000_best.bin ^
+--vocab_path models/google_zh_vocab.txt ^
+--output_model_path ./models/ner_ccks_cscd_mlm.bin ^
+--train_path datasets/cnmer/train.tsv ^
+--dev_path datasets/cnmer/dev.tsv ^
+--test_path datasets/cnmer/test.tsv ^
+--embedding bert ^
+--encoder bert ^
+--learning_rate 2e-5 ^
+--warmup 0.1 ^
+--epochs_num 8 ^
+--seq_length 256 ^
+--batch_size 5 ^
+--report_steps 50 ^
+--gpu_rank 0
