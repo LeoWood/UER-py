@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-python3 run_ner.py \
+CUDA_VISIBLE_DEVICES=0 python3 run_ner.py \
 --pretrained_model_path models/google_zh_model.bin \
 --vocab_path models/google_zh_vocab.txt \
 --output_model_path ./models/ner_amttl_bert_base.bin \
