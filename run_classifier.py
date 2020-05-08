@@ -128,6 +128,9 @@ def main():
                         help="Specific steps to print prompt.")
     parser.add_argument("--seed", type=int, default=7,
                         help="Random seed.")
+    # GPU
+    parser.add_argument("--gpu_rank", type=str, default='0',
+                        help="Gpu Rank.")
 
     # Evaluation options.
     parser.add_argument("--mean_reciprocal_rank", action="store_true", help="Evaluation metrics for DBQA dataset.")
@@ -304,16 +307,15 @@ def main():
                     confusion[pred[j], gold[j]] += 1
                 correct += torch.sum(pred == gold).item()
         
-            if is_test:
-                print("Confusion matrix:")
-                print(confusion)
-                print("Report precision, recall, and f1:")
+            # if is_test:
+            print("Confusion matrix:")
+            print(confusion)
+            print("Report precision, recall, and f1:")
             for i in range(confusion.size()[0]):
                 p = confusion[i,i].item()/confusion[i,:].sum().item()
                 r = confusion[i,i].item()/confusion[:,i].sum().item()
                 f1 = 2*p*r / (p+r)
-                if is_test:
-                    print("Label {}: {:.3f}, {:.3f}, {:.3f}".format(i,p,r,f1))
+                print("Label {}: {:.3f}, {:.3f}, {:.3f}".format(i,p,r,f1))
             print("Acc. (Correct/Total): {:.4f} ({}/{}) ".format(correct/len(dataset), correct, len(dataset)))
             return correct/len(dataset)
         else:
