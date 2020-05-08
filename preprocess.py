@@ -45,18 +45,18 @@ def main():
 
     args = parser.parse_args()
 
-    ### test Tokenizer
-
-    tokenizer = globals()[args.tokenizer.capitalize() + "Tokenizer"](args)
-
-    text = '归因住院总费用均数为￥<40678.63>和￥33794.91'
-    print(tokenizer.tokenize(text))
-
-    text = '40678.63'
-    print(tokenizer.tokenize(text))
-
-    exit()
-    ###
+    # ### test Tokenizer
+    #
+    # tokenizer = globals()[args.tokenizer.capitalize() + "Tokenizer"](args)
+    #
+    # text = '归因住院总费用均数为￥40678.63和￥33794.91'
+    # print(tokenizer.tokenize(text))
+    #
+    # text = '40678.63'
+    # print(tokenizer.tokenize(text))
+    #
+    # exit()
+    # ###
     
     # Load vocabulary.
     vocab = Vocab()
