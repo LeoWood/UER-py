@@ -11,5 +11,6 @@ CUDA_VISIBLE_DEVICES=0 python3 run_ner.py \
 --learning_rate 2e-5 \
 --warmup 0.1 \
 --epochs_num 3 \
+--seq_length 128 \
 --batch_size 32 \
 --report_steps 50
