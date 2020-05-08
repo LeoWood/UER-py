@@ -11,6 +11,6 @@ python run_ner.py ^
 --warmup 0.1 ^
 --epochs_num 8 ^
 --seq_length 256 ^
---batch_size 3 ^
+--batch_size 5 ^
 --report_steps 50 ^
---gpu_rank 0
+--gpu_rank 1
