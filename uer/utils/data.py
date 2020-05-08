@@ -854,11 +854,13 @@ class Csci_mlmDataset(Dataset):
                         seg.append(PAD_ID)
 
                     if len(src_term) != 128:
-                        print('src_word:',[(i,a) for (i,a) in enumerate(src_word)])
-                        print('src_pos:',[(i,a) for (i,a) in enumerate(src_pos)])
-                        print('src_term:',[(i,a) for (i,a) in enumerate(src_term)])
-                        print("tgt",[(i,a) for (i,a) in enumerate(tgt)])
-                        print("seg",[(i,a) for (i,a) in enumerate(seg)])
+                        tokens = [w for w in self.tokenizer.tokenize(line)]
+                        print('tokens:\n',[(i,a) for (i,a) in enumerate(tokens)])
+                        print('src_word:\n',[(i,a) for (i,a) in enumerate(src_word)])
+                        print('src_pos:\n',[(i,a) for (i,a) in enumerate(src_pos)])
+                        print('src_term:\n',[(i,a) for (i,a) in enumerate(src_term)])
+                        print("tgt\n",[(i,a) for (i,a) in enumerate(tgt)])
+                        print("seg\n",[(i,a) for (i,a) in enumerate(seg)])
                         exit()
 
 
