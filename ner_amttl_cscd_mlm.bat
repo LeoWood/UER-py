@@ -1,7 +1,7 @@
 python run_ner.py ^
---pretrained_model_path models/google_zh_model.bin ^
+--pretrained_model_path models/cscd_R_based_on_google_zh_600000_best.bin ^
 --vocab_path models/google_zh_vocab.txt ^
---output_model_path ./models/ner_amttl_bert_base.bin ^
+--output_model_path ./models/ner_amttl_cscd_mlm.bin ^
 --train_path datasets/amttl/train.tsv ^
 --dev_path datasets/amttl/dev.tsv ^
 --test_path datasets/amttl/test.tsv ^
@@ -13,4 +13,4 @@ python run_ner.py ^
 --seq_length 128 ^
 --batch_size 16 ^
 --report_steps 50 ^
---gpu_rank 0
+--gpu_rank 1
