@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 python3 run_ner.py \
---pretrained_model_path models/book_review_mlm_model.bin \
+--pretrained_model_path models/google_zh_model.bin \
 --vocab_path models/google_zh_vocab.txt \
 --output_model_path ./models/ner_amttl_bert_base.bin \
 --train_path datasets/amttl/train.tsv \
