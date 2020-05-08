@@ -2,6 +2,7 @@
 
 import random
 import argparse
+import os
 
 import torch
 import torch.nn as nn
@@ -132,7 +133,13 @@ def main():
     parser.add_argument("--seed", type=int, default=7,
                         help="Random seed.")
 
+    # GPU
+    parser.add_argument("--gpu_rank", type=str, default='0',
+                        help="Gpu Rank.")
+
     args = parser.parse_args()
+
+    os.environ['CUDA_VISIBLE_DEVICES'] = args.gpu_rank
 
     # Load the hyperparameters of the config file.
     args = load_hyperparam(args)
