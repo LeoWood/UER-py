@@ -3,6 +3,7 @@
   This script provides an exmaple to wrap UER-py for classification.
 """
 import torch
+import os
 import json
 import random
 import argparse
@@ -136,6 +137,8 @@ def main():
     parser.add_argument("--mean_reciprocal_rank", action="store_true", help="Evaluation metrics for DBQA dataset.")
 
     args = parser.parse_args()
+
+    os.environ['CUDA_VISIBLE_DEVICES'] = args.gpu_rank
 
     # Load the hyperparameters from the config file.
     args = load_hyperparam(args)
