@@ -853,6 +853,14 @@ class Csci_mlmDataset(Dataset):
                         src_term.append(2)
                         seg.append(PAD_ID)
 
+                    if len(src_term) != 128:
+                        print('src_word:',[(i,a) for (i,a) in enumerate(src_word)])
+                        print('src_pos:',[(i,a) for (i,a) in enumerate(src_pos)])
+                        print('src_term:',[(i,a) for (i,a) in enumerate(src_term)])
+                        print("tgt",[(i,a) for (i,a) in enumerate(tgt)])
+                        print("seg",[(i,a) for (i,a) in enumerate(seg)])
+                        exit()
+
 
                     # print((src_word, src_pos, src_term, tgt, seg))
                     # print([(i,a) for (i,a) in enumerate(src_word)])
