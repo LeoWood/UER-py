@@ -10,7 +10,7 @@ python run_classifier.py ^
 --learning_rate 2e-5 ^
 --warmup 0.1 ^
 --epochs_num 8 ^
---seq_length 128 ^
---batch_size 16 ^
+--seq_length 256 ^
+--batch_size 10 ^
 --report_steps 100 ^
 --gpu_rank 0
