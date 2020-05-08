@@ -6,7 +6,7 @@ python3 run_ner.py \
 --train_path datasets/amttl/train.tsv \
 --dev_path datasets/amttl/dev.tsv \
 --test_path datasets/amttl/test.tsv \
---embedding bert\
+--embedding bert \
 --encoder bert \
 --learning_rate 2e-5\
 --warmup 0.1 \
