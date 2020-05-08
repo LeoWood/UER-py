@@ -12,5 +12,5 @@ python run_ner.py ^
 --epochs_num 8 ^
 --seq_length 128 ^
 --batch_size 16 ^
---report_steps50 ^
+--report_steps 50 ^
 --gpu_rank 1
