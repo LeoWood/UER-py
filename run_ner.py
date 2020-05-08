@@ -1,6 +1,6 @@
 # -*- encoding:utf -*-
 """
-  This script provides an example to wrap UER-py for NER.
+This script provides an example to wrap UER-py for NER.
 """
 import random
 import argparse
