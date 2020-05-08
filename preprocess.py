@@ -44,6 +44,19 @@ def main():
     parser.add_argument("--add_pos", type=int, default=0, help="if you want to add pos infomation in process procedure, use 1/0 = yes/no.")
 
     args = parser.parse_args()
+
+    ### test Tokenizer
+
+    tokenizer = globals()[args.tokenizer.capitalize() + "Tokenizer"](args)
+
+    text = '归因住院总费用均数为￥40678.63和￥33794.91'
+    print(tokenizer.tokenize(text))
+
+    text = '40678.63'
+    print(tokenizer.tokenize(text))
+
+    exit()
+    ###
     
     # Load vocabulary.
     vocab = Vocab()
