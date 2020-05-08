@@ -49,7 +49,7 @@ def main():
 
     tokenizer = globals()[args.tokenizer.capitalize() + "Tokenizer"](args)
 
-    text = '归因住院总费用均数为￥40678.63和￥33794.91'
+    text = '归因住院总费用均数为￥<40678.63>和￥33794.91'
     print(tokenizer.tokenize(text))
 
     text = '40678.63'

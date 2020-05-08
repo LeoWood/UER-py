@@ -89,7 +89,7 @@ def seg_char(sent):
 
     # 按英文标点符号分割
     chars_list = []
-    pattern = re.compile(r'([-,?:;\'"!`()<>，。@#￥&*~；/=’‘、！])')
+    pattern = re.compile(r'([-,?:;\'"!`()<>，。；’‘、！])')
     for part in parts:
         chars = pattern.split(part)
         chars = [w for w in chars if len(w.strip())>0]
