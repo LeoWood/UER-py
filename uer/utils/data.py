@@ -859,6 +859,19 @@ class Csci_mlmDataset(Dataset):
                         print('terms:\n',terms)
                         print('lables:\n',labels)
 
+                        term_to_tokens = []
+                        for i, term in enumerate(terms):
+                            if labels[i]:
+                                for w in self.tokenizer.tokenize(term):
+                                    src_term.append(1)
+                                    term_to_tokens.append(w)
+                            else:
+                                for w in self.tokenizer.tokenize(term):
+                                    src_term.append(0)
+                                    term_to_tokens.append(w)
+
+                        print('term to tokens:\n',[(i,a) for (i,a) in enumerate(term_to_tokens)])
+
                         tokens = [w for w in self.tokenizer.tokenize(line)]
                         print('tokens:\n',[(i,a) for (i,a) in enumerate(tokens)])
                         print('src_word:\n',[(i,a) for (i,a) in enumerate(src_word)])
