@@ -2,7 +2,7 @@ python run_classifier.py ^
 --pretrained_model_path models/google_zh_model.bin ^
 --vocab_path models/google_zh_vocab.txt ^
 --output_model_path ./models/cla_wf_32_bert_base.bin ^
---train_path datasets/wanfang_2000/train.tsv ^
+--train_path datasets/wanfang_32000/train.tsv ^
 --dev_path datasets/wanfang_32000/dev.tsv ^
 --test_path datasets/wanfang_32000/test.tsv ^
 --embedding bert ^
