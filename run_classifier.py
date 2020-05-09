@@ -488,7 +488,7 @@ def main():
         if result > best_result:
             best_result = result
             save_model(model, args.output_model_path)
-            print('~~~ Best Result By Now ~~~')
+            print('~~~ Best Result Until Now ~~~')
         else:
             continue
 

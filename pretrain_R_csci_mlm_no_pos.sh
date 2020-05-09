@@ -7,7 +7,7 @@ python pretrain.py \
 --output_log_path models/cscd_R_csci_mlm_no_pos.csv  \
 --world_size 2 \
 --gpu_ranks 0 1 \
---total_steps 500000 \
+--total_steps 1000000 \
 --save_checkpoint_steps 10000 \
 --encoder bert \
 --embedding cscibert \
