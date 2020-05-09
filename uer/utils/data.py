@@ -953,12 +953,6 @@ class Csci_mlmDataLoader(DataLoader):
                     for mask in ins[2]:
                         tgt[-1][mask[0]] = mask[1]
 
-            print('src_word:\n', [(i, a) for (i, a) in enumerate(src_word)])
-            print('src_pos:\n', [(i, a) for (i, a) in enumerate(src_pos)])
-            print('src_term:\n', [(i, a) for (i, a) in enumerate(src_term)])
-            print("tgt\n", [(i, a) for (i, a) in enumerate(tgt)])
-            print("seg\n", [(i, a) for (i, a) in enumerate(seg)])
-            exit()
             if self.add_pos:
                 yield torch.LongTensor(src_word), \
                     torch.LongTensor(src_pos), \
