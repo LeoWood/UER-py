@@ -326,11 +326,11 @@ def main():
             for f1,num in f1_all:
                 f1_weighted += f1*num
                 num_all += num
-            f1_weighted = f1_weighted/num
+            f1_weighted = f1_weighted/num_all
 
             print("weited_f1: {:.4f}".format(f1_weighted))
             print("Acc. (Correct/Total): {:.4f} ({}/{}) ".format(correct/len(dataset), correct, len(dataset)))
-            return correct/len(dataset)
+            return f1_weighted
         else:
             for i, (input_ids_batch, label_ids_batch, mask_ids_batch) in enumerate(batch_loader(batch_size, input_ids, label_ids, mask_ids)):
                 input_ids_batch = input_ids_batch.to(device)
@@ -488,6 +488,7 @@ def main():
         if result > best_result:
             best_result = result
             save_model(model, args.output_model_path)
+            print('~~~ Best Result By Now ~~~')
         else:
             continue
 
