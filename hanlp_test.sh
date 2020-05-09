@@ -1,2 +1,2 @@
 #!/usr/bin/env bash
-python hanlp_test.py
+python hanlp_test.py > test.txt
