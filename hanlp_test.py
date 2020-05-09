@@ -16,8 +16,10 @@ import hanlp
 
 print('what what what??/')
 time.sleep(3)
+print("nononnonon")
 for i in range(10):
     print(i)
+    time.sleep(50)
 
 print(3/0)
 exit()
