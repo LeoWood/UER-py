@@ -17,9 +17,9 @@ import hanlp
 print('what what what??/')
 time.sleep(3)
 print("nononnonon")
-for i in range(10):
+for i in range(1000):
     print(i)
-    time.sleep(50)
+    time.sleep(1)
 
 print(3/0)
 exit()
