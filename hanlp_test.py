@@ -15,9 +15,8 @@ from hanlp.common.trie import Trie
 import hanlp
 
 print('what what what??/')
-time.sleep(3)
 print("nononnonon")
-for i in range(1000):
+for i in range(10):
     print(i)
     time.sleep(1)
 
