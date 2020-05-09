@@ -1,2 +1,2 @@
 #!/usr/bin/env bash
-python hanlp_test.py
+nohup python -u hanlp_test.py >test.out 2>&1 &
