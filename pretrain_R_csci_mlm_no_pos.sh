@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
-python -u pretrain.py \
+export PYTHONUNBUFFERED=1
+python pretrain.py \
 --dataset_path cscd_r_csci_mlm_no_pos.pt \
 --vocab_path models/google_zh_vocab.txt \
 --pretrained_model_path models/google_zh_model.bin \
