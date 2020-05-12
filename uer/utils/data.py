@@ -12,7 +12,7 @@ from uer.utils.misc import count_lines
 from uer.utils.seed import set_seed
 
 import pkuseg
-pku_seg = pkuseg.pkuseg(model_name='medicine', postag=True)
+pku_seg = pkuseg.pkuseg(postag=True)
 
 
 pos_dict = {}
