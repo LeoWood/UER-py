@@ -23,8 +23,6 @@ with open('uer/utils/pos_tags.txt','r',encoding='utf-8') as f:
             pos_dict[line.strip().split()[0]] = i
             i += 1
 
-print(pos_dict)
-
 
 # 获取本地术语表
 a = []
@@ -864,11 +862,15 @@ class Csci_mlmDataset(Dataset):
                         tokens = [w for w in self.tokenizer.tokenize(line)]
                         print('tokens:\n', [(i, a) for (i, a) in enumerate(tokens)])
 
+                        cut_to_tokens = []
+
                         for (word, tag) in pku_seg.cut(line.strip()):
-                            print(word,tag)
+                            # print(word,tag)
                             for w in self.tokenizer.tokenize(word):
-                                print(w)
-                            print()
+                                cut_to_tokens.append(w)
+
+
+                        print('cut to tokens:\n', [(i, a) for (i, a) in enumerate(cut_to_tokens)])
 
 
                         print('src_pos:\n', [(i, a) for (i, a) in enumerate(src_pos)])
