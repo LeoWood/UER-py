@@ -864,6 +864,13 @@ class Csci_mlmDataset(Dataset):
                         tokens = [w for w in self.tokenizer.tokenize(line)]
                         print('tokens:\n', [(i, a) for (i, a) in enumerate(tokens)])
 
+                        for (word, tag) in pku_seg.cut(line.strip()):
+                            print(word,tag)
+                            for w in self.tokenizer.tokenize(word):
+                                print(w)
+                            print()
+
+
                         print('src_pos:\n', [(i, a) for (i, a) in enumerate(src_pos)])
 
                         exit()
