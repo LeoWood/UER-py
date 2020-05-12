@@ -820,8 +820,11 @@ class Csci_mlmDataset(Dataset):
                             for w in self.tokenizer.tokenize(word):
                                 src_pos.append(pos_dict[tag])
 
+
                         if len(src_pos) > self.seq_length:
                             src_pos = src_pos[:self.seq_length]
+
+
 
                         # print('len(src_pos)',len(src_pos))
                         # print('src_pos:',src_pos)
@@ -857,6 +860,12 @@ class Csci_mlmDataset(Dataset):
                     if len(src_pos) != 128:
                         print('src_pos Problem~~~')
                         print(line)
+
+                        tokens = [w for w in self.tokenizer.tokenize(line)]
+                        print('tokens:\n', [(i, a) for (i, a) in enumerate(tokens)])
+
+                        print('src_pos:\n', [(i, a) for (i, a) in enumerate(src_pos)])
+
                         exit()
 
                     if len(src_term) != 128:
