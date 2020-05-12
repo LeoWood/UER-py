@@ -20,8 +20,10 @@ class BertEmbedding(nn.Module):
 
     def forward(self, src, seg):
         word_emb = self.word_embedding(src)
+
         pos_emb = self.position_embedding(torch.arange(0, word_emb.size(1), device=word_emb.device, \
                                           dtype=torch.long).unsqueeze(0).repeat(word_emb.size(0), 1))
+
         seg_emb = self.segment_embedding(seg)
 
         emb = word_emb + pos_emb + seg_emb

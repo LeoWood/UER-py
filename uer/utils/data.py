@@ -10,16 +10,20 @@ from multiprocessing import Pool
 from uer.utils.constants import *
 from uer.utils.misc import count_lines
 from uer.utils.seed import set_seed
-import hanlp
-cut = hanlp.load('PKU_NAME_MERGED_SIX_MONTHS_CONVSEG')
-tagger = hanlp.load(hanlp.pretrained.pos.CTB5_POS_RNN_FASTTEXT_ZH)
+
+import pkuseg
+pku_seg = pkuseg.pkuseg(model_name='medicine', postag=True)
+
+
 pos_dict = {}
-with open('uer/utils/pos_label_PAD.txt','r',encoding='utf-8') as f:
+with open('uer/utils/pos_tags.txt','r',encoding='utf-8') as f:
     i = 0
     for line in f.readlines():
         if line:
-            pos_dict[line.strip()] = i
+            pos_dict[line.strip().split()[0]] = i
             i += 1
+
+print(pos_dict)
 
 
 # 获取本地术语表
@@ -812,12 +816,9 @@ class Csci_mlmDataset(Dataset):
 
                     if self.add_pos:
 
-                        words = [w for w in cut(line.strip())]
-                        pos_labels = tagger(words)
-
-                        for i in range(len(words)):
-                            for w in self.tokenizer.tokenize(words[i]):
-                                src_pos.append(pos_dict[pos_labels[i]])
+                        for (word, tag) in pku_seg.cut(line.strip()):
+                            for w in self.tokenizer.tokenize(word):
+                                src_pos.append(pos_dict[tag])
 
                         if len(src_pos) > self.seq_length:
                             src_pos = src_pos[:self.seq_length]
@@ -852,6 +853,11 @@ class Csci_mlmDataset(Dataset):
                         src_pos.append(pos_dict['[PAD]'])
                         src_term.append(2)
                         seg.append(PAD_ID)
+
+                    if len(src_pos) != 128:
+                        print('src_pos Problem~~~')
+                        print(line)
+                        exit()
 
                     if len(src_term) != 128:
                         print(line)
