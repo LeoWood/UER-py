@@ -799,8 +799,8 @@ class Csci_mlmDataset(Dataset):
                         pos += 1
 
                     line = line.strip().lower()
-                    # if not line:
-                    #     continue
+                    if not line:
+                        continue
 
                     tokens = []
                     for word in pku_seg.cut(line):
