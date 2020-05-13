@@ -920,13 +920,13 @@ class Csci_mlmDataset(Dataset):
                         print("seg\n",[(i,a) for (i,a) in enumerate(seg)])
                         exit()
 
-                    print(line)
-                    print('tokens:\n', [(i, a) for (i, a) in enumerate(tokens)])
-                    print('src_word:\n', [(i, a) for (i, a) in enumerate(src_word)])
-                    print('src_pos:\n', [(i, a) for (i, a) in enumerate(src_pos)])
-                    print('src_term:\n', [(i, a) for (i, a) in enumerate(src_term)])
-                    print("tgt\n", [(i, a) for (i, a) in enumerate(tgt)])
-                    print("seg\n", [(i, a) for (i, a) in enumerate(seg)])
+                    # print(line)
+                    # print('tokens:\n', [(i, a) for (i, a) in enumerate(tokens)])
+                    # print('src_word:\n', [(i, a) for (i, a) in enumerate(src_word)])
+                    # print('src_pos:\n', [(i, a) for (i, a) in enumerate(src_pos)])
+                    # print('src_term:\n', [(i, a) for (i, a) in enumerate(src_term)])
+                    # print("tgt\n", [(i, a) for (i, a) in enumerate(tgt)])
+                    # print("seg\n", [(i, a) for (i, a) in enumerate(seg)])
                     # exit()
 
                     if self.add_pos:
