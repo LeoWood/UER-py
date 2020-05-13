@@ -30,7 +30,7 @@ with open('uer/utils/pos_tags.txt','r',encoding='utf-8') as f:
 # 获取本地术语表
 a = []
 term_dict = {}
-with open('uer/utils/medical_terms/medical_terms.txt', 'r', encoding='utf-8') as f:
+with open('uer/utils/medical_terms/medical_terms(final).txt', 'r', encoding='utf-8') as f:
     for line in f.readlines():
         line = line.strip()
         a.append(line)
@@ -798,8 +798,10 @@ class Csci_mlmDataset(Dataset):
                     finally:
                         pos += 1
 
+                    line = line.strip().lower()
+
                     tokens = []
-                    for word in pku_seg.cut(line.strip()):
+                    for word in pku_seg.cut(line):
                         for w in self.tokenizer.tokenize(word):
                             tokens.append(w)
 
@@ -822,7 +824,7 @@ class Csci_mlmDataset(Dataset):
                     src_term = []
                     ## 加入pos 和terms
                     if self.add_pos:
-                        for (word, tag) in pku_seg_pos.cut(line.strip()):
+                        for (word, tag) in pku_seg_pos.cut(line):
                             piece_num = len(self.tokenizer.tokenize(word))
                             if word in term_set:
                                 # print(word)
@@ -835,7 +837,7 @@ class Csci_mlmDataset(Dataset):
                         if len(src_pos) > self.seq_length:
                             src_pos = src_pos[:self.seq_length]
                     else: ## 仅加入term
-                        for word in pku_seg.cut(line.strip()):
+                        for word in pku_seg.cut(line):
                             piece_num = len(self.tokenizer.tokenize(word))
                             if word in term_set:
                                 [src_term.append(1) for i in range(piece_num)]

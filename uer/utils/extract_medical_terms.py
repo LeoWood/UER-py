@@ -11,26 +11,48 @@ if __name__ == '__main__':
         mesh_medkg_terms = [line.strip() for line in f.readlines() if line.strip()]
         print('mesh_medkg_terms:',mesh_medkg_terms[:100])
 
+    # thu
+    with open('medical_terms/THUOCL_medical.txt', 'r', encoding='utf-8') as f:
+        thu = [line.strip().split()[0].lower() for line in f.readlines() if line.strip()]
+        print('thu:', thu[:100])
 
-    # CSCD医学论文关键词
-    with open('medical_terms/Med_Keywords.txt','r',encoding='utf-8') as f:
-        med_keywords = [line.strip().lower() for line in f.readlines() if line.strip()]
-        print('med_keywords:',med_keywords[:100])
+    # cmesh
+    with open('medical_terms/CMeSH_modiefied.txt', 'r', encoding='utf-8') as f:
+        cmesh = [line.strip().lower() for line in f.readlines() if line.strip()]
+        print('cmesh:', cmesh[:100])
 
-    # wiki中文词表
-    with open('medical_terms/wiki_word_vocab.txt','r',encoding='utf-8') as f:
-        wiki_vocabs = [line.strip().split()[0] for line in f.readlines() if line.strip().split()[0]]
-        print('wiki_vocabs:',wiki_vocabs[:100])
+    final_terms = list(set(mesh_medkg_terms))
+    print('初始大小：', len(final_terms))
 
-    # CNDbpedia
-    with open('medical_terms/CnDbpedia.spo','r',encoding='utf-8') as f:
-        cn_dbpedia = [line.strip().split()[0] for line in f.readlines() if line.strip().split()[0]]
-        print('cn_dbpedia:',cn_dbpedia[:100])
+    final_terms = final_terms + thu + cmesh
+    final_terms = set(final_terms)
 
-    # HowNet
-    with open('medical_terms/HowNet.spo','r',encoding='utf-8') as f:
-        hownet = [line.strip().split()[0] for line in f.readlines() if line.strip().split()[0]]
-        print('hownet:',hownet[:100])
+    with open('medical_terms/medical_terms(final).txt','w',encoding='utf-8') as f:
+        [f.write(term + '\n') for term in final_terms]
+
+    exit()
+
+
+
+    # # CSCD医学论文关键词
+    # with open('medical_terms/Med_Keywords.txt','r',encoding='utf-8') as f:
+    #     med_keywords = [line.strip().lower() for line in f.readlines() if line.strip()]
+    #     print('med_keywords:',med_keywords[:100])
+    #
+    # # wiki中文词表
+    # with open('medical_terms/wiki_word_vocab.txt','r',encoding='utf-8') as f:
+    #     wiki_vocabs = [line.strip().split()[0] for line in f.readlines() if line.strip().split()[0]]
+    #     print('wiki_vocabs:',wiki_vocabs[:100])
+    #
+    # # CNDbpedia
+    # with open('medical_terms/CnDbpedia.spo','r',encoding='utf-8') as f:
+    #     cn_dbpedia = [line.strip().split()[0] for line in f.readlines() if line.strip().split()[0]]
+    #     print('cn_dbpedia:',cn_dbpedia[:100])
+    #
+    # # HowNet
+    # with open('medical_terms/HowNet.spo','r',encoding='utf-8') as f:
+    #     hownet = [line.strip().split()[0] for line in f.readlines() if line.strip().split()[0]]
+    #     print('hownet:',hownet[:100])
 
     final_terms = list(set(mesh_medkg_terms))
     print('初始大小：',len(final_terms))

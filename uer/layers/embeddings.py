@@ -42,9 +42,9 @@ class CscibertEmbedding(nn.Module):
         self.max_length = 512
         self.word_embedding = nn.Embedding(vocab_size, args.emb_size)
 
-        ## pos_embedding 嵌入词性标注特征
+        ## pos_embedding 嵌入词性标注特征(使用pkuseg词性标注，共计37种词性标签)
         self.add_pos = args.add_pos
-        self.pos_embedding = nn.Embedding(33, args.emb_size)
+        self.pos_embedding = nn.Embedding(37, args.emb_size)
         ## term_embedding 嵌入术语特征
         self.term_embedding = nn.Embedding(3, args.emb_size)
 
