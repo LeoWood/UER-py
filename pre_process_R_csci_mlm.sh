@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+export PYTHONUNBUFFERED=1
 python preprocess.py \
 --corpus_path corpora/R.txt \
 --vocab_path models/google_zh_vocab.txt \
