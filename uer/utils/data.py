@@ -14,8 +14,8 @@ from uer.utils.seed import set_seed
 import pkuseg
 
 
-pku_seg = pkuseg.pkuseg(model_name="medicine",user_dict=r"uer\utils\pku_seg_dict.txt")
-pku_seg_pos = pkuseg.pkuseg(model_name="medicine",user_dict=r"uer\utils\pku_seg_dict.txt",postag=True)
+pku_seg = pkuseg.pkuseg(model_name="medicine",user_dict="uer/utils/pku_seg_dict.txt")
+pku_seg_pos = pkuseg.pkuseg(model_name="medicine",user_dict="uer/utils/pku_seg_dict.txt",postag=True)
 
 
 pos_dict = {}
