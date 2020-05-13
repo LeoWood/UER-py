@@ -825,6 +825,7 @@ class Csci_mlmDataset(Dataset):
                         for (word, tag) in pku_seg_pos.cut(line.strip()):
                             piece_num = len(self.tokenizer.tokenize(word))
                             if word in term_set:
+                                print(word)
                                 [src_term.append(1) for i in range(piece_num)]
                             else:
                                 [src_term.append(0) for i in range(piece_num)]
@@ -915,13 +916,14 @@ class Csci_mlmDataset(Dataset):
                         print("seg\n",[(i,a) for (i,a) in enumerate(seg)])
                         exit()
 
+                    print(line)
                     print('tokens:\n', [(i, a) for (i, a) in enumerate(tokens)])
                     print('src_word:\n', [(i, a) for (i, a) in enumerate(src_word)])
                     print('src_pos:\n', [(i, a) for (i, a) in enumerate(src_pos)])
                     print('src_term:\n', [(i, a) for (i, a) in enumerate(src_term)])
                     print("tgt\n", [(i, a) for (i, a) in enumerate(tgt)])
                     print("seg\n", [(i, a) for (i, a) in enumerate(seg)])
-                    exit()
+                    # exit()
 
                     if self.add_pos:
                         pickle.dump((src_word, src_pos, src_term, tgt, seg), f_write)
