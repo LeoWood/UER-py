@@ -12,7 +12,10 @@ from uer.utils.misc import count_lines
 from uer.utils.seed import set_seed
 
 import pkuseg
-pku_seg = pkuseg.pkuseg(postag=True)
+
+
+pku_seg = pkuseg.pkuseg(model_name="medicine",user_dict=r"uer\utils\pku_seg_dict.txt")
+pku_seg_pos = pkuseg.pkuseg(model_name="medicine",user_dict=r"uer\utils\pku_seg_dict.txt",postag=True)
 
 
 pos_dict = {}
@@ -33,6 +36,7 @@ with open('uer/utils/medical_terms/medical_terms.txt', 'r', encoding='utf-8') as
         a.append(line)
         term_dict[line.lower()] = 1
 
+term_set = set(a)
 
 max_num = max([len(line) for line in a])
 print('max_num:',max_num)
@@ -794,7 +798,14 @@ class Csci_mlmDataset(Dataset):
                     finally:
                         pos += 1
 
-                    src_word = [self.vocab.get(w) for w in self.tokenizer.tokenize(line)]
+                    tokens = []
+                    for word in pku_seg.cut(line.strip()):
+                        for w in self.tokenizer.tokenize(word):
+                            tokens.append(w)
+
+                    src_word = [self.vocab.get(w) for w in tokens]
+
+                    # src_word = [self.vocab.get(w) for w in self.tokenizer.tokenize(line)]
 
 
                     if len(src_word) > self.seq_length:
@@ -807,39 +818,38 @@ class Csci_mlmDataset(Dataset):
                     # tokens = [w for w in self.tokenizer.tokenize(line)]
                     # print([(i,a) for (i,a) in enumerate(tokens)])
 
-
-                    ## 加入pos
-
                     src_pos = []
-
+                    src_term = []
+                    ## 加入pos 和terms
                     if self.add_pos:
+                        for (word, tag) in pku_seg_pos.cut(line.strip()):
+                            piece_num = len(self.tokenizer.tokenize(word))
+                            if word in term_set:
+                                [src_term.append(1) for i in range(piece_num)]
+                            else:
+                                [src_term.append(0) for i in range(piece_num)]
 
-                        for (word, tag) in pku_seg.cut(line.strip()):
-                            for w in self.tokenizer.tokenize(word):
-                                src_pos.append(pos_dict[tag])
-
+                            [src_pos.append(pos_dict[tag]) for i in range(piece_num)]
 
                         if len(src_pos) > self.seq_length:
                             src_pos = src_pos[:self.seq_length]
+                    else: ## 仅加入term
+                        for word in pku_seg.cut(line.strip()):
+                            piece_num = len(self.tokenizer.tokenize(word))
+                            if word in term_set:
+                                [src_term.append(1) for i in range(piece_num)]
+                            else:
+                                [src_term.append(0) for i in range(piece_num)]
 
-
-
-                        # print('len(src_pos)',len(src_pos))
-                        # print('src_pos:',src_pos)
-
-
-                    ## 加入term
-                    src_term = []
-
-                    terms,labels = max_match(line.strip(),term_dict,max_num)
-
-                    for i,term in enumerate(terms):
-                        if labels[i]:
-                            for w in self.tokenizer.tokenize(term):
-                                src_term.append(1)
-                        else:
-                            for w in self.tokenizer.tokenize(term):
-                                src_term.append(0)
+                    # terms,labels = max_match(line.strip(),term_dict,max_num)
+                    #
+                    # for i,term in enumerate(terms):
+                    #     if labels[i]:
+                    #         for w in self.tokenizer.tokenize(term):
+                    #             src_term.append(1)
+                    #     else:
+                    #         for w in self.tokenizer.tokenize(term):
+                    #             src_term.append(0)
 
                     if len(src_term) > self.seq_length:
                         src_term = src_term[:self.seq_length]
@@ -855,7 +865,7 @@ class Csci_mlmDataset(Dataset):
                         src_term.append(2)
                         seg.append(PAD_ID)
 
-                    if len(src_pos) != 128:
+                    if len(src_pos) != self.seq_length:
                         print('src_pos Problem~~~')
                         print(line)
 
@@ -877,7 +887,7 @@ class Csci_mlmDataset(Dataset):
 
                         exit()
 
-                    if len(src_term) != 128:
+                    if len(src_term) != self.seq_length:
                         print(line)
 
                         print('terms:\n',terms)
@@ -896,7 +906,7 @@ class Csci_mlmDataset(Dataset):
 
                         print('term to tokens:\n',[(i,a) for (i,a) in enumerate(term_to_tokens)])
 
-                        tokens = [w for w in self.tokenizer.tokenize(line)]
+                        # tokens = [w for w in self.tokenizer.tokenize(line)]
                         print('tokens:\n',[(i,a) for (i,a) in enumerate(tokens)])
                         print('src_word:\n',[(i,a) for (i,a) in enumerate(src_word)])
                         print('src_pos:\n',[(i,a) for (i,a) in enumerate(src_pos)])
@@ -905,14 +915,13 @@ class Csci_mlmDataset(Dataset):
                         print("seg\n",[(i,a) for (i,a) in enumerate(seg)])
                         exit()
 
-
-                    # print((src_word, src_pos, src_term, tgt, seg))
-                    # print([(i,a) for (i,a) in enumerate(src_word)])
-                    # print([(i,a) for (i,a) in enumerate(src_pos)])
-                    # print([(i,a) for (i,a) in enumerate(src_term)])
-                    # print([(i,a) for (i,a) in enumerate(tgt)])
-                    # print([(i,a) for (i,a) in enumerate(seg)])
-                    # exit()
+                    print('tokens:\n', [(i, a) for (i, a) in enumerate(tokens)])
+                    print('src_word:\n', [(i, a) for (i, a) in enumerate(src_word)])
+                    print('src_pos:\n', [(i, a) for (i, a) in enumerate(src_pos)])
+                    print('src_term:\n', [(i, a) for (i, a) in enumerate(src_term)])
+                    print("tgt\n", [(i, a) for (i, a) in enumerate(tgt)])
+                    print("seg\n", [(i, a) for (i, a) in enumerate(seg)])
+                    exit()
 
                     if self.add_pos:
                         pickle.dump((src_word, src_pos, src_term, tgt, seg), f_write)
