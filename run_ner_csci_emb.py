@@ -251,6 +251,8 @@ def main():
             tokens, labels = [], []
             for line_id, line in enumerate(f):
                 tokens, labels = line.strip().split("\t")
+                text = ''.join([t for t in tokens.split(" ")])
+
                 tokens = [vocab.get(t) for t in tokens.split(" ")]
                 labels = [labels_map[l] for l in labels.split(" ")]
                 mask = [1] * len(tokens)
@@ -259,7 +261,7 @@ def main():
                 src_term = []
                 ## 加入pos 和terms
 
-                text = ''.join([t for t in tokens.split(" ")])
+
                 for (word, tag) in pku_seg_pos.cut(text):
                     for w in word:
                         if word in term_set:
