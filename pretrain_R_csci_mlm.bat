@@ -9,7 +9,7 @@ python pretrain.py ^
 --total_steps 1000000 ^
 --save_checkpoint_steps 10000 ^
 --encoder bert ^
---batch_size 48 ^
+--batch_size 40 ^
 --embedding cscibert ^
 --target csci_mlm ^
 --add_pos 1
