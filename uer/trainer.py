@@ -529,6 +529,7 @@ def train_mlm(args, gpu_id, rank, loader, model, optimizer, scheduler):
             if acc >= best_score and \
                     (not args.dist_train or (args.dist_train and rank == 0)):
                 save_model(model, args.output_model_path + "-best")
+                print("~~~New Best Score acc: {:3.3f}~~~".format(acc))
 
 
             total_loss = 0.
@@ -609,15 +610,17 @@ def train_csci_mlm(args, gpu_id, rank, loader, model, optimizer, scheduler):
 
         if steps % args.report_steps == 0 and \
                 (not args.dist_train or (args.dist_train and rank == 0)):
+
             loss = total_loss / args.report_steps
 
             elapsed = time.time() - start_time
 
             done_tokens = \
-                args.batch_size * src_word.size(1) * args.report_steps * args.world_size \
+                args.batch_size * src.size(1) * args.report_steps * args.world_size \
                     if args.dist_train \
-                    else args.batch_size * src_word.size(1) * args.report_steps
+                    else args.batch_size * src.size(1) * args.report_steps
 
+            acc = total_correct / total_denominator
             print("| {:8d}/{:8d} steps"
                   "| {:7.2f} steps/s"
                   "| {:8.2f} tokens/s"
@@ -628,7 +631,17 @@ def train_csci_mlm(args, gpu_id, rank, loader, model, optimizer, scheduler):
                 args.report_steps / elapsed,
                 done_tokens / elapsed,
                 loss,
-                total_correct / total_denominator))
+                acc))
+
+            report_dict['steps'].append(steps)
+            report_dict['loss'].append(loss)
+            report_dict['acc'].append(acc)
+
+            best_score = max(report_dict['acc'])
+            if acc >= best_score and \
+                    (not args.dist_train or (args.dist_train and rank == 0)):
+                save_model(model, args.output_model_path + "-best")
+                print("~~~New Best Score acc: {:3.3f}~~~".format(acc))
 
             total_loss = 0.
             total_correct, total_denominator = 0., 0.
@@ -637,9 +650,12 @@ def train_csci_mlm(args, gpu_id, rank, loader, model, optimizer, scheduler):
 
         if steps % args.save_checkpoint_steps == 0 and \
                 (not args.dist_train or (args.dist_train and rank == 0)):
-            save_model(model, args.output_model_path + "-" + str(steps) + "-" + str(round(loss,2)))
+            save_model(model, args.output_model_path + "-" + str(steps) + "-" + str(round(loss, 2)))
 
         steps += 1
+
+    report = pd.DataFrame(report_dict)
+    report.to_csv(args.output_log_path)
 
 
 # def train_nsp(args, gpu_id, rank, loader, model, optimizer):
