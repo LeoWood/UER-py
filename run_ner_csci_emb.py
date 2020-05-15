@@ -328,11 +328,7 @@ def main():
 
             loss, _, pred, gold = model((input_ids_batch,pos_ids_batch,term_ids_batch), label_ids_batch, mask_ids_batch)
 
-            print(pred)
-            print(gold)
 
-            exit()
-            
             for j in range(gold.size()[0]):
                 if gold[j].item() in begin_ids:
                     gold_entities_num += 1
