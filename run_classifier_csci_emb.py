@@ -39,8 +39,6 @@ with open('uer/utils/pos_tags.txt','r',encoding='utf-8') as f:
             i += 1
 
 
-
-
 # 获取本地术语表
 a = []
 with open('uer/utils/medical_terms/medical_terms(final).txt', 'r', encoding='utf-8') as f:
@@ -268,29 +266,19 @@ def main():
                     src_pos = []
                     src_term = []
                     ## 加入pos 和terms
-                    if args.add_pos:
-                        for (word, tag) in pku_seg_pos.cut(text):
-                            piece_num = len(tokenizer.tokenize(word))
-                            if word in term_set:
-                                # print(word)
-                                [src_term.append(1) for i in range(piece_num)]
-                            else:
-                                [src_term.append(0) for i in range(piece_num)]
+                    for (word, tag) in pku_seg_pos.cut(text):
+                        piece_num = len(tokenizer.tokenize(word))
+                        if word in term_set:
+                            # print(word)
+                            [src_term.append(1) for i in range(piece_num)]
+                        else:
+                            [src_term.append(0) for i in range(piece_num)]
 
-                            [src_pos.append(pos_dict[tag]) for i in range(piece_num)]
+                        [src_pos.append(pos_dict[tag]) for i in range(piece_num)]
 
 
-                        src_pos = [pos_dict['[CLS]']] + src_pos
-                        src_term = [0] + src_term
-
-                    else:  ## 仅加入term
-                        for word in pku_seg.cut(text):
-                            piece_num = len(tokenizer.tokenize(word))
-                            if word in term_set:
-                                [src_term.append(1) for i in range(piece_num)]
-                            else:
-                                [src_term.append(0) for i in range(piece_num)]
-                        src_term = [0] + src_term
+                    src_pos = [pos_dict['[CLS]']] + src_pos
+                    src_term = [0] + src_term
 
 
                     if len(tokens) > args.seq_length:
@@ -351,55 +339,35 @@ def main():
                     src_term_a = []
                     src_term_b = []
                     ## 加入pos 和terms
-                    if args.add_pos:
-                        for (word, tag) in pku_seg_pos.cut(text_a):
-                            piece_num = len(tokenizer.tokenize(word))
-                            if word in term_set:
-                                # print(word)
-                                [src_term_a.append(1) for i in range(piece_num)]
-                            else:
-                                [src_term_a.append(0) for i in range(piece_num)]
 
-                            [src_pos_a.append(pos_dict[tag]) for i in range(piece_num)]
+                    for (word, tag) in pku_seg_pos.cut(text_a):
+                        piece_num = len(tokenizer.tokenize(word))
+                        if word in term_set:
+                            # print(word)
+                            [src_term_a.append(1) for i in range(piece_num)]
+                        else:
+                            [src_term_a.append(0) for i in range(piece_num)]
 
-                        src_pos_a = [pos_dict['[CLS]']] + src_pos_a + [pos_dict['[SEP]']]
-                        src_term_a = [0] + src_term_a + [0]
+                        [src_pos_a.append(pos_dict[tag]) for i in range(piece_num)]
 
-                        for (word, tag) in pku_seg_pos.cut(text_b):
-                            piece_num = len(tokenizer.tokenize(word))
-                            if word in term_set:
-                                # print(word)
-                                [src_term_b.append(1) for i in range(piece_num)]
-                            else:
-                                [src_term_b.append(0) for i in range(piece_num)]
+                    src_pos_a = [pos_dict['[CLS]']] + src_pos_a + [pos_dict['[SEP]']]
+                    src_term_a = [0] + src_term_a + [0]
 
-                            [src_pos_b.append(pos_dict[tag]) for i in range(piece_num)]
+                    for (word, tag) in pku_seg_pos.cut(text_b):
+                        piece_num = len(tokenizer.tokenize(word))
+                        if word in term_set:
+                            # print(word)
+                            [src_term_b.append(1) for i in range(piece_num)]
+                        else:
+                            [src_term_b.append(0) for i in range(piece_num)]
 
-                            src_pos_b = src_pos_b + [pos_dict['[SEP]']]
-                            src_term_b = src_term_b + [0]
+                        [src_pos_b.append(pos_dict[tag]) for i in range(piece_num)]
 
-                        src_pos = src_pos_a + src_pos_b
-                        src_term = src_term_a + src_term_b
+                        src_pos_b = src_pos_b + [pos_dict['[SEP]']]
+                        src_term_b = src_term_b + [0]
 
-                    else:  ## 仅加入term
-                        for word in pku_seg.cut(text_a):
-                            piece_num = len(tokenizer.tokenize(word))
-                            if word in term_set:
-                                [src_term_a.append(1) for i in range(piece_num)]
-                            else:
-                                [src_term_a.append(0) for i in range(piece_num)]
-                        src_term_a = [0] + src_term_a + [0]
-
-                        for word in pku_seg.cut(text_b):
-                            piece_num = len(tokenizer.tokenize(word))
-                            if word in term_set:
-                                [src_term_b.append(1) for i in range(piece_num)]
-                            else:
-                                [src_term_b.append(0) for i in range(piece_num)]
-                        src_term_b = [0] + src_term_b + [0]
-
-                        src_term = src_term_a + src_term_b
-
+                    src_pos = src_pos_a + src_pos_b
+                    src_term = src_term_a + src_term_b
 
 
                     if len(tokens) > args.seq_length:
@@ -653,7 +621,7 @@ def main():
             pos_ids_batch = pos_ids_batch.to(device)
             term_ids_batch = term_ids_batch.to(device)
             if args.add_pos:
-                loss, _ = model(input_ids_batch, label_ids_batch, mask_ids_batch)
+                loss, _ = model((input_ids_batch,pos_ids_batch,term_ids_batch), label_ids_batch, mask_ids_batch)
             else:
                 loss, _ = model((input_ids_batch,pos_ids_batch), label_ids_batch, mask_ids_batch)
             if torch.cuda.device_count() > 1:
