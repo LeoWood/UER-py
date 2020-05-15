@@ -589,8 +589,8 @@ def main():
     input_ids = torch.LongTensor([example[0] for example in trainset])
     label_ids = torch.LongTensor([example[1] for example in trainset])
     mask_ids = torch.LongTensor([example[2] for example in trainset])
-    pos_ids = torch.LongTensor([sample[3] for sample in dataset])
-    term_ids = torch.LongTensor([sample[4] for sample in dataset])
+    pos_ids = torch.LongTensor([sample[3] for sample in trainset])
+    term_ids = torch.LongTensor([sample[4] for sample in trainset])
 
     train_steps = int(instances_num * args.epochs_num / batch_size) + 1
 
