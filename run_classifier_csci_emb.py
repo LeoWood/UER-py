@@ -248,179 +248,176 @@ def main():
             for line_id, line in enumerate(f):
                 if line_id == 0:
                     continue
-                try:
-                    line = line.strip().split('\t')
-                    if len(line) == 2:
-                        label = int(line[columns["label"]])
-                        text = line[columns["text_a"]]
+                line = line.strip().split('\t')
+                if len(line) == 2:
+                    label = int(line[columns["label"]])
+                    text = line[columns["text_a"]]
 
-                        tokens = []
+                    tokens = []
+                    for word in pku_seg.cut(text):
+                        for w in tokenizer.tokenize(word):
+                            tokens.append(vocab.get(w))
+
+                    tokens = [CLS_ID] + tokens
+                    mask = [1] * len(tokens)
+
+                    src_pos = []
+                    src_term = []
+                    ## 加入pos 和terms
+                    if args.add_pos:
+                        for (word, tag) in pku_seg_pos.cut(text):
+                            piece_num = len(tokenizer.tokenize(word))
+                            if word in term_set:
+                                # print(word)
+                                [src_term.append(1) for i in range(piece_num)]
+                            else:
+                                [src_term.append(0) for i in range(piece_num)]
+
+                            [src_pos.append(pos_dict[tag]) for i in range(piece_num)]
+
+
+                        src_pos = [pos_dict['[CLS]']] + src_pos
+                        src_term = [0] + src_term
+
+                    else:  ## 仅加入term
                         for word in pku_seg.cut(text):
-                            for w in tokenizer.tokenize(word):
-                                tokens.append(vocab.get(w))
-
-                        tokens = [CLS_ID] + tokens
-                        mask = [1] * len(tokens)
-
-                        src_pos = []
-                        src_term = []
-                        ## 加入pos 和terms
-                        if args.add_pos:
-                            for (word, tag) in pku_seg_pos.cut(text):
-                                piece_num = len(tokenizer.tokenize(word))
-                                if word in term_set:
-                                    # print(word)
-                                    [src_term.append(1) for i in range(piece_num)]
-                                else:
-                                    [src_term.append(0) for i in range(piece_num)]
-
-                                [src_pos.append(pos_dict[tag]) for i in range(piece_num)]
+                            piece_num = len(tokenizer.tokenize(word))
+                            if word in term_set:
+                                [src_term.append(1) for i in range(piece_num)]
+                            else:
+                                [src_term.append(0) for i in range(piece_num)]
+                        src_term = [0] + src_term
 
 
-                            src_pos = [pos_dict['[CLS]']] + src_pos
-                            src_term = [0] + src_term
-
-                        else:  ## 仅加入term
-                            for word in pku_seg.cut(text):
-                                piece_num = len(tokenizer.tokenize(word))
-                                if word in term_set:
-                                    [src_term.append(1) for i in range(piece_num)]
-                                else:
-                                    [src_term.append(0) for i in range(piece_num)]
-                            src_term = [0] + src_term
+                    if len(tokens) > args.seq_length:
+                        tokens = tokens[:args.seq_length]
+                        mask = mask[:args.seq_length]
+                        src_pos = src_pos[:args.seq_length]
+                        src_term = src_term[:args.seq_length]
 
 
-                        if len(tokens) > args.seq_length:
-                            tokens = tokens[:args.seq_length]
-                            mask = mask[:args.seq_length]
-                            src_pos = src_pos[:args.seq_length]
-                            src_term = src_term[:args.seq_length]
+                    while len(tokens) < args.seq_length:
+                        tokens.append(0)
+                        mask.append(0)
+                        src_pos.append(pos_dict['[PAD]'])
+                        src_term.append(2)
 
 
-                        while len(tokens) < args.seq_length:
-                            tokens.append(0)
-                            mask.append(0)
-                            src_pos.append(pos_dict['[PAD]'])
-                            src_term.append(2)
+                    dataset.append((tokens, label, mask, src_pos, src_term))
 
+                elif len(line) == 3: # For sentence pair input.
+                    label = int(line[columns["label"]])
+                    text_a, text_b = line[columns["text_a"]], line[columns["text_b"]]
 
-                        dataset.append((tokens, label, mask, src_pos, src_term))
+                    tokens_a = []
+                    for word in pku_seg.cut(text_a):
+                        for w in tokenizer.tokenize(word):
+                            tokens_a.append(vocab.get(w))
 
-                    elif len(line) == 3: # For sentence pair input.
-                        label = int(line[columns["label"]])
-                        text_a, text_b = line[columns["text_a"]], line[columns["text_b"]]
+                    tokens_a = [CLS_ID] + tokens_a + [SEP_ID]
 
-                        tokens_a = []
+                    tokens_b = []
+                    for word in pku_seg.cut(text_b):
+                        for w in tokenizer.tokenize(word):
+                            tokens_b.append(vocab.get(w))
+
+                    tokens_b = tokens_b + [SEP_ID]
+
+                    tokens = tokens_a + tokens_b
+                    mask = [1] * len(tokens_a) + [2] * len(tokens_b)
+
+                    src_pos_a = []
+                    src_pos_b = []
+                    src_term_a = []
+                    src_term_b = []
+                    ## 加入pos 和terms
+                    if args.add_pos:
+                        for (word, tag) in pku_seg_pos.cut(text_a):
+                            piece_num = len(tokenizer.tokenize(word))
+                            if word in term_set:
+                                # print(word)
+                                [src_term_a.append(1) for i in range(piece_num)]
+                            else:
+                                [src_term_a.append(0) for i in range(piece_num)]
+
+                            [src_pos_a.append(pos_dict[tag]) for i in range(piece_num)]
+
+                        src_pos_a = [pos_dict['[CLS]']] + src_pos_a + [pos_dict['[SEP]']]
+                        src_term_a = [0] + src_term_a + [0]
+
+                        for (word, tag) in pku_seg_pos.cut(text_b):
+                            piece_num = len(tokenizer.tokenize(word))
+                            if word in term_set:
+                                # print(word)
+                                [src_term_b.append(1) for i in range(piece_num)]
+                            else:
+                                [src_term_b.append(0) for i in range(piece_num)]
+
+                            [src_pos_b.append(pos_dict[tag]) for i in range(piece_num)]
+
+                            src_pos_b = src_pos_b + [pos_dict['[SEP]']]
+                            src_term_b = src_term_b + [0]
+
+                        src_pos = src_pos_a + src_pos_b
+                        src_term = src_term_a + src_term_b
+
+                    else:  ## 仅加入term
                         for word in pku_seg.cut(text_a):
-                            for w in tokenizer.tokenize(word):
-                                tokens_a.append(vocab.get(w))
+                            piece_num = len(tokenizer.tokenize(word))
+                            if word in term_set:
+                                [src_term_a.append(1) for i in range(piece_num)]
+                            else:
+                                [src_term_a.append(0) for i in range(piece_num)]
+                        src_term_a = [0] + src_term_a + [0]
 
-                        tokens_a = [CLS_ID] + tokens_a + [SEP_ID]
-
-                        tokens_b = []
                         for word in pku_seg.cut(text_b):
-                            for w in tokenizer.tokenize(word):
-                                tokens_b.append(vocab.get(w))
+                            piece_num = len(tokenizer.tokenize(word))
+                            if word in term_set:
+                                [src_term_b.append(1) for i in range(piece_num)]
+                            else:
+                                [src_term_b.append(0) for i in range(piece_num)]
+                        src_term_b = [0] + src_term_b + [0]
 
-                        tokens_b = tokens_b + [SEP_ID]
-
-                        tokens = tokens_a + tokens_b
-                        mask = [1] * len(tokens_a) + [2] * len(tokens_b)
-
-                        src_pos_a = []
-                        src_pos_b = []
-                        src_term_a = []
-                        src_term_b = []
-                        ## 加入pos 和terms
-                        if args.add_pos:
-                            for (word, tag) in pku_seg_pos.cut(text_a):
-                                piece_num = len(tokenizer.tokenize(word))
-                                if word in term_set:
-                                    # print(word)
-                                    [src_term_a.append(1) for i in range(piece_num)]
-                                else:
-                                    [src_term_a.append(0) for i in range(piece_num)]
-
-                                [src_pos_a.append(pos_dict[tag]) for i in range(piece_num)]
-
-                            src_pos_a = [pos_dict['[CLS]']] + src_pos_a + [pos_dict['[SEP]']]
-                            src_term_a = [0] + src_term_a + [0]
-
-                            for (word, tag) in pku_seg_pos.cut(text_b):
-                                piece_num = len(tokenizer.tokenize(word))
-                                if word in term_set:
-                                    # print(word)
-                                    [src_term_b.append(1) for i in range(piece_num)]
-                                else:
-                                    [src_term_b.append(0) for i in range(piece_num)]
-
-                                [src_pos_b.append(pos_dict[tag]) for i in range(piece_num)]
-
-                                src_pos_b = src_pos_b + [pos_dict['[SEP]']]
-                                src_term_b = src_term_b + [0]
-
-                            src_pos = src_pos_a + src_pos_b
-                            src_term = src_term_a + src_term_b
-
-                        else:  ## 仅加入term
-                            for word in pku_seg.cut(text_a):
-                                piece_num = len(tokenizer.tokenize(word))
-                                if word in term_set:
-                                    [src_term_a.append(1) for i in range(piece_num)]
-                                else:
-                                    [src_term_a.append(0) for i in range(piece_num)]
-                            src_term_a = [0] + src_term_a + [0]
-
-                            for word in pku_seg.cut(text_b):
-                                piece_num = len(tokenizer.tokenize(word))
-                                if word in term_set:
-                                    [src_term_b.append(1) for i in range(piece_num)]
-                                else:
-                                    [src_term_b.append(0) for i in range(piece_num)]
-                            src_term_b = [0] + src_term_b + [0]
-
-                            src_term = src_term_a + src_term_b
+                        src_term = src_term_a + src_term_b
 
 
-                        
-                        if len(tokens) > args.seq_length:
-                            tokens = tokens[:args.seq_length]
-                            mask = mask[:args.seq_length]
-                            src_pos = src_pos[:args.seq_length]
-                            src_term = src_term[:args.seq_length]
 
-                        while len(tokens) < args.seq_length:
-                            tokens.append(0)
-                            mask.append(0)
-                            src_pos.append(pos_dict['[PAD]'])
-                            src_term.append(2)
-                        dataset.append((tokens, label, mask, src_pos, src_term))
+                    if len(tokens) > args.seq_length:
+                        tokens = tokens[:args.seq_length]
+                        mask = mask[:args.seq_length]
+                        src_pos = src_pos[:args.seq_length]
+                        src_term = src_term[:args.seq_length]
 
-                    elif len(line) == 4: # For dbqa input.
-                        qid=int(line[columns["qid"]])
-                        label = int(line[columns["label"]])
-                        text_a, text_b = line[columns["text_a"]], line[columns["text_b"]]
+                    while len(tokens) < args.seq_length:
+                        tokens.append(0)
+                        mask.append(0)
+                        src_pos.append(pos_dict['[PAD]'])
+                        src_term.append(2)
+                    dataset.append((tokens, label, mask, src_pos, src_term))
 
-                        tokens_a = [vocab.get(t) for t in tokenizer.tokenize(text_a)]
-                        tokens_a = [CLS_ID] + tokens_a + [SEP_ID]
-                        tokens_b = [vocab.get(t) for t in tokenizer.tokenize(text_b)]
-                        tokens_b = tokens_b + [SEP_ID]
+                elif len(line) == 4: # For dbqa input.
+                    qid=int(line[columns["qid"]])
+                    label = int(line[columns["label"]])
+                    text_a, text_b = line[columns["text_a"]], line[columns["text_b"]]
 
-                        tokens = tokens_a + tokens_b
-                        mask = [1] * len(tokens_a) + [2] * len(tokens_b)
+                    tokens_a = [vocab.get(t) for t in tokenizer.tokenize(text_a)]
+                    tokens_a = [CLS_ID] + tokens_a + [SEP_ID]
+                    tokens_b = [vocab.get(t) for t in tokenizer.tokenize(text_b)]
+                    tokens_b = tokens_b + [SEP_ID]
 
-                        if len(tokens) > args.seq_length:
-                            tokens = tokens[:args.seq_length]
-                            mask = mask[:args.seq_length]
-                        while len(tokens) < args.seq_length:
-                            tokens.append(0)
-                            mask.append(0)
-                        dataset.append((tokens, label, mask, qid))
-                    else:
-                        pass
-                        
-                except:
+                    tokens = tokens_a + tokens_b
+                    mask = [1] * len(tokens_a) + [2] * len(tokens_b)
+
+                    if len(tokens) > args.seq_length:
+                        tokens = tokens[:args.seq_length]
+                        mask = mask[:args.seq_length]
+                    while len(tokens) < args.seq_length:
+                        tokens.append(0)
+                        mask.append(0)
+                    dataset.append((tokens, label, mask, qid))
+                else:
                     pass
+
         return dataset
 
     # Evaluation function.
