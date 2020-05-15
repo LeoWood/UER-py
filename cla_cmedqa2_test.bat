@@ -1,4 +1,4 @@
-python run_classifier.py ^
+python run_classifier_csci_emb.py ^
 --pretrained_model_path models/google_zh_model.bin ^
 --vocab_path models/google_zh_vocab.txt ^
 --output_model_path ./models/cla_cmedqa2_test.bin ^
