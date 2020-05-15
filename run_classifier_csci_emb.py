@@ -275,6 +275,8 @@ def main():
                             print('src_pos:\n', [(i, a) for (i, a) in enumerate(src_pos)])
                             print('src_term:\n', [(i, a) for (i, a) in enumerate(src_term)])
 
+
+                            print(3/0)
                             exit()
 
                             src_pos = [pos_dict['[CLS]']] + src_pos
