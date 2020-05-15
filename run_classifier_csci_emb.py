@@ -592,6 +592,8 @@ def main():
     input_ids = torch.LongTensor([example[0] for example in trainset])
     label_ids = torch.LongTensor([example[1] for example in trainset])
     mask_ids = torch.LongTensor([example[2] for example in trainset])
+    pos_ids = torch.LongTensor([sample[3] for sample in dataset])
+    term_ids = torch.LongTensor([sample[4] for sample in dataset])
 
     train_steps = int(instances_num * args.epochs_num / batch_size) + 1
 
@@ -624,14 +626,19 @@ def main():
     
     for epoch in range(1, args.epochs_num+1):
         model.train()
-        for i, (input_ids_batch, label_ids_batch, mask_ids_batch) in enumerate(batch_loader(batch_size, input_ids, label_ids, mask_ids)):
+        for i, (input_ids_batch, label_ids_batch, mask_ids_batch, pos_ids_batch, term_ids_batch) in enumerate(
+                batch_loader(batch_size, input_ids, label_ids, mask_ids, pos_ids, term_ids)):
             model.zero_grad()
 
             input_ids_batch = input_ids_batch.to(device)
             label_ids_batch = label_ids_batch.to(device)
             mask_ids_batch = mask_ids_batch.to(device)
-
-            loss, _ = model(input_ids_batch, label_ids_batch, mask_ids_batch)
+            pos_ids_batch = mask_ids_batch.to(device)
+            term_ids_batch = mask_ids_batch.to(device)
+            if args.add_pos:
+                loss, _ = model((input_ids_batch,pos_ids_batch,term_ids_batch), label_ids_batch, mask_ids_batch)
+            else:
+                loss, _ = model((input_ids_batch,pos_ids_batch), label_ids_batch, mask_ids_batch)
             if torch.cuda.device_count() > 1:
                 loss = torch.mean(loss)
             total_loss += loss.item()
