@@ -1,4 +1,4 @@
-python run_ner.py ^
+python run_ner_csci_emb.py ^
 --pretrained_model_path models/google_zh_model.bin ^
 --vocab_path models/google_zh_vocab.txt ^
 --output_model_path ./models/ner_ccks_bert_base.bin ^
