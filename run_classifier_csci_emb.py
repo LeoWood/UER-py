@@ -252,9 +252,9 @@ def main():
                         for word in pku_seg.cut(text):
                             for w in tokenizer.tokenize(word):
                                 tokens.append(w)
-
-                        tokens = [vocab.get(w) for w in tokens]
+                        print(text)
                         print('tokens:\n', [(i, a) for (i, a) in enumerate(tokens)])
+                        tokens = [vocab.get(w) for w in tokens]
 
                         tokens = [CLS_ID] + tokens
                         mask = [1] * len(tokens)
