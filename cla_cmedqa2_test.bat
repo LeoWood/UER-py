@@ -5,7 +5,7 @@ python run_classifier.py ^
 --train_path datasets/cmedqa2/train.tsv ^
 --dev_path datasets/cmedqa2/dev.tsv ^
 --test_path datasets/cmedqa2/test.tsv ^
---log_path ./models/cla_cmedqa2_test.log
+--log_path ./models/cla_cmedqa2_test.log ^
 --embedding cscibert ^
 --encoder bert ^
 --learning_rate 2e-5 ^
