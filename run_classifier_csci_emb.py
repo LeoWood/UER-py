@@ -310,18 +310,18 @@ def main():
                         src_term.append(2)
 
                     print('Tokens:')
-                    print((i,a) for (i,a) in enumerate(tokenizer.convert_ids_to_tokens(tokens)))
+                    print([(i,a) for (i,a) in enumerate(tokenizer.convert_ids_to_tokens(tokens))])
 
                     print("pos:")
-                    print((i,pos_dict_reverse[a]) for (i,a) in enumerate(src_pos))
+                    print([(i,pos_dict_reverse[a]) for (i,a) in enumerate(src_pos)])
                     print("term:")
-                    print((i,a) for (i,a) in enumerate(src_term))
+                    print([(i,a) for (i,a) in enumerate(src_term)])
 
                     print("label:")
                     print(label)
 
                     print("mask:")
-                    print((i,a) for (i,a) in enumerate(mask))
+                    print([(i,a) for (i,a) in enumerate(mask)])
 
 
                     dataset.append((tokens, label, mask, src_pos, src_term))
