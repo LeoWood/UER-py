@@ -76,6 +76,8 @@ def main():
                         help="Path of the testset.")
     parser.add_argument("--config_path", default="./models/bert_base_config.json", type=str,
                         help="Path of the config file.")
+    parser.add_argument("--log_path", default="./models/test.log", type=str,
+                        help="Path of the config file.")
 
     # Model options.
     parser.add_argument("--batch_size", type=int, default=64,
@@ -489,6 +491,8 @@ def main():
             best_result = result
             save_model(model, args.output_model_path)
             print('~~~ Best Result Until Now ~~~')
+            with open(args.log_path,'w',encoding='utf-8') as f:
+                f.write('BEST F1 on dev:'+ str(result) + '\n')
         else:
             continue
 
@@ -496,7 +500,9 @@ def main():
     if args.test_path is not None:
         print("Test set evaluation.")
         model = load_model(model, args.output_model_path)
-        evaluate(args, True)
+        result = evaluate(args, True)
+        with open(args.log_path, 'a', encoding='utf-8') as f:
+            f.write('F1 on test:' + str(result) + '\n')
 
 
 if __name__ == "__main__":
