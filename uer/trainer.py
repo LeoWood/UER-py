@@ -616,9 +616,9 @@ def train_csci_mlm(args, gpu_id, rank, loader, model, optimizer, scheduler):
             elapsed = time.time() - start_time
 
             done_tokens = \
-                args.batch_size * src.size(1) * args.report_steps * args.world_size \
+                args.batch_size * src_word.size(1) * args.report_steps * args.world_size \
                     if args.dist_train \
-                    else args.batch_size * src.size(1) * args.report_steps
+                    else args.batch_size * src_word.size(1) * args.report_steps
 
             acc = total_correct / total_denominator
             print("| {:8d}/{:8d} steps"
