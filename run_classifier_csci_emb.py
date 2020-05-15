@@ -219,18 +219,22 @@ def main():
     model = model.to(device)
     
     # Datset loader.
-    def batch_loader(batch_size, input_ids, label_ids, mask_ids):
+    def batch_loader(batch_size, input_ids, label_ids, mask_ids, pos_ids, term_ids):
         instances_num = input_ids.size()[0]
         for i in range(instances_num // batch_size):
             input_ids_batch = input_ids[i*batch_size: (i+1)*batch_size, :]
             label_ids_batch = label_ids[i*batch_size: (i+1)*batch_size]
             mask_ids_batch = mask_ids[i*batch_size: (i+1)*batch_size, :]
-            yield input_ids_batch, label_ids_batch, mask_ids_batch
+            pos_ids_batch = pos_ids[i*batch_size: (i+1)*batch_size, :]
+            term_ids_batch = term_ids[i*batch_size: (i+1)*batch_size, :]
+            yield input_ids_batch, label_ids_batch, mask_ids_batch, pos_ids_batch, term_ids_batch
         if instances_num > instances_num // batch_size * batch_size:
             input_ids_batch = input_ids[instances_num//batch_size*batch_size:, :]
             label_ids_batch = label_ids[instances_num//batch_size*batch_size:]
             mask_ids_batch = mask_ids[instances_num//batch_size*batch_size:, :]
-            yield input_ids_batch, label_ids_batch, mask_ids_batch
+            pos_ids_batch = pos_ids[instances_num//batch_size*batch_size:, :]
+            term_ids_batch = term_ids[instances_num//batch_size*batch_size:, :]
+            yield input_ids_batch, label_ids_batch, mask_ids_batch, pos_ids_batch, term_ids_batch
 
     # Build tokenizer.
     tokenizer = globals()[args.tokenizer.capitalize() + "Tokenizer"](args)
@@ -251,10 +255,7 @@ def main():
                         tokens = []
                         for word in pku_seg.cut(text):
                             for w in tokenizer.tokenize(word):
-                                tokens.append(w)
-                        print(text)
-                        print('tokens:\n', [(i, a) for (i, a) in enumerate(tokens)])
-                        tokens = [vocab.get(w) for w in tokens]
+                                tokens.append(vocab.get(w))
 
                         tokens = [CLS_ID] + tokens
                         mask = [1] * len(tokens)
@@ -273,12 +274,6 @@ def main():
 
                                 [src_pos.append(pos_dict[tag]) for i in range(piece_num)]
 
-                            print('src_pos:\n', [(i, a) for (i, a) in enumerate(src_pos)])
-                            print('src_term:\n', [(i, a) for (i, a) in enumerate(src_term)])
-                            time.sleep(300)
-
-                            print(3/0)
-                            exit()
 
                             src_pos = [pos_dict['[CLS]']] + src_pos
                             src_term = [0] + src_term
@@ -313,21 +308,92 @@ def main():
                         label = int(line[columns["label"]])
                         text_a, text_b = line[columns["text_a"]], line[columns["text_b"]]
 
-                        tokens_a = [vocab.get(t) for t in tokenizer.tokenize(text_a)]
+                        tokens_a = []
+                        for word in pku_seg.cut(text_a):
+                            for w in tokenizer.tokenize(word):
+                                tokens_a.append(vocab.get(w))
+
                         tokens_a = [CLS_ID] + tokens_a + [SEP_ID]
-                        tokens_b = [vocab.get(t) for t in tokenizer.tokenize(text_b)]
+
+                        tokens_b = []
+                        for word in pku_seg.cut(text_b):
+                            for w in tokenizer.tokenize(word):
+                                tokens_b.append(vocab.get(w))
+
                         tokens_b = tokens_b + [SEP_ID]
 
                         tokens = tokens_a + tokens_b
                         mask = [1] * len(tokens_a) + [2] * len(tokens_b)
+
+                        src_pos_a = []
+                        src_pos_b = []
+                        src_term_a = []
+                        src_term_b = []
+                        ## 加入pos 和terms
+                        if args.add_pos:
+                            for (word, tag) in pku_seg_pos.cut(text_a):
+                                piece_num = len(tokenizer.tokenize(word))
+                                if word in term_set:
+                                    # print(word)
+                                    [src_term_a.append(1) for i in range(piece_num)]
+                                else:
+                                    [src_term_a.append(0) for i in range(piece_num)]
+
+                                [src_pos_a.append(pos_dict[tag]) for i in range(piece_num)]
+
+                            src_pos_a = [pos_dict['[CLS]']] + src_pos_a + [pos_dict['[SEP]']]
+                            src_term_a = [0] + src_term_a + [0]
+
+                            for (word, tag) in pku_seg_pos.cut(text_b):
+                                piece_num = len(tokenizer.tokenize(word))
+                                if word in term_set:
+                                    # print(word)
+                                    [src_term_b.append(1) for i in range(piece_num)]
+                                else:
+                                    [src_term_b.append(0) for i in range(piece_num)]
+
+                                [src_pos_b.append(pos_dict[tag]) for i in range(piece_num)]
+
+                                src_pos_b = src_pos_b + [pos_dict['[SEP]']]
+                                src_term_b = src_term_b + [0]
+
+                            src_pos = src_pos_a + src_pos_b
+                            src_term = src_term_a + src_term_b
+
+                        else:  ## 仅加入term
+                            for word in pku_seg.cut(text_a):
+                                piece_num = len(tokenizer.tokenize(word))
+                                if word in term_set:
+                                    [src_term_a.append(1) for i in range(piece_num)]
+                                else:
+                                    [src_term_a.append(0) for i in range(piece_num)]
+                            src_term_a = [0] + src_term_a + [0]
+
+                            for word in pku_seg.cut(text_b):
+                                piece_num = len(tokenizer.tokenize(word))
+                                if word in term_set:
+                                    [src_term_b.append(1) for i in range(piece_num)]
+                                else:
+                                    [src_term_b.append(0) for i in range(piece_num)]
+                            src_term_b = [0] + src_term_b + [0]
+
+                            src_term = src_term_a + src_term_b
+
+
                         
                         if len(tokens) > args.seq_length:
                             tokens = tokens[:args.seq_length]
                             mask = mask[:args.seq_length]
+                            src_pos = src_pos[:args.seq_length]
+                            src_term = src_term[:args.seq_length]
+
                         while len(tokens) < args.seq_length:
                             tokens.append(0)
                             mask.append(0)
-                        dataset.append((tokens, label, mask))
+                            src_pos.append(pos_dict['[PAD]'])
+                            src_term.append(2)
+                        dataset.append((tokens, label, mask, src_pos, src_term))
+
                     elif len(line) == 4: # For dbqa input.
                         qid=int(line[columns["qid"]])
                         label = int(line[columns["label"]])
@@ -365,6 +431,8 @@ def main():
         input_ids = torch.LongTensor([sample[0] for sample in dataset])
         label_ids = torch.LongTensor([sample[1] for sample in dataset])
         mask_ids = torch.LongTensor([sample[2] for sample in dataset])
+        pos_ids = torch.LongTensor([sample[3] for sample in dataset])
+        term_ids = torch.LongTensor([sample[4] for sample in dataset])
 
         batch_size = args.batch_size
         instances_num = input_ids.size()[0]
@@ -378,12 +446,18 @@ def main():
         model.eval()
         
         if not args.mean_reciprocal_rank:
-            for i, (input_ids_batch, label_ids_batch,  mask_ids_batch) in enumerate(batch_loader(batch_size, input_ids, label_ids, mask_ids)):
+            for i, (input_ids_batch, label_ids_batch,  mask_ids_batch, pos_ids_batch, term_ids_batch) in enumerate(batch_loader(batch_size, input_ids, label_ids, mask_ids, pos_ids, term_ids)):
                 input_ids_batch = input_ids_batch.to(device)
                 label_ids_batch = label_ids_batch.to(device)
                 mask_ids_batch = mask_ids_batch.to(device)
+                pos_ids_batch = mask_ids_batch.to(device)
+                term_ids_batch = mask_ids_batch.to(device)
                 with torch.no_grad():
-                    loss, logits = model(input_ids_batch, label_ids_batch, mask_ids_batch)
+                    if args.add_pos:
+                        loss, logits = model((input_ids_batch,pos_ids_batch,term_ids_batch), label_ids_batch, mask_ids_batch)
+                    else:
+                        loss, logits = model((input_ids_batch,term_ids_batch), label_ids_batch, mask_ids_batch)
+
                 logits = nn.Softmax(dim=1)(logits)
                 pred = torch.argmax(logits, dim=1)
                 gold = label_ids_batch
@@ -413,12 +487,18 @@ def main():
             print("Acc. (Correct/Total): {:.4f} ({}/{}) ".format(correct/len(dataset), correct, len(dataset)))
             return f1_weighted
         else:
-            for i, (input_ids_batch, label_ids_batch, mask_ids_batch) in enumerate(batch_loader(batch_size, input_ids, label_ids, mask_ids)):
+            for i, (input_ids_batch, label_ids_batch,  mask_ids_batch, pos_ids_batch, term_ids_batch) in enumerate(batch_loader(batch_size, input_ids, label_ids, mask_ids, pos_ids, term_ids)):
                 input_ids_batch = input_ids_batch.to(device)
                 label_ids_batch = label_ids_batch.to(device)
                 mask_ids_batch = mask_ids_batch.to(device)
+                pos_ids_batch = mask_ids_batch.to(device)
+                term_ids_batch = mask_ids_batch.to(device)
                 with torch.no_grad():
-                    loss, logits = model(input_ids_batch, label_ids_batch, mask_ids_batch)
+                    if args.add_pos:
+                        loss, logits = model((input_ids_batch,pos_ids_batch,term_ids_batch), label_ids_batch, mask_ids_batch)
+                    else:
+                        loss, logits = model((input_ids_batch,term_ids_batch), label_ids_batch, mask_ids_batch)
+
                 logits = nn.Softmax(dim=1)(logits)
                 if i == 0:
                     logits_all=logits
