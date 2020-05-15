@@ -252,9 +252,6 @@ def main():
             for line_id, line in enumerate(f):
                 if line_id == 0:
                     continue
-                if line_id == 10:
-                    print("测试数据读取")
-                    exit()
                 line = line.strip().split('\t')
                 if len(line) == 2:
                     label = int(line[columns["label"]])
@@ -309,19 +306,21 @@ def main():
                         src_pos.append(pos_dict['[PAD]'])
                         src_term.append(2)
 
-                    print('Tokens:')
-                    print([(i,a) for (i,a) in enumerate(tokenizer.convert_ids_to_tokens(tokens))])
+                    if line_id < 3:
+                        print("数据读取示例：")
+                        print('Tokens:')
+                        print([(i,a) for (i,a) in enumerate(tokenizer.convert_ids_to_tokens(tokens))])
 
-                    print("pos:")
-                    print([(i,pos_dict_reverse[a]) for (i,a) in enumerate(src_pos)])
-                    print("term:")
-                    print([(i,a) for (i,a) in enumerate(src_term)])
+                        print("pos:")
+                        print([(i,pos_dict_reverse[a]) for (i,a) in enumerate(src_pos)])
+                        print("term:")
+                        print([(i,a) for (i,a) in enumerate(src_term)])
 
-                    print("label:")
-                    print(label)
+                        print("label:")
+                        print(label)
 
-                    print("mask:")
-                    print([(i,a) for (i,a) in enumerate(mask)])
+                        print("mask:")
+                        print([(i,a) for (i,a) in enumerate(mask)])
 
 
                     dataset.append((tokens, label, mask, src_pos, src_term))
@@ -517,7 +516,7 @@ def main():
                     if args.add_pos:
                         loss, logits = model((input_ids_batch,pos_ids_batch,term_ids_batch), label_ids_batch, mask_ids_batch)
                     else:
-                        loss, logits = model((input_ids_batch,term_ids_batch), label_ids_batch, mask_ids_batch)
+                        loss, logits = model(input_ids_batch, label_ids_batch, mask_ids_batch)
 
                 logits = nn.Softmax(dim=1)(logits)
                 if i == 0:
@@ -656,7 +655,7 @@ def main():
             if args.add_pos:
                 loss, _ = model((input_ids_batch,pos_ids_batch,term_ids_batch), label_ids_batch, mask_ids_batch)
             else:
-                loss, _ = model((input_ids_batch,pos_ids_batch), label_ids_batch, mask_ids_batch)
+                loss, _ = model(input_ids_batch, label_ids_batch, mask_ids_batch)
             if torch.cuda.device_count() > 1:
                 loss = torch.mean(loss)
             total_loss += loss.item()
