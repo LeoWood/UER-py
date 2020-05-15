@@ -29,12 +29,16 @@ pku_seg_pos = pkuseg.pkuseg(model_name="medicine",user_dict="uer/utils/pku_seg_d
 
 
 pos_dict = {}
+pos_dict_reverse = {}
 with open('uer/utils/pos_tags.txt','r',encoding='utf-8') as f:
     i = 0
     for line in f.readlines():
         if line:
             pos_dict[line.strip().split()[0]] = i
+            pos_dict_reverse[i] = line.strip().split()[0]
             i += 1
+
+
 
 
 # 获取本地术语表
@@ -248,6 +252,9 @@ def main():
             for line_id, line in enumerate(f):
                 if line_id == 0:
                     continue
+                if line_id == 10:
+                    print("测试数据读取")
+                    exit()
                 line = line.strip().split('\t')
                 if len(line) == 2:
                     label = int(line[columns["label"]])
@@ -301,6 +308,20 @@ def main():
                         mask.append(0)
                         src_pos.append(pos_dict['[PAD]'])
                         src_term.append(2)
+
+                    print('Tokens:')
+                    print((i,a) for (i,a) in enumerate(tokenizer.convert_ids_to_tokens(tokens)))
+
+                    print("pos:")
+                    print((i,pos_dict_reverse[a]) for (i,a) in enumerate(src_pos))
+                    print("term:")
+                    print((i,a) for (i,a) in enumerate(src_term))
+
+                    print("label:")
+                    print(label)
+
+                    print("mask:")
+                    print((i,a) for (i,a) in enumerate(mask))
 
 
                     dataset.append((tokens, label, mask, src_pos, src_term))
@@ -589,8 +610,8 @@ def main():
     input_ids = torch.LongTensor([example[0] for example in trainset])
     label_ids = torch.LongTensor([example[1] for example in trainset])
     mask_ids = torch.LongTensor([example[2] for example in trainset])
-    pos_ids = torch.LongTensor([sample[3] for sample in trainset])
-    term_ids = torch.LongTensor([sample[4] for sample in trainset])
+    pos_ids = torch.LongTensor([example[3] for example in trainset])
+    term_ids = torch.LongTensor([example[4] for example in trainset])
 
     train_steps = int(instances_num * args.epochs_num / batch_size) + 1
 
