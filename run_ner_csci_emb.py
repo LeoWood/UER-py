@@ -18,6 +18,35 @@ from uer.model_saver import save_model
 from uer.model_loader import load_model
 
 
+import pkuseg
+import time
+
+
+pku_seg = pkuseg.pkuseg(model_name="medicine",user_dict="uer/utils/pku_seg_dict.txt")
+pku_seg_pos = pkuseg.pkuseg(model_name="medicine",user_dict="uer/utils/pku_seg_dict.txt",postag=True)
+
+
+pos_dict = {}
+pos_dict_reverse = {}
+with open('uer/utils/pos_tags.txt','r',encoding='utf-8') as f:
+    i = 0
+    for line in f.readlines():
+        if line:
+            pos_dict[line.strip().split()[0]] = i
+            pos_dict_reverse[i] = line.strip().split()[0]
+            i += 1
+
+
+# 获取本地术语表
+a = []
+with open('uer/utils/medical_terms/medical_terms(final).txt', 'r', encoding='utf-8') as f:
+    for line in f.readlines():
+        line = line.strip()
+        a.append(line)
+
+term_set = set(a)
+
+
 class BertTagger(nn.Module):
     def __init__(self, args, model):
         super(BertTagger, self).__init__()
@@ -88,6 +117,8 @@ def main():
     parser.add_argument("--test_path", type=str,
                         help="Path of the testset.")
     parser.add_argument("--config_path", default="./models/bert_base_config.json", type=str,
+                        help="Path of the config file.")
+    parser.add_argument("--log_path", default="./models/test.log", type=str,
                         help="Path of the config file.")
 
     # Model options.
@@ -223,15 +254,37 @@ def main():
                 tokens = [vocab.get(t) for t in tokens.split(" ")]
                 labels = [labels_map[l] for l in labels.split(" ")]
                 mask = [1] * len(tokens)
+
+                src_pos = []
+                src_term = []
+                ## 加入pos 和terms
+
+                text = ''.join([t for t in tokens.split(" ")])
+                for (word, tag) in pku_seg_pos.cut(text):
+                    for w in word:
+                        if word in term_set:
+                            src_term.append(1)
+                        else:
+                            src_term.append(0)
+                        src_pos.append(pos_dict[tag])
+
+                assert len(src_pos) == len(tokens)
+
                 if len(tokens) > args.seq_length:
                     tokens = tokens[:args.seq_length]
                     labels = labels[:args.seq_length]
                     mask = mask[:args.seq_length]
+                    src_pos = src_pos[:args.seq_length]
+                    src_term = src_term[:args.seq_length]
+
+
                 while len(tokens) < args.seq_length:
                     tokens.append(0)
                     labels.append(0)
                     mask.append(0)
-                dataset.append([tokens, labels, mask])
+                    src_pos.append(pos_dict['[PAD]'])
+                    src_term.append(2)
+                dataset.append([tokens, labels, mask, src_pos, src_term])
         
         return dataset
 
@@ -245,6 +298,8 @@ def main():
         input_ids = torch.LongTensor([sample[0] for sample in dataset])
         label_ids = torch.LongTensor([sample[1] for sample in dataset])
         mask_ids = torch.LongTensor([sample[2] for sample in dataset])
+        pos_ids = torch.LongTensor([sample[3] for sample in dataset])
+        term_ids = torch.LongTensor([sample[4] for sample in dataset])
 
         instances_num = input_ids.size(0)
         batch_size = args.batch_size
@@ -262,11 +317,14 @@ def main():
 
         model.eval()
 
-        for i, (input_ids_batch, label_ids_batch, mask_ids_batch) in enumerate(batch_loader(batch_size, input_ids, label_ids, mask_ids)):
+        for i, (input_ids_batch, label_ids_batch, mask_ids_batch, pos_ids_batch, term_ids_batch) in enumerate(batch_loader(batch_size, input_ids, label_ids, mask_ids, pos_ids, term_ids)):
             input_ids_batch = input_ids_batch.to(device)
             label_ids_batch = label_ids_batch.to(device)
             mask_ids_batch = mask_ids_batch.to(device)
-            loss, _, pred, gold = model(input_ids_batch, label_ids_batch, mask_ids_batch)
+            pos_ids_batch = pos_ids_batch.to(device)
+            term_ids_batch = term_ids_batch.to(device)
+
+            loss, _, pred, gold = model((input_ids_batch,pos_ids_batch,term_ids_batch), label_ids_batch, mask_ids_batch)
             
             for j in range(gold.size()[0]):
                 if gold[j].item() in begin_ids:
@@ -326,6 +384,8 @@ def main():
     input_ids = torch.LongTensor([ins[0] for ins in instances])
     label_ids = torch.LongTensor([ins[1] for ins in instances])
     mask_ids = torch.LongTensor([ins[2] for ins in instances])
+    pos_ids = torch.LongTensor([ins[3] for ins in instances])
+    term_ids = torch.LongTensor([ins[4] for ins in instances])
 
     instances_num = input_ids.size(0)
     batch_size = args.batch_size
@@ -360,14 +420,16 @@ def main():
 
     for epoch in range(1, args.epochs_num+1):
         model.train()
-        for i, (input_ids_batch, label_ids_batch, mask_ids_batch) in enumerate(batch_loader(batch_size, input_ids, label_ids, mask_ids)):
+        for i, (input_ids_batch, label_ids_batch, mask_ids_batch, pos_ids_batch, term_ids_batch) in enumerate(batch_loader(batch_size, input_ids, label_ids, mask_ids, pos_ids, term_ids)):
             model.zero_grad()
 
             input_ids_batch = input_ids_batch.to(device)
             label_ids_batch = label_ids_batch.to(device)
             mask_ids_batch = mask_ids_batch.to(device)
+            pos_ids_batch = pos_ids_batch.to(device)
+            term_ids_batch = term_ids_batch.to(device)
 
-            loss, _, _, _ = model(input_ids_batch, label_ids_batch, mask_ids_batch)
+            loss, _, _, _ = model((input_ids_batch,pos_ids_batch,term_ids_batch), label_ids_batch, mask_ids_batch)
             if torch.cuda.device_count() > 1:
                 loss = torch.mean(loss)
             total_loss += loss.item()
@@ -388,6 +450,9 @@ def main():
         if f1 > best_f1:
             best_f1 = f1
             save_model(model, args.output_model_path)
+            print('~~~ Best Result Until Now ~~~')
+            with open(args.log_path, 'w', encoding='utf-8') as f:
+                f.write('BEST F1 on dev:' + str(f1) + '\n')
         else:
             continue
 
@@ -395,7 +460,9 @@ def main():
     if args.test_path is not None:
         print("Test set evaluation.")
         model = load_model(model, args.output_model_path)
-        evaluate(args, True)
+        result = evaluate(args, True)
+        with open(args.log_path, 'a', encoding='utf-8') as f:
+            f.write('F1 on test:' + str(result) + '\n')
 
 
 if __name__ == "__main__":
