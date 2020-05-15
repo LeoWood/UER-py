@@ -21,6 +21,7 @@ from uer.model_saver import save_model
 from uer.model_loader import load_model
 
 import pkuseg
+import time
 
 
 pku_seg = pkuseg.pkuseg(model_name="medicine",user_dict="uer/utils/pku_seg_dict.txt")
@@ -274,7 +275,7 @@ def main():
 
                             print('src_pos:\n', [(i, a) for (i, a) in enumerate(src_pos)])
                             print('src_term:\n', [(i, a) for (i, a) in enumerate(src_term)])
-
+                            time.sleep(300)
 
                             print(3/0)
                             exit()
