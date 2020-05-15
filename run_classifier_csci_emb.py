@@ -449,8 +449,8 @@ def main():
                 input_ids_batch = input_ids_batch.to(device)
                 label_ids_batch = label_ids_batch.to(device)
                 mask_ids_batch = mask_ids_batch.to(device)
-                pos_ids_batch = mask_ids_batch.to(device)
-                term_ids_batch = mask_ids_batch.to(device)
+                pos_ids_batch = pos_ids_batch.to(device)
+                term_ids_batch = term_ids_batch.to(device)
                 with torch.no_grad():
                     if args.add_pos:
                         loss, logits = model((input_ids_batch,pos_ids_batch,term_ids_batch), label_ids_batch, mask_ids_batch)
@@ -490,8 +490,8 @@ def main():
                 input_ids_batch = input_ids_batch.to(device)
                 label_ids_batch = label_ids_batch.to(device)
                 mask_ids_batch = mask_ids_batch.to(device)
-                pos_ids_batch = mask_ids_batch.to(device)
-                term_ids_batch = mask_ids_batch.to(device)
+                pos_ids_batch = pos_ids_batch.to(device)
+                term_ids_batch = term_ids_batch.to(device)
                 with torch.no_grad():
                     if args.add_pos:
                         loss, logits = model((input_ids_batch,pos_ids_batch,term_ids_batch), label_ids_batch, mask_ids_batch)
@@ -630,8 +630,8 @@ def main():
             input_ids_batch = input_ids_batch.to(device)
             label_ids_batch = label_ids_batch.to(device)
             mask_ids_batch = mask_ids_batch.to(device)
-            pos_ids_batch = mask_ids_batch.to(device)
-            term_ids_batch = mask_ids_batch.to(device)
+            pos_ids_batch = pos_ids_batch.to(device)
+            term_ids_batch = term_ids_batch.to(device)
             if args.add_pos:
                 loss, _ = model((input_ids_batch,pos_ids_batch,term_ids_batch), label_ids_batch, mask_ids_batch)
             else:
