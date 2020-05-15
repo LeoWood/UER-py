@@ -372,6 +372,10 @@ def main():
                     correct += 1
 
         print("Report precision, recall, and f1:")
+        print(correct)
+        print(pred_entities_num)
+        print(gold_entities_num)
+
         p = correct/pred_entities_num
         r = correct/gold_entities_num
         f1 = 2*p*r/(p+r)
