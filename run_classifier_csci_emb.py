@@ -110,7 +110,7 @@ def main():
                         help="Batch size.")
     parser.add_argument("--seq_length", type=int, default=128,
                         help="Sequence length.")
-    parser.add_argument("--embedding", choices=["bert", "word"], default="bert",
+    parser.add_argument("--embedding", choices=["bert", "word", "cscibert"], default="bert",
                         help="Emebdding type.")
     parser.add_argument("--encoder", choices=["bert", "lstm", "gru", \
                                                    "cnn", "gatedcnn", "attn", \
@@ -274,6 +274,8 @@ def main():
 
                             print('src_pos:\n', [(i, a) for (i, a) in enumerate(src_pos)])
                             print('src_term:\n', [(i, a) for (i, a) in enumerate(src_term)])
+
+                            exit()
 
                             src_pos = [pos_dict['[CLS]']] + src_pos
                             src_term = [0] + src_term
