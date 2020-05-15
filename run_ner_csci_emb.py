@@ -128,7 +128,7 @@ def main():
                         help="Batch_size.")
     parser.add_argument("--seq_length", default=128, type=int,
                         help="Sequence length.")
-    parser.add_argument("--embedding", choices=["bert", "word"], default="bert",
+    parser.add_argument("--embedding", choices=["bert", "word", "cscibert"], default="bert",
                         help="Emebdding type.")
     parser.add_argument("--encoder", choices=["bert", "lstm", "gru", \
                                                    "cnn", "gatedcnn", "attn", \
