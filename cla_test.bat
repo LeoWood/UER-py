@@ -15,4 +15,4 @@ python run_classifier_csci_emb.py ^
 --batch_size 5 ^
 --report_steps 100 ^
 --gpu_rank 0 ^
---add_pos 0
+--add_pos 1

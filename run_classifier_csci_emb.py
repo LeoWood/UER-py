@@ -514,9 +514,9 @@ def main():
                 term_ids_batch = term_ids_batch.to(device)
                 with torch.no_grad():
                     if args.add_pos:
-                        loss, logits = model((input_ids_batch,pos_ids_batch,term_ids_batch), label_ids_batch, mask_ids_batch)
-                    else:
                         loss, logits = model(input_ids_batch, label_ids_batch, mask_ids_batch)
+                    else:
+                        loss, logits = model((input_ids_batch,term_ids_batch), label_ids_batch, mask_ids_batch)
 
                 logits = nn.Softmax(dim=1)(logits)
                 if i == 0:
@@ -653,9 +653,9 @@ def main():
             pos_ids_batch = pos_ids_batch.to(device)
             term_ids_batch = term_ids_batch.to(device)
             if args.add_pos:
-                loss, _ = model((input_ids_batch,pos_ids_batch,term_ids_batch), label_ids_batch, mask_ids_batch)
-            else:
                 loss, _ = model(input_ids_batch, label_ids_batch, mask_ids_batch)
+            else:
+                loss, _ = model((input_ids_batch,pos_ids_batch), label_ids_batch, mask_ids_batch)
             if torch.cuda.device_count() > 1:
                 loss = torch.mean(loss)
             total_loss += loss.item()
