@@ -369,6 +369,8 @@ def main():
                     src_pos = src_pos_a + src_pos_b
                     src_term = src_term_a + src_term_b
 
+                    assert len(src_pos) == len(tokens)
+
 
                     if len(tokens) > args.seq_length:
                         tokens = tokens[:args.seq_length]
