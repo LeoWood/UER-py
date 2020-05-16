@@ -6,7 +6,7 @@ python run_ner_csci_emb.py ^
 --dev_path datasets/ccks/dev.tsv ^
 --test_path datasets/ccks/test.tsv ^
 --log_path ./models/cla_cmedqa2_test.log ^
---embedding cscibert ^
+--embedding bert ^
 --encoder bert ^
 --learning_rate 2e-5 ^
 --warmup 0.1 ^
