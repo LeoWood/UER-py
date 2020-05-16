@@ -54,13 +54,13 @@ class CscibertEmbedding(nn.Module):
 
     def forward(self, src, seg):
         ## src 包含三个元素 word_index,pos_label,term_label
-        assert type(src) == tuple
+        # assert type(src) == tuple
         if self.add_pos:
             word_emb = self.word_embedding(src[0])
             pos_emb = self.pos_embedding(src[1])
             term_emb = self.term_embedding(src[2])
         else:
-            word_emb = self.word_embedding(src[0])
+            word_emb = self.word_embedding(src)
             pos_emb = 0
             term_emb = 0
 
