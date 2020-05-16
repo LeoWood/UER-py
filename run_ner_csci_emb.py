@@ -352,7 +352,11 @@ def main():
             else:
                 loss, _, pred, gold = model((input_ids_batch,term_ids_batch), label_ids_batch, mask_ids_batch)
 
+            print('Tokens:')
+            print([(i, vocab.i2w[a]) for (i, a) in enumerate(input_ids_batch[0])])
 
+            print([(i, a.item()) for (i, a) in enumerate(gold)])
+            print([(i, a.item()) for (i, a) in enumerate(pred)])
             print(gold)
             print(pred)
             print("begin_ids:",begin_ids)
