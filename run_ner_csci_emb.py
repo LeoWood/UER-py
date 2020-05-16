@@ -323,22 +323,22 @@ def main():
 
         model.eval()
 
-        for i, (input_ids_batch, label_ids_batch, mask_ids_batch, pos_ids_batch, term_ids_batch) in enumerate(batch_loader(2, input_ids, label_ids, mask_ids, pos_ids, term_ids)):
+        for i, (input_ids_batch, label_ids_batch, mask_ids_batch, pos_ids_batch, term_ids_batch) in enumerate(batch_loader(batch_size, input_ids, label_ids, mask_ids, pos_ids, term_ids)):
 
-            print('Tokens:')
-            print([(i, vocab.i2w[a]) for (i, a) in enumerate(input_ids_batch[0])])
-
-            print("pos:")
-            print([(i, pos_dict_reverse[a.item()]) for (i, a) in enumerate(pos_ids_batch[0])])
-
-            print("term:")
-            print([(i, a) for (i, a) in enumerate(term_ids_batch[0])])
-
-            print("label:")
-            print(label_ids_batch[0])
-
-            print("mask:")
-            print([(i, a) for (i, a) in enumerate(mask_ids_batch[0])])
+            # print('Tokens:')
+            # print([(i, vocab.i2w[a]) for (i, a) in enumerate(input_ids_batch[0])])
+            #
+            # print("pos:")
+            # print([(i, pos_dict_reverse[a.item()]) for (i, a) in enumerate(pos_ids_batch[0])])
+            #
+            # print("term:")
+            # print([(i, a) for (i, a) in enumerate(term_ids_batch[0])])
+            #
+            # print("label:")
+            # print(label_ids_batch[0])
+            #
+            # print("mask:")
+            # print([(i, a) for (i, a) in enumerate(mask_ids_batch[0])])
 
             input_ids_batch = input_ids_batch.to(device)
             label_ids_batch = label_ids_batch.to(device)
@@ -352,15 +352,15 @@ def main():
             else:
                 loss, _, pred, gold = model(input_ids_batch, label_ids_batch, mask_ids_batch)
 
-            print('Tokens:')
-            print([(i, vocab.i2w[a]) for (i, a) in enumerate(input_ids_batch[0])])
-
-            print([(i, a.item()) for (i, a) in enumerate(gold)])
-            print([(i, a.item()) for (i, a) in enumerate(pred)])
-            print(gold)
-            print(pred)
-            print("begin_ids:",begin_ids)
-            exit()
+            # print('Tokens:')
+            # print([(i, vocab.i2w[a]) for (i, a) in enumerate(input_ids_batch[0])])
+            #
+            # print([(i, a.item()) for (i, a) in enumerate(gold)])
+            # print([(i, a.item()) for (i, a) in enumerate(pred)])
+            # print(gold)
+            # print(pred)
+            # print("begin_ids:",begin_ids)
+            # exit()
 
             for j in range(gold.size()[0]):
                 if gold[j].item() in begin_ids:
