@@ -97,10 +97,6 @@ class CscibertEmbedding(nn.Module):
         else:
             emb = word_emb + position_emb + seg_emb
         emb = self.dropout(self.layer_norm(emb))
-        print(emb[0])
-        print(emb[0][0])
-        exit()
-
         return emb
 
 
