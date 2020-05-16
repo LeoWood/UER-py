@@ -412,6 +412,8 @@ def main():
 
         if not pred_entities_num:
             return 0
+        if not correct:
+            return 0
 
         p = correct/pred_entities_num
         r = correct/gold_entities_num
