@@ -350,7 +350,7 @@ def main():
             if args.add_pos:
                 loss, _, pred, gold = model((input_ids_batch,pos_ids_batch,term_ids_batch), label_ids_batch, mask_ids_batch)
             else:
-                loss, _, pred, gold = model((input_ids_batch,term_ids_batch), label_ids_batch, mask_ids_batch)
+                loss, _, pred, gold = model(input_ids_batch, label_ids_batch, mask_ids_batch)
 
             print('Tokens:')
             print([(i, vocab.i2w[a]) for (i, a) in enumerate(input_ids_batch[0])])
@@ -473,7 +473,7 @@ def main():
             if args.add_pos:
                 loss, _, _, _ = model((input_ids_batch,pos_ids_batch,term_ids_batch), label_ids_batch, mask_ids_batch)
             else:
-                loss, _, _, _ = model((input_ids_batch,term_ids_batch), label_ids_batch, mask_ids_batch)
+                loss, _, _, _ = model(input_ids_batch, label_ids_batch, mask_ids_batch)
             if torch.cuda.device_count() > 1:
                 loss = torch.mean(loss)
             total_loss += loss.item()

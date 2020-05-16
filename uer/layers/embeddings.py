@@ -62,7 +62,7 @@ class CscibertEmbedding(nn.Module):
         else:
             word_emb = self.word_embedding(src[0])
             pos_emb = 0
-            term_emb = self.term_embedding(src[1])
+            term_emb = 0
 
         position_emb = self.position_embedding(torch.arange(0, word_emb.size(1), device=word_emb.device,dtype=torch.long).unsqueeze(0).repeat(word_emb.size(0), 1))
         seg_emb = self.segment_embedding(seg)
@@ -70,7 +70,7 @@ class CscibertEmbedding(nn.Module):
         if self.add_pos:
             emb = word_emb + pos_emb + term_emb + position_emb + seg_emb
         else:
-            emb = word_emb + term_emb + position_emb + seg_emb
+            emb = word_emb + position_emb + seg_emb
         emb = self.dropout(self.layer_norm(emb))
         return emb
 
