@@ -323,7 +323,7 @@ def main():
 
         model.eval()
 
-        for i, (input_ids_batch, label_ids_batch, mask_ids_batch, pos_ids_batch, term_ids_batch) in enumerate(batch_loader(batch_size, input_ids, label_ids, mask_ids, pos_ids, term_ids)):
+        for i, (input_ids_batch, label_ids_batch, mask_ids_batch, pos_ids_batch, term_ids_batch) in enumerate(batch_loader(1, input_ids, label_ids, mask_ids, pos_ids, term_ids)):
 
             print('Tokens:')
             print([(i, vocab.i2w[a]) for (i, a) in enumerate(input_ids_batch[0])])
