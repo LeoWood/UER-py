@@ -18,6 +18,7 @@ from uer.model_saver import save_model
 from uer.model_loader import load_model
 
 
+
 import pkuseg
 import time
 
@@ -220,6 +221,9 @@ def main():
     
     # Build sequence labeling model.
     model = BertTagger(args, model)
+
+    print(model)
+    exit()
 
     # For simplicity, we use DataParallel wrapper to use multiple GPUs.
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
