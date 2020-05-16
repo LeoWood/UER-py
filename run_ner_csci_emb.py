@@ -18,7 +18,6 @@ from uer.model_saver import save_model
 from uer.model_loader import load_model
 
 
-
 import pkuseg
 import time
 

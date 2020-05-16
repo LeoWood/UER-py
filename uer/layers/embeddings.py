@@ -58,7 +58,7 @@ class CscibertEmbedding(nn.Module):
         if self.add_pos:
             word_emb = self.word_embedding(src[0])
             pos_emb = self.pos_embedding(src[1])
-            term_emb = self.term_embedding(src[2])
+            term_emb = 0
         else:
             word_emb = self.word_embedding(src)
             pos_emb = 0
@@ -68,7 +68,7 @@ class CscibertEmbedding(nn.Module):
         seg_emb = self.segment_embedding(seg)
 
         if self.add_pos:
-            emb = word_emb + pos_emb + term_emb + position_emb + seg_emb
+            emb = word_emb + pos_emb + position_emb + seg_emb
         else:
             emb = word_emb + position_emb + seg_emb
         emb = self.dropout(self.layer_norm(emb))
