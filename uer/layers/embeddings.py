@@ -66,23 +66,23 @@ class CscibertEmbedding(nn.Module):
         ## src 包含三个元素 word_index,pos_label,term_label
         # assert type(src) == tuple
         if self.add_pos:
-            print(len(src))
-            print(len((src[0])))
-            print(len((src[1])))
-            print(len((src[2])))
-
-            print('Tokens:')
-            print([(i, self.vocab.i2w[a]) for (i, a) in enumerate(src[0][10])])
-
-            print("pos:")
-            print([(i, pos_dict_reverse[a.item()]) for (i, a) in enumerate(src[1][10])])
-
-            print("term:")
-            print([(i, a.item()) for (i, a) in enumerate(src[2][10])])
-            exit()
+            # print(len(src))
+            # print(len((src[0])))
+            # print(len((src[1])))
+            # print(len((src[2])))
+            #
+            # print('Tokens:')
+            # print([(i, self.vocab.i2w[a]) for (i, a) in enumerate(src[0][10])])
+            #
+            # print("pos:")
+            # print([(i, pos_dict_reverse[a.item()]) for (i, a) in enumerate(src[1][10])])
+            #
+            # print("term:")
+            # print([(i, a.item()) for (i, a) in enumerate(src[2][10])])
+            # exit()
 
             word_emb = self.word_embedding(src[0])
-            pos_emb = 0
+            pos_emb = self.pos_embedding(src[1])
             term_emb = 0
         else:
             word_emb = self.word_embedding(src)
@@ -93,7 +93,7 @@ class CscibertEmbedding(nn.Module):
         seg_emb = self.segment_embedding(seg)
 
         if self.add_pos:
-            emb = word_emb + position_emb + seg_emb
+            emb = word_emb + position_emb + seg_emb + pos_emb
         else:
             emb = word_emb + position_emb + seg_emb
         emb = self.dropout(self.layer_norm(emb))
