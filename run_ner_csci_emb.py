@@ -323,7 +323,7 @@ def main():
 
         model.eval()
 
-        for i, (input_ids_batch, label_ids_batch, mask_ids_batch, pos_ids_batch, term_ids_batch) in enumerate(batch_loader(batch_size, input_ids, label_ids, mask_ids, pos_ids, term_ids)):
+        for i, (input_ids_batch, label_ids_batch, mask_ids_batch, pos_ids_batch, term_ids_batch) in enumerate(batch_loader(2, input_ids, label_ids, mask_ids, pos_ids, term_ids)):
 
             print('Tokens:')
             print([(i, vocab.i2w[a]) for (i, a) in enumerate(input_ids_batch[0])])
@@ -353,18 +353,21 @@ def main():
                 loss, _, pred, gold = model((input_ids_batch,term_ids_batch), label_ids_batch, mask_ids_batch)
 
 
+            print(gold)
+            print(gold.item())
+            print(pred)
+            print(pred.item())
+            print("begin_ids:",begin_ids)
+            exit()
 
             for j in range(gold.size()[0]):
-                print(gold[j].item())
                 if gold[j].item() in begin_ids:
                     gold_entities_num += 1
  
             for j in range(pred.size()[0]):
-                print(pred[j].item())
                 if pred[j].item() in begin_ids and gold[j].item() != labels_map["[PAD]"]:
                     pred_entities_num += 1
 
-            exit()
 
             pred_entities_pos = []
             gold_entities_pos = []
