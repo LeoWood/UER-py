@@ -354,9 +354,7 @@ def main():
 
 
             print(gold)
-            print(gold.item())
             print(pred)
-            print(pred.item())
             print("begin_ids:",begin_ids)
             exit()
 
