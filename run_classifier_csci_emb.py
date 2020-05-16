@@ -363,8 +363,8 @@ def main():
 
                         [src_pos_b.append(pos_dict[tag]) for i in range(piece_num)]
 
-                        src_pos_b = src_pos_b + [pos_dict['[SEP]']]
-                        src_term_b = src_term_b + [0]
+                    src_pos_b = src_pos_b + [pos_dict['[SEP]']]
+                    src_term_b = src_term_b + [0]
 
                     src_pos = src_pos_a + src_pos_b
                     src_term = src_term_a + src_term_b
