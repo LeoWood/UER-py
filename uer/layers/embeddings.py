@@ -3,6 +3,15 @@ import torch
 import torch.nn as nn
 from uer.layers.layer_norm import LayerNorm
 
+pos_dict = {}
+pos_dict_reverse = {}
+with open('uer/utils/pos_tags.txt','r',encoding='utf-8') as f:
+    i = 0
+    for line in f.readlines():
+        if line:
+            pos_dict[line.strip().split()[0]] = i
+            pos_dict_reverse[i] = line.strip().split()[0]
+            i += 1
 
 class BertEmbedding(nn.Module):
     """
@@ -44,6 +53,7 @@ class CscibertEmbedding(nn.Module):
 
         ## pos_embedding 嵌入词性标注特征(使用pkuseg词性标注，共计39种词性标签)
         self.add_pos = args.add_pos
+        self.vocab = args.vocab
         self.pos_embedding = nn.Embedding(39, args.emb_size)
         ## term_embedding 嵌入术语特征
         self.term_embedding = nn.Embedding(3, args.emb_size)
@@ -56,6 +66,21 @@ class CscibertEmbedding(nn.Module):
         ## src 包含三个元素 word_index,pos_label,term_label
         # assert type(src) == tuple
         if self.add_pos:
+            print(len(src))
+            print(len((src[0])))
+            print(len((src[1])))
+            print(len((src[2])))
+
+            print('Tokens:')
+            print([(i, self.vocab.i2w[a]) for (i, a) in enumerate(src[0][0])])
+
+            print("pos:")
+            print([(i, pos_dict_reverse[a.item()]) for (i, a) in enumerate(src[1][0])])
+
+            print("term:")
+            print([(i, a.item()) for (i, a) in enumerate(src[2][0])])
+            exit()
+
             word_emb = self.word_embedding(src[0])
             pos_emb = 0
             term_emb = 0
