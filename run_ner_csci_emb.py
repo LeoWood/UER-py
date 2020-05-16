@@ -329,7 +329,7 @@ def main():
             print([(i, vocab.i2w[a]) for (i, a) in enumerate(input_ids_batch[0])])
 
             print("pos:")
-            print([(i, pos_dict_reverse[a]) for (i, a) in enumerate(pos_ids_batch[0])])
+            print([(i, pos_dict_reverse[a.int()]) for (i, a) in enumerate(pos_ids_batch[0])])
 
             print("term:")
             print([(i, a) for (i, a) in enumerate(term_ids_batch[0])])
