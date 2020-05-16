@@ -72,13 +72,13 @@ class CscibertEmbedding(nn.Module):
             print(len((src[2])))
 
             print('Tokens:')
-            print([(i, self.vocab.i2w[a]) for (i, a) in enumerate(src[0][1])])
+            print([(i, self.vocab.i2w[a]) for (i, a) in enumerate(src[0][10])])
 
             print("pos:")
-            print([(i, pos_dict_reverse[a.item()]) for (i, a) in enumerate(src[1][1])])
+            print([(i, pos_dict_reverse[a.item()]) for (i, a) in enumerate(src[1][10])])
 
             print("term:")
-            print([(i, a.item()) for (i, a) in enumerate(src[2][1])])
+            print([(i, a.item()) for (i, a) in enumerate(src[2][10])])
             exit()
 
             word_emb = self.word_embedding(src[0])
