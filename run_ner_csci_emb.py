@@ -222,8 +222,6 @@ def main():
     # Build sequence labeling model.
     model = BertTagger(args, model)
 
-    print(model)
-    exit()
 
     # For simplicity, we use DataParallel wrapper to use multiple GPUs.
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
@@ -330,7 +328,10 @@ def main():
             pos_ids_batch = pos_ids_batch.to(device)
             term_ids_batch = term_ids_batch.to(device)
 
-            loss, _, pred, gold = model((input_ids_batch,pos_ids_batch,term_ids_batch), label_ids_batch, mask_ids_batch)
+            if args.add_pos:
+                loss, _, pred, gold = model((input_ids_batch,pos_ids_batch,term_ids_batch), label_ids_batch, mask_ids_batch)
+            else:
+                loss, _, pred, gold = model((input_ids_batch,term_ids_batch), label_ids_batch, mask_ids_batch)
 
 
             for j in range(gold.size()[0]):
@@ -440,7 +441,10 @@ def main():
             pos_ids_batch = pos_ids_batch.to(device)
             term_ids_batch = term_ids_batch.to(device)
 
-            loss, _, _, _ = model((input_ids_batch,pos_ids_batch,term_ids_batch), label_ids_batch, mask_ids_batch)
+            if args.add_pos:
+                loss, _, _, _ = model((input_ids_batch,pos_ids_batch,term_ids_batch), label_ids_batch, mask_ids_batch)
+            else:
+                loss, _, _, _ = model((input_ids_batch,term_ids_batch), label_ids_batch, mask_ids_batch)
             if torch.cuda.device_count() > 1:
                 loss = torch.mean(loss)
             total_loss += loss.item()

@@ -15,4 +15,4 @@ python run_ner_csci_emb.py ^
 --batch_size 16 ^
 --report_steps 50 ^
 --gpu_rank 0 ^
---add_pos 1
+--add_pos 0
