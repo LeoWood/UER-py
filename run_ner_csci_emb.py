@@ -324,11 +324,6 @@ def main():
         model.eval()
 
         for i, (input_ids_batch, label_ids_batch, mask_ids_batch, pos_ids_batch, term_ids_batch) in enumerate(batch_loader(batch_size, input_ids, label_ids, mask_ids, pos_ids, term_ids)):
-            input_ids_batch = input_ids_batch.to(device)
-            label_ids_batch = label_ids_batch.to(device)
-            mask_ids_batch = mask_ids_batch.to(device)
-            pos_ids_batch = pos_ids_batch.to(device)
-            term_ids_batch = term_ids_batch.to(device)
 
             print('Tokens:')
             print([(i, vocab.i2w[a]) for (i, a) in enumerate(input_ids_batch[0])])
@@ -344,6 +339,12 @@ def main():
 
             print("mask:")
             print([(i, a) for (i, a) in enumerate(mask_ids_batch[0])])
+
+            input_ids_batch = input_ids_batch.to(device)
+            label_ids_batch = label_ids_batch.to(device)
+            mask_ids_batch = mask_ids_batch.to(device)
+            pos_ids_batch = pos_ids_batch.to(device)
+            term_ids_batch = term_ids_batch.to(device)
 
 
             if args.add_pos:
