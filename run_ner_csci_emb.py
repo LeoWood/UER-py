@@ -37,6 +37,8 @@ with open('uer/utils/pos_tags.txt','r',encoding='utf-8') as f:
             pos_dict_reverse[i] = line.strip().split()[0]
             i += 1
 
+print(pos_dict)
+print(pos_dict_reverse)
 
 # 获取本地术语表
 a = []

@@ -1,0 +1,18 @@
+python run_ner_csci_emb.py ^
+--pretrained_model_path models/google_zh_model.bin ^
+--vocab_path models/google_zh_vocab.txt ^
+--output_model_path ./models/ner_cnmer_test.bin ^
+--train_path datasets/cnmer/train.tsv ^
+--dev_path datasets/cnmer/dev.tsv ^
+--test_path datasets/cnmer/test.tsv ^
+--log_path ./models/ner_cnmer_test.log ^
+--embedding cscibert ^
+--encoder bert ^
+--learning_rate 2e-5 ^
+--warmup 0.1 ^
+--epochs_num 8 ^
+--seq_length 256 ^
+--batch_size 5 ^
+--report_steps 50 ^
+--gpu_rank 0 ^
+--add_pos 1
