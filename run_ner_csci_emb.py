@@ -328,19 +328,40 @@ def main():
             pos_ids_batch = pos_ids_batch.to(device)
             term_ids_batch = term_ids_batch.to(device)
 
+            print('Tokens:')
+            print([(i, vocab.i2w[a]) for (i, a) in enumerate(input_ids_batch[0])])
+
+            print("pos:")
+            print([(i, pos_dict_reverse[a]) for (i, a) in enumerate(pos_ids_batch[0])])
+
+            print("term:")
+            print([(i, a) for (i, a) in enumerate(term_ids_batch[0])])
+
+            print("label:")
+            print(label_ids_batch[0])
+
+            print("mask:")
+            print([(i, a) for (i, a) in enumerate(mask_ids_batch[0])])
+
+
             if args.add_pos:
                 loss, _, pred, gold = model((input_ids_batch,pos_ids_batch,term_ids_batch), label_ids_batch, mask_ids_batch)
             else:
                 loss, _, pred, gold = model((input_ids_batch,term_ids_batch), label_ids_batch, mask_ids_batch)
 
 
+
             for j in range(gold.size()[0]):
+                print(gold[j].item())
                 if gold[j].item() in begin_ids:
                     gold_entities_num += 1
  
             for j in range(pred.size()[0]):
+                print(pred[j].item())
                 if pred[j].item() in begin_ids and gold[j].item() != labels_map["[PAD]"]:
                     pred_entities_num += 1
+
+            exit()
 
             pred_entities_pos = []
             gold_entities_pos = []
