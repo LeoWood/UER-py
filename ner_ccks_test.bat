@@ -3,10 +3,10 @@ python run_ner_csci_emb.py ^
 --vocab_path models/google_zh_vocab.txt ^
 --output_model_path ./models/ner_ccks_bert_base.bin ^
 --train_path datasets/ccks/train.tsv ^
---dev_path datasets/ccks/dev.tsv ^
+--dev_path datasets/ccks/dev_2.tsv ^
 --test_path datasets/ccks/test.tsv ^
 --log_path ./models/cla_cmedqa2_test.log ^
---embedding bert ^
+--embedding cscibert ^
 --encoder bert ^
 --learning_rate 2e-5 ^
 --warmup 0.1 ^
