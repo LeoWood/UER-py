@@ -369,7 +369,15 @@ def main():
                     src_pos = src_pos_a + src_pos_b
                     src_term = src_term_a + src_term_b
 
-                    assert len(src_pos) == len(tokens)
+                    if len(src_pos) != len(tokens):
+                        print('Tokens:')
+                        print([(i, a) for (i, a) in enumerate(tokenizer.convert_ids_to_tokens(tokens))])
+
+                        print("pos:")
+                        print([(i, pos_dict_reverse[a]) for (i, a) in enumerate(src_pos)])
+                        print("term:")
+                        print([(i, a) for (i, a) in enumerate(src_term)])
+                        exit()
 
 
                     if len(tokens) > args.seq_length:
