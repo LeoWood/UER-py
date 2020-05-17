@@ -57,11 +57,11 @@ class CscibertEmbedding(nn.Module):
 
         if self.add_pos and self.add_term:
             ## pos_embedding 嵌入词性标注特征(使用pkuseg词性标注，共计39种词性标签)
-            self.pos_embedding = nn.Embedding(33, args.emb_size)
+            self.pos_embedding = nn.Embedding(39, args.emb_size)
             ## term_embedding 嵌入术语特征
             self.term_embedding = nn.Embedding(3, args.emb_size)
         elif self.add_pos:
-            self.pos_embedding = nn.Embedding(33, args.emb_size)
+            self.pos_embedding = nn.Embedding(39, args.emb_size)
         elif self.add_term:
             self.term_embedding = nn.Embedding(3, args.emb_size)
         else:
