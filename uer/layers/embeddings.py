@@ -55,10 +55,17 @@ class CscibertEmbedding(nn.Module):
 
         self.word_embedding = nn.Embedding(vocab_size, args.emb_size)
 
-        ## pos_embedding 嵌入词性标注特征(使用pkuseg词性标注，共计39种词性标签)
-        self.pos_embedding = nn.Embedding(33, args.emb_size)
-        ## term_embedding 嵌入术语特征
-        self.term_embedding = nn.Embedding(3, args.emb_size)
+        if self.add_pos and self.add_term:
+            ## pos_embedding 嵌入词性标注特征(使用pkuseg词性标注，共计39种词性标签)
+            self.pos_embedding = nn.Embedding(33, args.emb_size)
+            ## term_embedding 嵌入术语特征
+            self.term_embedding = nn.Embedding(3, args.emb_size)
+        elif self.add_pos:
+            self.pos_embedding = nn.Embedding(33, args.emb_size)
+        elif self.add_term:
+            self.term_embedding = nn.Embedding(3, args.emb_size)
+        else:
+            pass
 
         self.position_embedding = nn.Embedding(self.max_length, args.emb_size)
         self.segment_embedding = nn.Embedding(3, args.emb_size)
@@ -86,7 +93,14 @@ class CscibertEmbedding(nn.Module):
         position_emb = self.position_embedding(torch.arange(0, word_emb.size(1), device=word_emb.device,dtype=torch.long).unsqueeze(0).repeat(word_emb.size(0), 1))
         seg_emb = self.segment_embedding(seg)
 
-        emb = word_emb + position_emb + seg_emb + pos_emb + term_emb
+        if self.add_pos and self.add_term:
+            emb = word_emb + position_emb + seg_emb + pos_emb + term_emb
+        elif self.add_pos:
+            emb = word_emb + position_emb + seg_emb + pos_emb
+        elif self.add_term:
+            emb = word_emb + position_emb + seg_emb + term_emb
+        else:
+            emb = word_emb + position_emb + seg_emb
 
         emb = self.dropout(self.layer_norm(emb))
         return emb
