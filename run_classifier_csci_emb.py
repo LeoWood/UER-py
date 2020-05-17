@@ -212,7 +212,8 @@ def main():
         # Initialize with pretrained model.
         model.load_state_dict(torch.load(args.pretrained_model_path), strict=False)
 
-        print(list(model.named_parameters()))
+        for n, p in list(model.named_parameters()):
+            print(n)
         exit()
     else:
         # Initialize with normal distribution.
