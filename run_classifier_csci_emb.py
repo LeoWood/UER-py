@@ -210,7 +210,10 @@ def main():
     # Load or initialize parameters.
     if args.pretrained_model_path is not None:
         # Initialize with pretrained model.
-        model.load_state_dict(torch.load(args.pretrained_model_path), strict=False)  
+        model.load_state_dict(torch.load(args.pretrained_model_path), strict=False)
+
+        print(list(model.named_parameters()))
+        exit()
     else:
         # Initialize with normal distribution.
         for n, p in list(model.named_parameters()):
@@ -275,13 +278,13 @@ def main():
                             # print(word)
                             [src_term.append(1) for i in range(piece_num)]
                         else:
-                            [src_term.append(0) for i in range(piece_num)]
+                            [src_term.append(2) for i in range(piece_num)]
 
                         [src_pos.append(pos_dict[tag]) for i in range(piece_num)]
 
 
                     src_pos = [pos_dict['[CLS]']] + src_pos
-                    src_term = [0] + src_term
+                    src_term = [2] + src_term
 
 
                     if len(tokens) > args.seq_length:
@@ -295,23 +298,23 @@ def main():
                         tokens.append(0)
                         mask.append(0)
                         src_pos.append(pos_dict['[PAD]'])
-                        src_term.append(2)
+                        src_term.append(0)
 
-                    if line_id < 3:
-                        print("数据读取示例：")
-                        print('Tokens:')
-                        print([(i,a) for (i,a) in enumerate(tokenizer.convert_ids_to_tokens(tokens))])
-
-                        print("pos:")
-                        print([(i,pos_dict_reverse[a]) for (i,a) in enumerate(src_pos)])
-                        print("term:")
-                        print([(i,a) for (i,a) in enumerate(src_term)])
-
-                        print("label:")
-                        print(label)
-
-                        print("mask:")
-                        print([(i,a) for (i,a) in enumerate(mask)])
+                    # if line_id < 3:
+                    #     print("数据读取示例：")
+                    #     print('Tokens:')
+                    #     print([(i,a) for (i,a) in enumerate(tokenizer.convert_ids_to_tokens(tokens))])
+                    #
+                    #     print("pos:")
+                    #     print([(i,pos_dict_reverse[a]) for (i,a) in enumerate(src_pos)])
+                    #     print("term:")
+                    #     print([(i,a) for (i,a) in enumerate(src_term)])
+                    #
+                    #     print("label:")
+                    #     print(label)
+                    #
+                    #     print("mask:")
+                    #     print([(i,a) for (i,a) in enumerate(mask)])
 
 
                     dataset.append((tokens, label, mask, src_pos, src_term))
@@ -349,12 +352,12 @@ def main():
                             # print(word)
                             [src_term_a.append(1) for i in range(piece_num)]
                         else:
-                            [src_term_a.append(0) for i in range(piece_num)]
+                            [src_term_a.append(2) for i in range(piece_num)]
 
                         [src_pos_a.append(pos_dict[tag]) for i in range(piece_num)]
 
                     src_pos_a = [pos_dict['[CLS]']] + src_pos_a + [pos_dict['[SEP]']]
-                    src_term_a = [0] + src_term_a + [0]
+                    src_term_a = [2] + src_term_a + [2]
 
                     for (word, tag) in pku_seg_pos.cut(text_b):
                         piece_num = len(tokenizer.tokenize(word))
@@ -362,12 +365,12 @@ def main():
                             # print(word)
                             [src_term_b.append(1) for i in range(piece_num)]
                         else:
-                            [src_term_b.append(0) for i in range(piece_num)]
+                            [src_term_b.append(2) for i in range(piece_num)]
 
                         [src_pos_b.append(pos_dict[tag]) for i in range(piece_num)]
 
                     src_pos_b = src_pos_b + [pos_dict['[SEP]']]
-                    src_term_b = src_term_b + [0]
+                    src_term_b = src_term_b + [2]
 
                     src_pos = src_pos_a + src_pos_b
                     src_term = src_term_a + src_term_b
@@ -393,7 +396,7 @@ def main():
                         tokens.append(0)
                         mask.append(0)
                         src_pos.append(pos_dict['[PAD]'])
-                        src_term.append(2)
+                        src_term.append(0)
                     dataset.append((tokens, label, mask, src_pos, src_term))
 
                 elif len(line) == 4: # For dbqa input.
