@@ -968,38 +968,20 @@ class Csci_mlmDataLoader(DataLoader):
             if masked_words_num == 0:
                 continue
 
-            if self.add_pos:
-                for ins in instances:
-                    src_word.append(ins[0])
+            for ins in instances:
+                src_word.append(ins[0])
 
-                    ## 加入pos和term
-                    src_pos.append(ins[1])
-                    src_term.append(ins[2])
+                ## 加入pos和term
+                src_pos.append(ins[1])
+                src_term.append(ins[2])
 
-                    seg.append(ins[4])
-                    tgt.append([0]*len(ins[0]))
-                    for mask in ins[3]:
-                        tgt[-1][mask[0]] = mask[1]
-            else:
-                for ins in instances:
-                    src_word.append(ins[0])
+                seg.append(ins[4])
+                tgt.append([0]*len(ins[0]))
+                for mask in ins[3]:
+                    tgt[-1][mask[0]] = mask[1]
 
-                    ## 加入term
-                    src_term.append(ins[1])
-
-                    seg.append(ins[3])
-                    tgt.append([0]*len(ins[0]))
-                    for mask in ins[2]:
-                        tgt[-1][mask[0]] = mask[1]
-
-            if self.add_pos:
-                yield torch.LongTensor(src_word), \
-                    torch.LongTensor(src_pos), \
-                    torch.LongTensor(src_term), \
-                    torch.LongTensor(tgt), \
-                    torch.LongTensor(seg)
-            else:
-                yield torch.LongTensor(src_word), \
-                      torch.LongTensor(src_term), \
-                      torch.LongTensor(tgt), \
-                      torch.LongTensor(seg)
+            yield torch.LongTensor(src_word), \
+                torch.LongTensor(src_pos), \
+                torch.LongTensor(src_term), \
+                torch.LongTensor(tgt), \
+                torch.LongTensor(seg)
