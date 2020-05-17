@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 python run_ner_csci_emb.py \
---pretrained_model_path models/google_zh_model.bin \
+--pretrained_model_path models/cscd_R_csci_mlm_no_pos_based_on_google_zh-best.bin \
 --vocab_path models/google_zh_vocab.txt \
 --output_model_path ./models/ner_ccks_bert_base.bin \
 --train_path datasets/ccks/train.tsv \
@@ -17,4 +17,4 @@ python run_ner_csci_emb.py \
 --report_steps 50 \
 --gpu_rank 0 \
 --add_pos 0 \
---add_term 0
+--add_term 1
