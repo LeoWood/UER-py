@@ -41,6 +41,8 @@ def main():
     # Model options.
     parser.add_argument("--add_pos", type=int, default=0,
                         help="if you want to add pos infomation in csci_mlm target, use 1/0 = yes/no.")
+    parser.add_argument("--add_term", type=int, default=0,
+                        help="if you want to add term infomation in csci_mlm target, use 1/0 = yes/no.")
     parser.add_argument("--emb_size", type=int, default=768, help="Embedding dimension.")
     parser.add_argument("--hidden_size", type=int, default=768,  help="Hidden state dimension.")
     parser.add_argument("--feedforward_size", type=int, default=3072, help="Feed forward layer dimension.")

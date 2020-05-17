@@ -126,6 +126,8 @@ def main():
     # Model options.
     parser.add_argument("--add_pos", type=int, default=0,
                         help="if you want to add pos infomation in csci_mlm target, use 1/0 = yes/no.")
+    parser.add_argument("--add_term", type=int, default=0,
+                        help="if you want to add term infomation in csci_mlm target, use 1/0 = yes/no.")
     parser.add_argument("--batch_size", type=int, default=32,
                         help="Batch_size.")
     parser.add_argument("--seq_length", default=128, type=int,
@@ -346,10 +348,15 @@ def main():
             term_ids_batch = term_ids_batch.to(device)
 
 
-            if args.add_pos:
+            if args.add_pos and args.add_term:
                 loss, _, pred, gold = model((input_ids_batch,pos_ids_batch,term_ids_batch), label_ids_batch, mask_ids_batch)
+            elif args.add_pos:
+                loss, _, pred, gold = model((input_ids_batch,pos_ids_batch), label_ids_batch, mask_ids_batch)
+            elif args.add_term:
+                loss, _, pred, gold = model((input_ids_batch,term_ids_batch), label_ids_batch, mask_ids_batch)
             else:
                 loss, _, pred, gold = model(input_ids_batch, label_ids_batch, mask_ids_batch)
+
 
             # print('Tokens:')
             # print([(i, vocab.i2w[a]) for (i, a) in enumerate(input_ids_batch[0])])

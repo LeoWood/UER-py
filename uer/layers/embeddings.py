@@ -3,15 +3,15 @@ import torch
 import torch.nn as nn
 from uer.layers.layer_norm import LayerNorm
 
-pos_dict = {}
-pos_dict_reverse = {}
-with open('uer/utils/pos_tags.txt','r',encoding='utf-8') as f:
-    i = 0
-    for line in f.readlines():
-        if line:
-            pos_dict[line.strip().split()[0]] = i
-            pos_dict_reverse[i] = line.strip().split()[0]
-            i += 1
+# pos_dict = {}
+# pos_dict_reverse = {}
+# with open('uer/utils/pos_tags.txt','r',encoding='utf-8') as f:
+#     i = 0
+#     for line in f.readlines():
+#         if line:
+#             pos_dict[line.strip().split()[0]] = i
+#             pos_dict_reverse[i] = line.strip().split()[0]
+#             i += 1
 
 class BertEmbedding(nn.Module):
     """
@@ -49,11 +49,13 @@ class CscibertEmbedding(nn.Module):
         super(CscibertEmbedding, self).__init__()
         self.dropout = nn.Dropout(args.dropout)
         self.max_length = 512
+        self.add_pos = args.add_pos
+        self.add_term = args.add_term
+        # self.vocab = args.vocab
+
         self.word_embedding = nn.Embedding(vocab_size, args.emb_size)
 
         ## pos_embedding 嵌入词性标注特征(使用pkuseg词性标注，共计39种词性标签)
-        self.add_pos = args.add_pos
-        self.vocab = args.vocab
         self.pos_embedding = nn.Embedding(39, args.emb_size)
         ## term_embedding 嵌入术语特征
         self.term_embedding = nn.Embedding(3, args.emb_size)
@@ -63,27 +65,19 @@ class CscibertEmbedding(nn.Module):
         self.layer_norm = LayerNorm(args.emb_size)
 
     def forward(self, src, seg):
-        ## src 包含三个元素 word_index,pos_label,term_label
-        # assert type(src) == tuple
-        if self.add_pos:
-            # print(len(src))
-            # print(len((src[0])))
-            # print(len((src[1])))
-            # print(len((src[2])))
-            #
-            # print('Tokens:')
-            # print([(i, self.vocab.i2w[a]) for (i, a) in enumerate(src[0][10])])
-            #
-            # print("pos:")
-            # print([(i, pos_dict_reverse[a.item()]) for (i, a) in enumerate(src[1][10])])
-            #
-            # print("term:")
-            # print([(i, a.item()) for (i, a) in enumerate(src[2][10])])
-            # exit()
-
+        ## src 可能包含三个元素 word_index,pos_label,term_label
+        if self.add_pos and self.add_term:
             word_emb = self.word_embedding(src[0])
             pos_emb = self.pos_embedding(src[1])
             term_emb = self.term_embedding(src[2])
+        elif self.add_pos:
+            word_emb = self.word_embedding(src[0])
+            pos_emb = self.pos_embedding(src[1])
+            term_emb = 0
+        elif self.add_term:
+            word_emb = self.word_embedding(src[0])
+            pos_emb = 0
+            term_emb = self.term_embedding(src[1])
         else:
             word_emb = self.word_embedding(src)
             pos_emb = 0
@@ -92,10 +86,8 @@ class CscibertEmbedding(nn.Module):
         position_emb = self.position_embedding(torch.arange(0, word_emb.size(1), device=word_emb.device,dtype=torch.long).unsqueeze(0).repeat(word_emb.size(0), 1))
         seg_emb = self.segment_embedding(seg)
 
-        if self.add_pos:
-            emb = word_emb + position_emb + seg_emb + pos_emb + term_emb
-        else:
-            emb = word_emb + position_emb + seg_emb
+        emb = word_emb + position_emb + seg_emb + pos_emb + term_emb
+
         emb = self.dropout(self.layer_norm(emb))
         return emb
 
