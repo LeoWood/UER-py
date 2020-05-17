@@ -211,10 +211,10 @@ def main():
     if args.pretrained_model_path is not None:
         # Initialize with pretrained model.
         model.load_state_dict(torch.load(args.pretrained_model_path), strict=False)
-
+        ## 对加入的pos_embedding和term_embedding的初始化
         for n, p in list(model.named_parameters()):
-            print(n)
-        exit()
+            if n == "embedding.pos_embedding.weight" or n == "embedding.term_embedding.weight":
+                p.data.normal_(0, 0.02)
     else:
         # Initialize with normal distribution.
         for n, p in list(model.named_parameters()):
