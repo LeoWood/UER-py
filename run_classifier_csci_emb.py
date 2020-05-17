@@ -473,8 +473,6 @@ def main():
                     confusion[pred[j], gold[j]] += 1
                 correct += torch.sum(pred == gold).item()
 
-            if not correct:
-                return 0
             # if is_test:
             print("Confusion matrix:")
             print(confusion)
@@ -675,8 +673,8 @@ def main():
             best_result = result
             save_model(model, args.output_model_path)
             print('~~~ Best Result Until Now ~~~')
-            with open(args.log_path,'w',encoding='utf-8') as f:
-                f.write('BEST F1 on dev:'+ str(result) + '\n')
+            with open(args.log_path,'a',encoding='utf-8') as f:
+                f.write('BEST F1 on dev Until Now :'+ str(result) + '\n')
         else:
             continue
 

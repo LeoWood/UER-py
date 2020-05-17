@@ -417,14 +417,14 @@ def main():
                     correct += 1
 
         print("Report precision, recall, and f1:")
-        print(correct)
-        print(pred_entities_num)
-        print(gold_entities_num)
-
-        if not pred_entities_num:
-            return 0
-        if not correct:
-            return 0
+        # print(correct)
+        # print(pred_entities_num)
+        # print(gold_entities_num)
+        #
+        # if not pred_entities_num:
+        #     return 0
+        # if not correct:
+        #     return 0
 
         p = correct/pred_entities_num
         r = correct/gold_entities_num
