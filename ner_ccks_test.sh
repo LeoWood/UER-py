@@ -11,7 +11,7 @@ python run_ner_csci_emb.py \
 --encoder bert \
 --learning_rate 2e-5 \
 --warmup 0.1 \
---epochs_num 40 \
+--epochs_num 5 \
 --seq_length 128 \
 --batch_size 16 \
 --report_steps 50 \
