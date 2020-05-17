@@ -272,7 +272,7 @@ def main():
                         if word in term_set:
                             src_term.append(1)
                         else:
-                            src_term.append(0)
+                            src_term.append(2)
                         src_pos.append(pos_dict[tag])
 
                 assert len(src_pos) == len(tokens)
@@ -290,7 +290,7 @@ def main():
                     labels.append(0)
                     mask.append(0)
                     src_pos.append(pos_dict['[PAD]'])
-                    src_term.append(2)
+                    src_term.append(0)
                 dataset.append([tokens, labels, mask, src_pos, src_term])
         
         return dataset
