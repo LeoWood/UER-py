@@ -4,8 +4,8 @@ export PRETRAINED_MODEL=cscd_R_csci_mlm_based_on_google_zh.bin
 export VOCAB=google_zh_vocab.txt
 export EMBEDDING=cscibert
 export LOG_FILE=pos_term_pre_100w.log
-export POS 1
-export TERM 1
+export POS=1
+export TERM=1
 export GPU=0
 
 echo "cla_16:" >> $LOG_FILE
