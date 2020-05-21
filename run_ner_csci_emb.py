@@ -222,7 +222,11 @@ def main():
         model.load_state_dict(torch.load(args.pretrained_model_path, map_location='cuda:' + args.gpu_rank), strict=False)
         ## 对加入的pos_embedding和term_embedding的初始化
         for n, p in list(model.named_parameters()):
-            if n == "embedding.pos_embedding.weight" or n == "embedding.term_embedding.weight":
+            if not args.add_pos and n == "embedding.pos_embedding.weight":
+                print("pos_embedding 随机初始化")
+                p.data.normal_(0, 0.02)
+            if not args.term and n == "embedding.term_embedding.weight":
+                print("term_embedding 随机初始化")
                 p.data.normal_(0, 0.02)
     else:
         # Initialize with normal distribution.
