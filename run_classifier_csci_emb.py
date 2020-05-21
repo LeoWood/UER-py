@@ -214,7 +214,7 @@ def main():
     # Load or initialize parameters.
     if args.pretrained_model_path is not None:
         # Initialize with pretrained model.
-        model.load_state_dict(torch.load(args.pretrained_model_path), strict=False)
+        model.load_state_dict(torch.load(args.pretrained_model_path, map_location='cuda:' + args.gpu_rank), strict=False)
         ## 对加入的pos_embedding和term_embedding的初始化
         for n, p in list(model.named_parameters()):
             if n == "embedding.pos_embedding.weight" or n == "embedding.term_embedding.weight":
