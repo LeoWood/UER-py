@@ -26,8 +26,8 @@ python ../run_classifier_csci_emb.py \
 --batch_size 5 \
 --report_steps 100 \
 --gpu_rank $GPU \
---add_pos $POS \
---add_term $TERM
+--add_pos 1 \
+--add_term 1
 
 echo "cla_32:" >> $LOG_FILE
 python ../run_classifier_csci_emb.py \
@@ -47,8 +47,8 @@ python ../run_classifier_csci_emb.py \
 --batch_size 5 \
 --report_steps 100 \
 --gpu_rank $GPU \
---add_pos $POS \
---add_term $TERM
+--add_pos 1 \
+--add_term 1
 
 echo "cmedqa:" >> $LOG_FILE
 python ../run_classifier_csci_emb.py \
@@ -68,8 +68,8 @@ python ../run_classifier_csci_emb.py \
 --batch_size 10 \
 --report_steps 100 \
 --gpu_rank $GPU \
---add_pos $POS \
---add_term $TERM
+--add_pos 1 \
+--add_term 1
 
 echo "csl:" >> $LOG_FILE
 python ../run_classifier_csci_emb.py \
@@ -89,8 +89,8 @@ python ../run_classifier_csci_emb.py \
 --batch_size 10 \
 --report_steps 100 \
 --gpu_rank $GPU \
---add_pos $POS \
---add_term $TERM
+--add_pos 1 \
+--add_term 1
 
 echo "ccks:" >> $LOG_FILE
 python ../run_ner_csci_emb.py \
@@ -110,8 +110,8 @@ python ../run_ner_csci_emb.py \
 --batch_size 16 \
 --report_steps 50 \
 --gpu_rank $GPU \
---add_pos $POS \
---add_term $TERM
+--add_pos 1 \
+--add_term 1
 
 echo "cnmer:" >> $LOG_FILE
 python ../run_ner_csci_emb.py \
@@ -131,8 +131,8 @@ python ../run_ner_csci_emb.py \
 --batch_size 5 \
 --report_steps 50 \
 --gpu_rank $GPU \
---add_pos $POS \
---add_term $TERM
+--add_pos 1 \
+--add_term 1
 
 echo "amttl:" >> $LOG_FILE
 python ../run_ner_csci_emb.py \
@@ -152,6 +152,6 @@ python ../run_ner_csci_emb.py \
 --batch_size 16 \
 --report_steps 50 \
 --gpu_rank $GPU \
---add_pos $POS \
---add_term $TERM
+--add_pos 1 \
+--add_term 1
 
