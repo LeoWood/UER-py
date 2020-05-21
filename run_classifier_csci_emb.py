@@ -23,6 +23,10 @@ from uer.model_loader import load_model
 import pkuseg
 import time
 
+import os
+impor sys
+os.chdir(sys.path[0])
+
 
 pku_seg = pkuseg.pkuseg(model_name="medicine",user_dict="uer/utils/pku_seg_dict.txt")
 pku_seg_pos = pkuseg.pkuseg(model_name="medicine",user_dict="uer/utils/pku_seg_dict.txt",postag=True)

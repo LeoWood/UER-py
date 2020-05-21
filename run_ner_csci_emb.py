@@ -17,6 +17,10 @@ from uer.utils.seed import set_seed
 from uer.model_saver import save_model
 from uer.model_loader import load_model
 
+import os
+impor sys
+os.chdir(sys.path[0])
+
 
 import pkuseg
 import time
