@@ -130,8 +130,12 @@ def main():
     # Model options.
     parser.add_argument("--add_pos", type=int, default=0,
                         help="if you want to add pos infomation in csci_mlm target, use 1/0 = yes/no.")
+    parser.add_argument("--init_pos", type=int, default=0,
+                        help="if you have to init pos_embedding as there might not be term_embedding in the pretrained model, use 1/0 = yes/no.")
     parser.add_argument("--add_term", type=int, default=0,
                         help="if you want to add term infomation in csci_mlm target, use 1/0 = yes/no.")
+    parser.add_argument("--init_term", type=int, default=0,
+                        help="if you have to init term_embedding as there might not be term_embedding in the pretrained model, use 1/0 = yes/no.")
     parser.add_argument("--batch_size", type=int, default=32,
                         help="Batch_size.")
     parser.add_argument("--seq_length", default=128, type=int,
@@ -222,10 +226,10 @@ def main():
         model.load_state_dict(torch.load(args.pretrained_model_path, map_location='cuda:' + args.gpu_rank), strict=False)
         ## 对加入的pos_embedding和term_embedding的初始化
         for n, p in list(model.named_parameters()):
-            if not args.add_pos and n == "embedding.pos_embedding.weight":
+            if args.init_pos and n == "embedding.pos_embedding.weight":
                 print("pos_embedding 随机初始化")
                 p.data.normal_(0, 0.02)
-            if not args.term and n == "embedding.term_embedding.weight":
+            if args.init_term and n == "embedding.term_embedding.weight":
                 print("term_embedding 随机初始化")
                 p.data.normal_(0, 0.02)
     else:
