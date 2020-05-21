@@ -24,7 +24,7 @@ import pkuseg
 import time
 
 import os
-impor sys
+import sys
 os.chdir(sys.path[0])
 
 
