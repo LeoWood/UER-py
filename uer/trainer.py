@@ -21,7 +21,7 @@ from uer.utils.seed import set_seed
 
 pos_dict = {}
 pos_dict_reverse = {}
-with open('../uer/utils/pos_tags.txt','r',encoding='utf-8') as f:
+with open('../uer/utils/pos_tags_old.txt','r',encoding='utf-8') as f:
     i = 0
     for line in f.readlines():
         if line:
