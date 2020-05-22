@@ -825,26 +825,18 @@ class Csci_mlmDataset(Dataset):
                     src_pos = []
                     src_term = []
                     ## 加入pos 和terms
-                    if self.add_pos:
-                        for (word, tag) in pku_seg_pos.cut(line):
-                            piece_num = len(self.tokenizer.tokenize(word))
-                            if word in term_set:
-                                # print(word)
-                                [src_term.append(1) for i in range(piece_num)]
-                            else:
-                                [src_term.append(0) for i in range(piece_num)]
+                    for (word, tag) in pku_seg_pos.cut(line):
+                        piece_num = len(self.tokenizer.tokenize(word))
+                        if word in term_set:
+                            # print(word)
+                            [src_term.append(1) for i in range(piece_num)]
+                        else:
+                            [src_term.append(0) for i in range(piece_num)]
 
-                            [src_pos.append(pos_dict[tag]) for i in range(piece_num)]
+                        [src_pos.append(pos_dict[tag]) for i in range(piece_num)]
 
-                        if len(src_pos) > self.seq_length:
-                            src_pos = src_pos[:self.seq_length]
-                    else: ## 仅加入term
-                        for word in pku_seg.cut(line):
-                            piece_num = len(self.tokenizer.tokenize(word))
-                            if word in term_set:
-                                [src_term.append(1) for i in range(piece_num)]
-                            else:
-                                [src_term.append(0) for i in range(piece_num)]
+                    if len(src_pos) > self.seq_length:
+                        src_pos = src_pos[:self.seq_length]
 
                     # terms,labels = max_match(line.strip(),term_dict,max_num)
                     #
@@ -929,11 +921,8 @@ class Csci_mlmDataset(Dataset):
                     # print("seg\n", [(i, a) for (i, a) in enumerate(seg)])
                     # exit()
 
-                    if self.add_pos:
-                        pickle.dump((src_word, src_pos, src_term, tgt, seg), f_write)
-                    else:
-                        pickle.dump((src_word, src_term, tgt, seg), f_write)
 
+                    pickle.dump((src_word, src_pos, src_term, tgt, seg), f_write)
 
                     if pos >= end - 1:
                         break
