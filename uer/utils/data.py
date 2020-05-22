@@ -14,12 +14,16 @@ from uer.utils.seed import set_seed
 import pkuseg
 
 
-pku_seg = pkuseg.pkuseg(model_name="medicine",user_dict="uer/utils/pku_seg_dict.txt")
-pku_seg_pos = pkuseg.pkuseg(model_name="medicine",user_dict="uer/utils/pku_seg_dict.txt",postag=True)
+path1=os.path.abspath('.')   # 表示当前所处的文件夹的绝对路径
+print(path1)
+exit()
+
+pku_seg = pkuseg.pkuseg(model_name="medicine",user_dict="../uer/utils/pku_seg_dict.txt")
+pku_seg_pos = pkuseg.pkuseg(model_name="medicine",user_dict="../uer/utils/pku_seg_dict.txt",postag=True)
 
 
 pos_dict = {}
-with open('uer/utils/pos_tags.txt','r',encoding='utf-8') as f:
+with open('../uer/utils/pos_tags.txt','r',encoding='utf-8') as f:
     i = 0
     for line in f.readlines():
         if line:
@@ -30,7 +34,7 @@ with open('uer/utils/pos_tags.txt','r',encoding='utf-8') as f:
 # 获取本地术语表
 a = []
 term_dict = {}
-with open('uer/utils/medical_terms/medical_terms(final).txt', 'r', encoding='utf-8') as f:
+with open('../uer/utils/medical_terms/medical_terms(final).txt', 'r', encoding='utf-8') as f:
     for line in f.readlines():
         line = line.strip()
         a.append(line)
