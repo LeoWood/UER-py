@@ -6,7 +6,7 @@ export EMBEDDING=cscibert
 export LOG_FILE=pos_term_pre_100w.log
 export POS=1
 export TERM=1
-export GPU=0
+export GPU=1
 
 echo "amttl:" >> $LOG_FILE
 python ../run_ner_csci_emb_old.py \
