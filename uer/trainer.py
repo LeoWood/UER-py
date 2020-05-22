@@ -586,7 +586,7 @@ def train_csci_mlm(args, gpu_id, rank, loader, model, optimizer, scheduler):
         print([(i,vocab.i2w[a]) for (i,a) in enumerate(src_word[0])])
     
         print("pos:")
-        print([(i,pos_dict_reverse[a]) for (i,a) in enumerate(src_pos[0])])
+        print([(i,pos_dict_reverse[a.item()]) for (i,a) in enumerate(src_pos[0])])
 
         print("term:")
         print([(i,a) for (i,a) in enumerate(src_term[0])])
