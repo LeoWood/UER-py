@@ -23,18 +23,18 @@ from uer.model_loader import load_model
 import pkuseg
 import time
 
-import os
-import sys
-os.chdir(sys.path[0])
+# import os
+# import sys
+# os.chdir(sys.path[0])
 
 
-pku_seg = pkuseg.pkuseg(model_name="medicine",user_dict="uer/utils/pku_seg_dict.txt")
-pku_seg_pos = pkuseg.pkuseg(model_name="medicine",user_dict="uer/utils/pku_seg_dict.txt",postag=True)
+pku_seg = pkuseg.pkuseg(model_name="medicine",user_dict="../uer/utils/pku_seg_dict.txt")
+pku_seg_pos = pkuseg.pkuseg(model_name="medicine",user_dict="../uer/utils/pku_seg_dict.txt",postag=True)
 
 
 pos_dict = {}
 pos_dict_reverse = {}
-with open('uer/utils/pos_tags.txt','r',encoding='utf-8') as f:
+with open('../uer/utils/pos_tags.txt','r',encoding='utf-8') as f:
     i = 0
     for line in f.readlines():
         if line:
@@ -45,7 +45,7 @@ with open('uer/utils/pos_tags.txt','r',encoding='utf-8') as f:
 
 # 获取本地术语表
 a = []
-with open('uer/utils/medical_terms/medical_terms(final).txt', 'r', encoding='utf-8') as f:
+with open('../uer/utils/medical_terms/medical_terms(final).txt', 'r', encoding='utf-8') as f:
     for line in f.readlines():
         line = line.strip()
         a.append(line)
