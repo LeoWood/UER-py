@@ -771,7 +771,6 @@ class Csci_mlmDataset(Dataset):
     def __init__(self, args, vocab, tokenizer):
         super(Csci_mlmDataset, self).__init__(args, vocab, tokenizer)
         self.dup_factor = args.dup_factor
-        self.add_pos = args.add_pos
 
     def worker(self, proc_id, start, end):
         print("Worker %d is building dataset ... " % proc_id)
