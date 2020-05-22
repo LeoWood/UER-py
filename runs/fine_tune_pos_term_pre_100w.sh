@@ -10,13 +10,13 @@ export GPU=1
 
 echo "amttl:" >> $LOG_FILE
 python ../run_ner_csci_emb_old.py \
---pretrained_model_path models/$PRETRAINED_MODEL \
+--pretrained_model_path ../models/$PRETRAINED_MODEL \
 --vocab_path models/$VOCAB \
---output_model_path ./models/fine_tune.bin \
---train_path datasets/amttl/train.tsv \
---dev_path datasets/amttl/dev.tsv \
---test_path datasets/amttl/test.tsv \
---log_path ./runs/$LOG_FILE \
+--output_model_path ../models/fine_tune.bin \
+--train_path ../datasets/amttl/train.tsv \
+--dev_path ../datasets/amttl/dev.tsv \
+--test_path ../datasets/amttl/test.tsv \
+--log_path $LOG_FILE \
 --embedding $EMBEDDING \
 --encoder bert \
 --learning_rate 2e-5 \
@@ -33,13 +33,13 @@ python ../run_ner_csci_emb_old.py \
 
 echo "ccks:" >> $LOG_FILE
 python ../run_ner_csci_emb_old.py \
---pretrained_model_path models/$PRETRAINED_MODEL \
+--pretrained_model_path ../models/$PRETRAINED_MODEL \
 --vocab_path models/$VOCAB \
---output_model_path ./models/fine_tune.bin \
---train_path datasets/ccks/train.tsv \
---dev_path datasets/ccks/dev.tsv \
---test_path datasets/ccks/test.tsv \
---log_path ./runs/$LOG_FILE \
+--output_model_path ../models/fine_tune.bin \
+--train_path ../datasets/ccks/train.tsv \
+--dev_path ../datasets/ccks/dev.tsv \
+--test_path ../datasets/ccks/test.tsv \
+--log_path $LOG_FILE \
 --embedding $EMBEDDING \
 --encoder bert \
 --learning_rate 2e-5 \
@@ -56,13 +56,13 @@ python ../run_ner_csci_emb_old.py \
 
 echo "cnmer:" >> $LOG_FILE
 python ../run_ner_csci_emb_old.py \
---pretrained_model_path models/$PRETRAINED_MODEL \
+--pretrained_model_path ../models/$PRETRAINED_MODEL \
 --vocab_path models/$VOCAB \
---output_model_path ./models/fine_tune.bin \
---train_path datasets/cnmer/train.tsv \
---dev_path datasets/cnmer/dev.tsv \
---test_path datasets/cnmer/test.tsv \
---log_path ./runs/$LOG_FILE \
+--output_model_path ../models/fine_tune.bin \
+--train_path ../datasets/cnmer/train.tsv \
+--dev_path ../datasets/cnmer/dev.tsv \
+--test_path ../datasets/cnmer/test.tsv \
+--log_path $LOG_FILE \
 --embedding $EMBEDDING \
 --encoder bert \
 --learning_rate 2e-5 \
@@ -79,13 +79,13 @@ python ../run_ner_csci_emb_old.py \
 
 echo "cmedqa:" >> $LOG_FILE
 python ../run_classifier_csci_emb_old.py \
---pretrained_model_path models/$PRETRAINED_MODEL \
+--pretrained_model_path ../models/$PRETRAINED_MODEL \
 --vocab_path models/$VOCAB \
---output_model_path ./models/fine_tune.bin \
---train_path datasets/cmedqa/train.tsv \
---dev_path datasets/cmedqa/dev.tsv \
---test_path datasets/cmedqa/test.tsv \
---log_path ./runs/$LOG_FILE \
+--output_model_path ../models/fine_tune.bin \
+--train_path ../datasets/cmedqa/train.tsv \
+--dev_path ../datasets/cmedqa/dev.tsv \
+--test_path ../datasets/cmedqa/test.tsv \
+--log_path $LOG_FILE \
 --embedding $EMBEDDING \
 --encoder bert \
 --learning_rate 2e-5 \
@@ -102,13 +102,13 @@ python ../run_classifier_csci_emb_old.py \
 
 echo "csl:" >> $LOG_FILE
 python ../run_classifier_csci_emb_old.py \
---pretrained_model_path models/$PRETRAINED_MODEL \
+--pretrained_model_path ../models/$PRETRAINED_MODEL \
 --vocab_path models/$VOCAB \
---output_model_path ./models/fine_tune.bin \
---train_path datasets/csl/train.tsv \
---dev_path datasets/csl/dev.tsv \
---test_path datasets/csl/test.tsv \
---log_path ./runs/$LOG_FILE \
+--output_model_path ../models/fine_tune.bin \
+--train_path ../datasets/csl/train.tsv \
+--dev_path ../datasets/csl/dev.tsv \
+--test_path ../datasets/csl/test.tsv \
+--log_path $LOG_FILE \
 --embedding $EMBEDDING \
 --encoder bert \
 --learning_rate 1e-5 \
@@ -125,13 +125,13 @@ python ../run_classifier_csci_emb_old.py \
 
 echo "cla_16:" >> $LOG_FILE
 python ../run_classifier_csci_emb_old.py \
---pretrained_model_path models/$PRETRAINED_MODEL \
+--pretrained_model_path ../models/$PRETRAINED_MODEL \
 --vocab_path models/$VOCAB \
---output_model_path ./models/fine_tune.bin \
---train_path datasets/wanfang_16000/train.tsv \
---dev_path datasets/wanfang_16000/dev.tsv \
---test_path datasets/wanfang_16000/test.tsv \
---log_path ./runs/$LOG_FILE \
+--output_model_path ../models/fine_tune.bin \
+--train_path ../datasets/wanfang_16000/train.tsv \
+--dev_path ../datasets/wanfang_16000/dev.tsv \
+--test_path ../datasets/wanfang_16000/test.tsv \
+--log_path $LOG_FILE \
 --embedding $EMBEDDING \
 --encoder bert \
 --learning_rate 2e-5 \
@@ -148,13 +148,13 @@ python ../run_classifier_csci_emb_old.py \
 
 echo "cla_32:" >> $LOG_FILE
 python ../run_classifier_csci_emb_old.py \
---pretrained_model_path models/$PRETRAINED_MODEL \
+--pretrained_model_path ../models/$PRETRAINED_MODEL \
 --vocab_path models/$VOCAB \
---output_model_path ./models/fine_tune.bin \
---train_path datasets/wanfang_32000/train.tsv \
---dev_path datasets/wanfang_32000/dev.tsv \
---test_path datasets/wanfang_32000/test.tsv \
---log_path ./runs/$LOG_FILE \
+--output_model_path ../models/fine_tune.bin \
+--train_path ../datasets/wanfang_32000/train.tsv \
+--dev_path ../datasets/wanfang_32000/dev.tsv \
+--test_path ../datasets/wanfang_32000/test.tsv \
+--log_path $LOG_FILE \
 --embedding $EMBEDDING \
 --encoder bert \
 --learning_rate 2e-5 \
