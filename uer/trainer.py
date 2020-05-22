@@ -19,15 +19,15 @@ from uer.utils.data import *
 from uer.utils.vocab import Vocab
 from uer.utils.seed import set_seed
 
-pos_dict = {}
-pos_dict_reverse = {}
-with open('../uer/utils/pos_tags_old.txt','r',encoding='utf-8') as f:
-    i = 0
-    for line in f.readlines():
-        if line:
-            pos_dict[line.strip().split()[0]] = i
-            pos_dict_reverse[i] = line.strip().split()[0]
-            i += 1
+# pos_dict = {}
+# pos_dict_reverse = {}
+# with open('../uer/utils/pos_tags_old.txt','r',encoding='utf-8') as f:
+#     i = 0
+#     for line in f.readlines():
+#         if line:
+#             pos_dict[line.strip().split()[0]] = i
+#             pos_dict_reverse[i] = line.strip().split()[0]
+#             i += 1
 
 
 def train_and_validate(args):
@@ -580,22 +580,22 @@ def train_csci_mlm(args, gpu_id, rank, loader, model, optimizer, scheduler):
             break
         src_word, src_pos, src_term, tgt, seg = next(loader_iter)
 
-        vocab = Vocab()
-        vocab.load(args.vocab_path)
-        print('Tokens:')
-        print([(i,vocab.i2w[a]) for (i,a) in enumerate(src_word[0])])
+        # vocab = Vocab()
+        # vocab.load(args.vocab_path)
+        # print('Tokens:')
+        # print([(i,vocab.i2w[a]) for (i,a) in enumerate(src_word[0])])
     
-        print("pos:")
-        print([(i,pos_dict_reverse[a.item()]) for (i,a) in enumerate(src_pos[0])])
+        # print("pos:")
+        # print([(i,pos_dict_reverse[a.item()]) for (i,a) in enumerate(src_pos[0])])
 
-        print("term:")
-        print([(i,a) for (i,a) in enumerate(src_term[0])])
+        # print("term:")
+        # print([(i,a) for (i,a) in enumerate(src_term[0])])
     
     
-        print("mask:")
-        print([(i,a) for (i,a) in enumerate(seg[0])])
+        # print("mask:")
+        # print([(i,a) for (i,a) in enumerate(seg[0])])
 
-        exit()
+        # exit()
 
         if gpu_id is not None:
             src_word = src_word.cuda(gpu_id)
