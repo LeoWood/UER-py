@@ -6,6 +6,10 @@ import argparse
 import uer.trainer as trainer
 from uer.utils.config import load_hyperparam
 
+import os
+import sys
+os.chdir(sys.path[0])
+
 
 def main():
     parser = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter)
