@@ -14,10 +14,6 @@ from uer.utils.seed import set_seed
 import pkuseg
 
 
-path1=os.path.abspath('.')   # 表示当前所处的文件夹的绝对路径
-print(path1)
-exit()
-
 pku_seg = pkuseg.pkuseg(model_name="medicine",user_dict="../uer/utils/pku_seg_dict.txt")
 pku_seg_pos = pkuseg.pkuseg(model_name="medicine",user_dict="../uer/utils/pku_seg_dict.txt",postag=True)
 
