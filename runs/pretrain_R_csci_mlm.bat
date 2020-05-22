@@ -1,5 +1,5 @@
 python ../pretrain.py ^
---dataset_path cscd_r_csci_mlm.pt ^
+--dataset_path ../cscd_r_csci_mlm.pt ^
 --vocab_path ../models/google_zh_vocab.txt ^
 --pretrained_model_path ../models/cscd_R_csci_mlm_based_on_google_zh_100w.bin ^
 --output_model_path ../models/cscd_R_csci_mlm_based_on_google_zh_100w+.bin  ^
