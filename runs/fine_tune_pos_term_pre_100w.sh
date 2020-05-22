@@ -13,6 +13,7 @@ python ../run_ner_csci_emb_old.py \
 --pretrained_model_path ../models/$PRETRAINED_MODEL \
 --vocab_path ../models/$VOCAB \
 --output_model_path ../models/fine_tune.bin \
+--config_path ../models/bert_base_config.json \
 --train_path ../datasets/amttl/train.tsv \
 --dev_path ../datasets/amttl/dev.tsv \
 --test_path ../datasets/amttl/test.tsv \
@@ -36,6 +37,7 @@ python ../run_ner_csci_emb_old.py \
 --pretrained_model_path ../models/$PRETRAINED_MODEL \
 --vocab_path ../models/$VOCAB \
 --output_model_path ../models/fine_tune.bin \
+--config_path ../models/bert_base_config.json \
 --train_path ../datasets/ccks/train.tsv \
 --dev_path ../datasets/ccks/dev.tsv \
 --test_path ../datasets/ccks/test.tsv \
@@ -59,6 +61,7 @@ python ../run_ner_csci_emb_old.py \
 --pretrained_model_path ../models/$PRETRAINED_MODEL \
 --vocab_path ../models/$VOCAB \
 --output_model_path ../models/fine_tune.bin \
+--config_path ../models/bert_base_config.json \
 --train_path ../datasets/cnmer/train.tsv \
 --dev_path ../datasets/cnmer/dev.tsv \
 --test_path ../datasets/cnmer/test.tsv \
@@ -82,6 +85,7 @@ python ../run_classifier_csci_emb_old.py \
 --pretrained_model_path ../models/$PRETRAINED_MODEL \
 --vocab_path ../models/$VOCAB \
 --output_model_path ../models/fine_tune.bin \
+--config_path ../models/bert_base_config.json \
 --train_path ../datasets/cmedqa/train.tsv \
 --dev_path ../datasets/cmedqa/dev.tsv \
 --test_path ../datasets/cmedqa/test.tsv \
@@ -105,6 +109,7 @@ python ../run_classifier_csci_emb_old.py \
 --pretrained_model_path ../models/$PRETRAINED_MODEL \
 --vocab_path ../models/$VOCAB \
 --output_model_path ../models/fine_tune.bin \
+--config_path ../models/bert_base_config.json \
 --train_path ../datasets/csl/train.tsv \
 --dev_path ../datasets/csl/dev.tsv \
 --test_path ../datasets/csl/test.tsv \
@@ -128,6 +133,7 @@ python ../run_classifier_csci_emb_old.py \
 --pretrained_model_path ../models/$PRETRAINED_MODEL \
 --vocab_path ../models/$VOCAB \
 --output_model_path ../models/fine_tune.bin \
+--config_path ../models/bert_base_config.json \
 --train_path ../datasets/wanfang_16000/train.tsv \
 --dev_path ../datasets/wanfang_16000/dev.tsv \
 --test_path ../datasets/wanfang_16000/test.tsv \
@@ -151,6 +157,7 @@ python ../run_classifier_csci_emb_old.py \
 --pretrained_model_path ../models/$PRETRAINED_MODEL \
 --vocab_path ../models/$VOCAB \
 --output_model_path ../models/fine_tune.bin \
+--config_path ../models/bert_base_config.json \
 --train_path ../datasets/wanfang_32000/train.tsv \
 --dev_path ../datasets/wanfang_32000/dev.tsv \
 --test_path ../datasets/wanfang_32000/test.tsv \
