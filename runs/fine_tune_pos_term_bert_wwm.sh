@@ -3,7 +3,7 @@ export PYTHONUNBUFFERED=1
 export PRETRAINED_MODEL=bert_wwm_ext_model.bin
 export VOCAB=google_zh_vocab.txt
 export EMBEDDING=cscibert
-export LOG_FILE=pos_term_bert_base.log
+export LOG_FILE=pos_term_bert_wwm.log
 export GPU=1
 
 
