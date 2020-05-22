@@ -583,7 +583,7 @@ def train_csci_mlm(args, gpu_id, rank, loader, model, optimizer, scheduler):
         vocab = Vocab()
         vocab.load(args.vocab_path)
         print('Tokens:')
-        print([(i,a) for (i,a) in enumerate(vocab.i2w[src_word[0]])])
+        print([(i,vocab.i2w[a]) for (i,a) in enumerate(src_word[0])])
     
         print("pos:")
         print([(i,pos_dict_reverse[a]) for (i,a) in enumerate(src_pos[0])])
