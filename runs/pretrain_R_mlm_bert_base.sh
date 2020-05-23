@@ -1,3 +1,4 @@
+export PYTHONUNBUFFERED=1
 python ../pretrain.py \
 --dataset_path ../cscd_r.pt \
 --vocab_path ../models/google_zh_vocab.txt \
