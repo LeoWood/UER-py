@@ -20,12 +20,13 @@ if __name__ == '__main__':
     vocab_path = input()
     vocab.load(vocab_path)
     tokenizer = WordpieceTokenizer(vocab)
+    tokenizer_bert = BertTokenizer()
     while True:
         text = input()
         text = text.lower()
         print("wordpiece tokens:")
         print(tokenizer.tokenize(text))
         print("bert tokens:")
-        print(BertTokenizer.tokenize(text))
+        print(tokenizer_bert.tokenize(text))
 
 
