@@ -8,7 +8,6 @@ with open('R_seg.txt','w',encoding='utf-8') as fw:
         for line in tqdm(f.readlines()):
             line = line.strip()
             if line:
-                [fw.write(word + ' ') for word in pku_seg.cut(line)]
-                fw.write('\n')
+                fw.write(' '.join(pku_seg.cut(line)) + '\n')
 
 
