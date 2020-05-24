@@ -12,6 +12,8 @@ sys.path.append(uer_dir)
 from uer.utils.vocab import Vocab
 from uer.utils.tokenizer import WordpieceTokenizer
 from uer.utils.tokenizer import BertTokenizer
+import argparse
+
 
 
 if __name__ == '__main__':
@@ -20,6 +22,11 @@ if __name__ == '__main__':
     vocab_path = input()
     vocab.load(vocab_path)
     tokenizer = WordpieceTokenizer(vocab)
+
+    parser = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter)
+    parser.add_argument("--corpus_path",default=vocab_path)
+    args = parser.parse_args()
+
     tokenizer_bert = BertTokenizer(vocab_path)
     while True:
         text = input()
