@@ -19,6 +19,7 @@ if __name__ == '__main__':
     tokenizer = WordpieceTokenizer(vocab)
     while True:
         text = input()
+        text = text.lower()
         print(tokenizer.tokenize(text))
 
 
