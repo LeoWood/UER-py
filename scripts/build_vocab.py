@@ -35,5 +35,5 @@ if __name__ == '__main__':
 
     # Build and save vocabulary.
     vocab = Vocab()
-    vocab.build(args.corpus, tokenizer, args.workers_num, args.min_count)
+    vocab.build(args.corpus_path, tokenizer, args.workers_num, args.min_count)
     vocab.save(args.vocab_path)
