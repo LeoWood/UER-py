@@ -20,7 +20,7 @@ if __name__ == '__main__':
     vocab_path = input()
     vocab.load(vocab_path)
     tokenizer = WordpieceTokenizer(vocab)
-    tokenizer_bert = BertTokenizer()
+    tokenizer_bert = BertTokenizer(vocab_path)
     while True:
         text = input()
         text = text.lower()
