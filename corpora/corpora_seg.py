@@ -26,7 +26,7 @@ def seg_char(sent):
 with open('R_seg.txt','w',encoding='utf-8') as fw:
     with open('R.txt','r',encoding='utf-8') as f:
         for line in tqdm(f.readlines()):
-            line = line.strip()
+            line = line.strip().lower()
             if line:
                 fw.write(' '.join(seg_char(line)) + '\n')
 
