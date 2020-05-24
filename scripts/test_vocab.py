@@ -15,7 +15,9 @@ from uer.utils.tokenizer import WordpieceTokenizer
 
 if __name__ == '__main__':
     vocab = Vocab()
-    vocab.load(r'E:\LiuHuan\Projects\bert-vocab-builder\cscd_r_vocab.txt')
+    print("input vocab path:")
+    vocab_path = input()
+    vocab.load(vocab_path)
     tokenizer = WordpieceTokenizer(vocab)
     while True:
         text = input()
