@@ -27,7 +27,7 @@ if __name__ == '__main__':
     parser.add_argument("--corpus_path",default=vocab_path)
     args = parser.parse_args()
 
-    tokenizer_bert = BertTokenizer(vocab_path)
+    tokenizer_bert = BertTokenizer(args)
     while True:
         text = input()
         text = text.lower()
