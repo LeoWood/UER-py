@@ -11,6 +11,7 @@ sys.path.append(uer_dir)
 
 from uer.utils.vocab import Vocab
 from uer.utils.tokenizer import WordpieceTokenizer
+from uer.utils.tokenizer import BertTokenizer
 
 
 if __name__ == '__main__':
@@ -22,6 +23,9 @@ if __name__ == '__main__':
     while True:
         text = input()
         text = text.lower()
+        print("wordpiece tokens:")
         print(tokenizer.tokenize(text))
+        print("bert tokens:")
+        print(BertTokenizer.tokenize(text))
 
 
