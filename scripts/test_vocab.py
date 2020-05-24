@@ -24,7 +24,7 @@ if __name__ == '__main__':
     tokenizer = WordpieceTokenizer(vocab)
 
     parser = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter)
-    parser.add_argument("--corpus_path",default=vocab_path)
+    parser.add_argument("--vocab_path",default=vocab_path)
     args = parser.parse_args()
 
     tokenizer_bert = BertTokenizer(args)
