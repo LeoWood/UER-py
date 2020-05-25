@@ -19,7 +19,7 @@ pku_seg_pos = pkuseg.pkuseg(model_name="medicine",user_dict="../uer/utils/pku_se
 
 
 pos_dict = {}
-with open('../uer/utils/pos_tags.txt','r',encoding='utf-8') as f:
+with open('../uer/utils/pos_tags_old.txt','r',encoding='utf-8') as f:
     i = 0
     for line in f.readlines():
         if line:
