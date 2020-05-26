@@ -1,6 +1,6 @@
 export PYTHONUNBUFFERED=1
 python ../pretrain.py \
---dataset_path cscd_r.pt \
+--dataset_path ../cscd_r.pt \
 --vocab_path ../models/google_zh_vocab.txt \
 --pretrained_model_path ../models/cscd_R_based_on_google_zh_90w.bin \
 --output_model_path ../models/cscd_R_based_on_google_zh_90w+.bin  \
