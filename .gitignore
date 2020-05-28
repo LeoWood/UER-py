@@ -4,3 +4,4 @@
 *.spo
 *.csv
 __pycache__/
+datasets/
