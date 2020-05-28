@@ -667,7 +667,7 @@ def train_csci_mlm(args, gpu_id, rank, loader, model, optimizer, scheduler):
             if acc >= best_score and acc >= 0.85 and \
                     (not args.dist_train or (args.dist_train and rank == 0)):
                 save_model(model, args.output_model_path + "-best")
-                print("~~~New Best Score acc: {:3.3f}~~~".format(acc))
+                print("~~~New Best Score acc: {:3.3f} loss: {:3.2f}~~~".format(acc,loss))
 
             total_loss = 0.
             total_correct, total_denominator = 0., 0.
