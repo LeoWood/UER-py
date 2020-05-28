@@ -517,7 +517,7 @@ def main():
 
 
                     # dataset.append((tokens, label, mask, src_pos, src_term))
-                    pickle.dump((tokens, labels, mask, src_pos, src_term),f_write)
+                    pickle.dump((tokens, label, mask, src_pos, src_term),f_write)
 
                 elif len(line) == 3: # For sentence pair input.
                     label = int(line[columns["label"]])
@@ -598,7 +598,7 @@ def main():
                         src_pos.append(pos_dict['[PAD]'])
                         src_term.append(2)
                     # dataset.append((tokens, label, mask, src_pos, src_term))
-                    pickle.dump((tokens, labels, mask, src_pos, src_term),f_write)
+                    pickle.dump((tokens, label, mask, src_pos, src_term),f_write)
 
                 elif len(line) == 4: # For dbqa input.
                     qid=int(line[columns["qid"]])
