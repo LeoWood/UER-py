@@ -3,6 +3,7 @@
 import random
 import argparse
 import os
+import pickle
 
 import torch
 import torch.nn as nn
@@ -122,6 +123,12 @@ def main():
                         help="Path of the devset.")
     parser.add_argument("--test_path", type=str,
                         help="Path of the testset.")
+    parser.add_argument("--train_pt_path", type=str, required=True,
+                        help="Path of the trainset.")
+    parser.add_argument("--dev_pt_path", type=str, required=True,
+                        help="Path of the devset.")
+    parser.add_argument("--test_pt_path", type=str,
+                        help="Path of the testset.")
     parser.add_argument("--config_path", default="./models/bert_base_config.json", type=str,
                         help="Path of the config file.")
     parser.add_argument("--log_path", default="./models/test.log", type=str,
@@ -177,6 +184,10 @@ def main():
                         help="Specific steps to print prompt.")
     parser.add_argument("--seed", type=int, default=7,
                         help="Random seed.")
+    
+    # Preprocess Data
+    parser.add_argument("--preprocess", type=int, default=0,
+                        help="Only to preprocess the data.")
 
     # GPU
     parser.add_argument("--gpu_rank", type=str, default='0',
@@ -311,12 +322,80 @@ def main():
         
         return dataset
 
+    # preprocess dataset.
+    def process_dataset(path, pt_path):
+        # dataset = []
+        f_write = open(pt_path, "wb")
+        with open(path, mode="r", encoding="utf-8") as f:
+            f.readline()
+            tokens, labels = [], []
+            for line_id, line in enumerate(f):
+                tokens, labels = line.strip().split("\t")
+                text = ''.join([t for t in tokens.split(" ")])
+
+                tokens = [vocab.get(t) for t in tokens.split(" ")]
+                labels = [labels_map[l] for l in labels.split(" ")]
+                mask = [1] * len(tokens)
+
+                src_pos = []
+                src_term = []
+                ## 加入pos 和terms
+
+                for (word, tag) in pku_seg_pos.cut(text):
+                    for w in word:
+                        if word in term_set:
+                            src_term.append(1)
+                        else:
+                            src_term.append(0)
+                        src_pos.append(pos_dict[tag])
+
+                assert len(src_pos) == len(tokens)
+
+                if len(tokens) > args.seq_length:
+                    tokens = tokens[:args.seq_length]
+                    labels = labels[:args.seq_length]
+                    mask = mask[:args.seq_length]
+                    src_pos = src_pos[:args.seq_length]
+                    src_term = src_term[:args.seq_length]
+
+
+                while len(tokens) < args.seq_length:
+                    tokens.append(0)
+                    labels.append(0)
+                    mask.append(0)
+                    src_pos.append(pos_dict['[PAD]'])
+                    src_term.append(2)
+                pickle.dump((tokens, labels, mask, src_pos, src_term),f_write)
+                # dataset.append([tokens, labels, mask, src_pos, src_term])
+        
+        f_write.close()
+    
+
+
     # Evaluation function.
     def evaluate(args, is_test):
         if is_test:
-            dataset = read_dataset(args.test_path)
+            # dataset = read_dataset(args.test_path)
+            ## read test pt file
+            dataset = []
+            f_read = open(args.test_pt_path, "rb")
+            try:
+                while True:
+                    instance = pickle.load(f_read)
+                    dataset.append(instance)
+            except EOFError: 
+                f_read.close()
         else:
-            dataset = read_dataset(args.dev_path)
+            # dataset = read_dataset(args.dev_path)
+            ## read dev pt file
+            dataset = []
+            f_read = open(args.dev_pt_path, "rb")
+            try:
+                while True:
+                    instance = pickle.load(f_read)
+                    dataset.append(instance)
+            except EOFError: 
+                f_read.close()
 
         input_ids = torch.LongTensor([sample[0] for sample in dataset])
         label_ids = torch.LongTensor([sample[1] for sample in dataset])
@@ -445,9 +524,30 @@ def main():
 
         return f1
 
+    ## Only to preprocess data
+
+    if args.preprocess:
+        process_dataset(args.train_path,args.train_pt_path)
+        process_dataset(args.dev_path,args.dev_pt_path)
+        if args.test_path is not None:
+            process_dataset(args.test_path,args.test_pt_path)
+        print("Sucessfully preprocessed the data")
+        exit()
+
+
     # Training phase.
     print("Start training.")
-    instances = read_dataset(args.train_path)
+    # instances = read_dataset(args.train_path)
+
+    ## read train pt file
+    instances = []
+    f_read = open(args.train_pt_path, "rb")
+    try:
+        while True:
+            instance = pickle.load(f_read)
+            instances.append(instance)
+    except EOFError: 
+        f_read.close()
 
     input_ids = torch.LongTensor([ins[0] for ins in instances])
     label_ids = torch.LongTensor([ins[1] for ins in instances])

@@ -8,6 +8,7 @@ import json
 import random
 import argparse
 import collections
+import pickle
 import torch.nn as nn
 
 from uer.utils.vocab import Vocab
@@ -175,6 +176,10 @@ def main():
     # GPU
     parser.add_argument("--gpu_rank", type=str, default='0',
                         help="Gpu Rank.")
+    
+    # Preprocess Data
+    parser.add_argument("--preprocess", type=int, default=0,
+                        help="Only to preprocess the data.")
 
     # Evaluation options.
     parser.add_argument("--mean_reciprocal_rank", action="store_true", help="Evaluation metrics for DBQA dataset.")
@@ -437,12 +442,208 @@ def main():
 
         return dataset
 
+    # Preprocess dataset.
+    def process_dataset(path, pt_path):
+        f_write = open(pt_path, "wb")
+        with open(path, mode="r", encoding="utf-8") as f:
+            for line_id, line in enumerate(f):
+                if line_id == 0:
+                    continue
+                line = line.strip().split('\t')
+                if len(line) == 2:
+                    label = int(line[columns["label"]])
+                    text = line[columns["text_a"]]
+
+                    tokens = []
+                    for word in pku_seg.cut(text):
+                        for w in tokenizer.tokenize(word):
+                            tokens.append(vocab.get(w))
+
+                    tokens = [CLS_ID] + tokens
+                    mask = [1] * len(tokens)
+
+                    src_pos = []
+                    src_term = []
+                    ## 加入pos 和terms
+                    for (word, tag) in pku_seg_pos.cut(text):
+                        piece_num = len(tokenizer.tokenize(word))
+                        if word in term_set:
+                            # print(word)
+                            [src_term.append(1) for i in range(piece_num)]
+                        else:
+                            [src_term.append(0) for i in range(piece_num)]
+
+                        [src_pos.append(pos_dict[tag]) for i in range(piece_num)]
+
+
+                    src_pos = [pos_dict['[CLS]']] + src_pos
+                    src_term = [0] + src_term
+
+
+                    if len(tokens) > args.seq_length:
+                        tokens = tokens[:args.seq_length]
+                        mask = mask[:args.seq_length]
+                        src_pos = src_pos[:args.seq_length]
+                        src_term = src_term[:args.seq_length]
+
+
+                    while len(tokens) < args.seq_length:
+                        tokens.append(0)
+                        mask.append(0)
+                        src_pos.append(pos_dict['[PAD]'])
+                        src_term.append(2)
+
+                    # if line_id < 3:
+                    #     print("数据读取示例：")
+                    #     print('Tokens:')
+                    #     print([(i,a) for (i,a) in enumerate(tokenizer.convert_ids_to_tokens(tokens))])
+                    #
+                    #     print("pos:")
+                    #     print([(i,pos_dict_reverse[a]) for (i,a) in enumerate(src_pos)])
+                    #     print("term:")
+                    #     print([(i,a) for (i,a) in enumerate(src_term)])
+                    #
+                    #     print("label:")
+                    #     print(label)
+                    #
+                    #     print("mask:")
+                    #     print([(i,a) for (i,a) in enumerate(mask)])
+
+
+                    # dataset.append((tokens, label, mask, src_pos, src_term))
+                    pickle.dump((tokens, labels, mask, src_pos, src_term),f_write)
+
+                elif len(line) == 3: # For sentence pair input.
+                    label = int(line[columns["label"]])
+                    text_a, text_b = line[columns["text_a"]], line[columns["text_b"]]
+
+                    tokens_a = []
+                    for word in pku_seg.cut(text_a):
+                        for w in tokenizer.tokenize(word):
+                            tokens_a.append(vocab.get(w))
+
+                    tokens_a = [CLS_ID] + tokens_a + [SEP_ID]
+
+                    tokens_b = []
+                    for word in pku_seg.cut(text_b):
+                        for w in tokenizer.tokenize(word):
+                            tokens_b.append(vocab.get(w))
+
+                    tokens_b = tokens_b + [SEP_ID]
+
+                    tokens = tokens_a + tokens_b
+                    mask = [1] * len(tokens_a) + [2] * len(tokens_b)
+
+                    src_pos_a = []
+                    src_pos_b = []
+                    src_term_a = []
+                    src_term_b = []
+                    ## 加入pos 和terms
+
+                    for (word, tag) in pku_seg_pos.cut(text_a):
+                        piece_num = len(tokenizer.tokenize(word))
+                        if word in term_set:
+                            # print(word)
+                            [src_term_a.append(1) for i in range(piece_num)]
+                        else:
+                            [src_term_a.append(0) for i in range(piece_num)]
+
+                        [src_pos_a.append(pos_dict[tag]) for i in range(piece_num)]
+
+                    src_pos_a = [pos_dict['[CLS]']] + src_pos_a + [pos_dict['[SEP]']]
+                    src_term_a = [0] + src_term_a + [0]
+
+                    for (word, tag) in pku_seg_pos.cut(text_b):
+                        piece_num = len(tokenizer.tokenize(word))
+                        if word in term_set:
+                            # print(word)
+                            [src_term_b.append(1) for i in range(piece_num)]
+                        else:
+                            [src_term_b.append(0) for i in range(piece_num)]
+
+                        [src_pos_b.append(pos_dict[tag]) for i in range(piece_num)]
+
+                    src_pos_b = src_pos_b + [pos_dict['[SEP]']]
+                    src_term_b = src_term_b + [0]
+
+                    src_pos = src_pos_a + src_pos_b
+                    src_term = src_term_a + src_term_b
+
+                    if len(src_pos) != len(tokens):
+                        print('Tokens:')
+                        print([(i, a) for (i, a) in enumerate(tokenizer.convert_ids_to_tokens(tokens))])
+
+                        print("pos:")
+                        print([(i, pos_dict_reverse[a]) for (i, a) in enumerate(src_pos)])
+                        print("term:")
+                        print([(i, a) for (i, a) in enumerate(src_term)])
+                        exit()
+
+
+                    if len(tokens) > args.seq_length:
+                        tokens = tokens[:args.seq_length]
+                        mask = mask[:args.seq_length]
+                        src_pos = src_pos[:args.seq_length]
+                        src_term = src_term[:args.seq_length]
+
+                    while len(tokens) < args.seq_length:
+                        tokens.append(0)
+                        mask.append(0)
+                        src_pos.append(pos_dict['[PAD]'])
+                        src_term.append(2)
+                    # dataset.append((tokens, label, mask, src_pos, src_term))
+                    pickle.dump((tokens, labels, mask, src_pos, src_term),f_write)
+
+                elif len(line) == 4: # For dbqa input.
+                    qid=int(line[columns["qid"]])
+                    label = int(line[columns["label"]])
+                    text_a, text_b = line[columns["text_a"]], line[columns["text_b"]]
+
+                    tokens_a = [vocab.get(t) for t in tokenizer.tokenize(text_a)]
+                    tokens_a = [CLS_ID] + tokens_a + [SEP_ID]
+                    tokens_b = [vocab.get(t) for t in tokenizer.tokenize(text_b)]
+                    tokens_b = tokens_b + [SEP_ID]
+
+                    tokens = tokens_a + tokens_b
+                    mask = [1] * len(tokens_a) + [2] * len(tokens_b)
+
+                    if len(tokens) > args.seq_length:
+                        tokens = tokens[:args.seq_length]
+                        mask = mask[:args.seq_length]
+                    while len(tokens) < args.seq_length:
+                        tokens.append(0)
+                        mask.append(0)
+                    # dataset.append((tokens, label, mask, qid))
+                else:
+                    pass
+
+        f_write.close()
+
     # Evaluation function.
     def evaluate(args, is_test):
+
         if is_test:
-            dataset = read_dataset(args.test_path)
+            # dataset = read_dataset(args.test_path)
+            ## read test pt file
+            dataset = []
+            f_read = open(args.test_pt_path, "rb")
+            try:
+                while True:
+                    instance = pickle.load(f_read)
+                    dataset.append(instance)
+            except EOFError: 
+                f_read.close()
         else:
-            dataset = read_dataset(args.dev_path)
+            # dataset = read_dataset(args.dev_path)
+            ## read dev pt file
+            dataset = []
+            f_read = open(args.dev_pt_path, "rb")
+            try:
+                while True:
+                    instance = pickle.load(f_read)
+                    dataset.append(instance)
+            except EOFError: 
+                f_read.close()
 
         input_ids = torch.LongTensor([sample[0] for sample in dataset])
         label_ids = torch.LongTensor([sample[1] for sample in dataset])
@@ -604,9 +805,34 @@ def main():
             print("Mean Reciprocal Rank: {:.4f}".format(MRR))
             return MRR
 
+
+    ## Only to preprocess data
+
+    if args.preprocess:
+        process_dataset(args.train_path,args.train_pt_path)
+        process_dataset(args.dev_path,args.dev_pt_path)
+        if args.test_path is not None:
+            process_dataset(args.test_path,args.test_pt_path)
+        print("Sucessfully preprocessed the data")
+        exit()
+
     # Training phase.
     print("Start training.")
-    trainset = read_dataset(args.train_path)
+
+
+    # trainset = read_dataset(args.train_path)
+
+    ## read train pt file
+    trainset = []
+    f_read = open(args.train_pt_path, "rb")
+    try:
+        while True:
+            instance = pickle.load(f_read)
+            trainset.append(instance)
+    except EOFError: 
+        f_read.close()
+
+
     random.shuffle(trainset)
     instances_num = len(trainset)
     batch_size = args.batch_size
