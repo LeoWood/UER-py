@@ -29,7 +29,7 @@ python ../run_ner_csci_emb.py \
 --add_pos 1 \
 --add_term 1 \
 --init_pos 1 \
---init_term 1 ^
+--init_term 1 \
 --preprocess 1
 
 echo "ccks:" >> $LOG_FILE
@@ -54,7 +54,7 @@ python ../run_ner_csci_emb.py \
 --add_pos 1 \
 --add_term 1 \
 --init_pos 1 \
---init_term 1 ^
+--init_term 1 \
 --preprocess 1
 
 echo "cnmer:" >> $LOG_FILE
@@ -79,7 +79,7 @@ python ../run_ner_csci_emb.py \
 --add_pos 1 \
 --add_term 1 \
 --init_pos 1 \
---init_term 1 ^
+--init_term 1 \
 --preprocess 1
 
 echo "cmedqa:" >> $LOG_FILE
@@ -104,7 +104,7 @@ python ../run_classifier_csci_emb.py \
 --add_pos 1 \
 --add_term 1 \
 --init_pos 1 \
---init_term 1 ^
+--init_term 1 \
 --preprocess 1
 
 echo "csl:" >> $LOG_FILE
@@ -129,7 +129,7 @@ python ../run_classifier_csci_emb.py \
 --add_pos 1 \
 --add_term 1 \
 --init_pos 1 \
---init_term 1 ^
+--init_term 1 \
 --preprocess 1
 
 echo "cla_16:" >> $LOG_FILE
@@ -154,7 +154,7 @@ python ../run_classifier_csci_emb.py \
 --add_pos 1 \
 --add_term 1 \
 --init_pos 1 \
---init_term 1 ^
+--init_term 1 \
 --preprocess 1
 
 echo "cla_32:" >> $LOG_FILE
@@ -179,5 +179,5 @@ python ../run_classifier_csci_emb.py \
 --add_pos 1 \
 --add_term 1 \
 --init_pos 1 \
---init_term 1 ^
+--init_term 1 \
 --preprocess 1
