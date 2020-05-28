@@ -712,6 +712,10 @@ class MlmDataset(Dataset):
                         continue
                     finally:
                         pos += 1
+                    
+                    line = line.strip()
+                    if not line:
+                        continue
 
                     src = [self.vocab.get(w) for w in self.tokenizer.tokenize(line)]
 
