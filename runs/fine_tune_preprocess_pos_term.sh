@@ -16,6 +16,9 @@ python ../run_ner_csci_emb_old.py \
 --train_path ../datasets/amttl/train.tsv \
 --dev_path ../datasets/amttl/dev.tsv \
 --test_path ../datasets/amttl/test.tsv \
+--train_pt_path ../datasets/amttl/train.pt \
+--dev_pt_path ../datasets/amttl/dev.pt \
+--test_pt_path ../datasets/amttl/test.pt \
 --log_path $LOG_FILE \
 --embedding $EMBEDDING \
 --encoder bert \
@@ -41,6 +44,9 @@ python ../run_ner_csci_emb_old.py \
 --train_path ../datasets/ccks/train.tsv \
 --dev_path ../datasets/ccks/dev.tsv \
 --test_path ../datasets/ccks/test.tsv \
+--train_pt_path ../datasets/ccks/train.pt \
+--dev_pt_path ../datasets/ccks/dev.pt \
+--test_pt_path ../datasets/ccks/test.pt \
 --log_path $LOG_FILE \
 --embedding $EMBEDDING \
 --encoder bert \
@@ -66,6 +72,9 @@ python ../run_ner_csci_emb_old.py \
 --train_path ../datasets/cnmer/train.tsv \
 --dev_path ../datasets/cnmer/dev.tsv \
 --test_path ../datasets/cnmer/test.tsv \
+--train_pt_path ../datasets/cnmer/train.pt \
+--dev_pt_path ../datasets/cnmer/dev.pt \
+--test_pt_path ../datasets/cnmer/test.pt \
 --log_path $LOG_FILE \
 --embedding $EMBEDDING \
 --encoder bert \
@@ -91,6 +100,9 @@ python ../run_classifier_csci_emb_old.py \
 --train_path ../datasets/cmedqa/train.tsv \
 --dev_path ../datasets/cmedqa/dev.tsv \
 --test_path ../datasets/cmedqa/test.tsv \
+--train_pt_path ../datasets/cmedqa/train.pt \
+--dev_pt_path ../datasets/cmedqa/dev.pt \
+--test_pt_path ../datasets/cmedqa/test.pt \
 --log_path $LOG_FILE \
 --embedding $EMBEDDING \
 --encoder bert \
@@ -116,6 +128,9 @@ python ../run_classifier_csci_emb_old.py \
 --train_path ../datasets/csl/train.tsv \
 --dev_path ../datasets/csl/dev.tsv \
 --test_path ../datasets/csl/test.tsv \
+--train_pt_path ../datasets/csl/train.pt \
+--dev_pt_path ../datasets/csl/dev.pt \
+--test_pt_path ../datasets/csl/test.pt \
 --log_path $LOG_FILE \
 --embedding $EMBEDDING \
 --encoder bert \
@@ -141,6 +156,9 @@ python ../run_classifier_csci_emb_old.py \
 --train_path ../datasets/wanfang_16000/train.tsv \
 --dev_path ../datasets/wanfang_16000/dev.tsv \
 --test_path ../datasets/wanfang_16000/test.tsv \
+--train_pt_path ../datasets/wanfang_16000/train.pt \
+--dev_pt_path ../datasets/wanfang_16000/dev.pt \
+--test_pt_path ../datasets/wanfang_16000/test.pt \
 --log_path $LOG_FILE \
 --embedding $EMBEDDING \
 --encoder bert \
@@ -166,6 +184,9 @@ python ../run_classifier_csci_emb_old.py \
 --train_path ../datasets/wanfang_32000/train.tsv \
 --dev_path ../datasets/wanfang_32000/dev.tsv \
 --test_path ../datasets/wanfang_32000/test.tsv \
+--train_pt_path ../datasets/wanfang_32000/train.pt \
+--dev_pt_path ../datasets/wanfang_32000/dev.pt \
+--test_pt_path ../datasets/wanfang_32000/test.pt \
 --log_path $LOG_FILE \
 --embedding $EMBEDDING \
 --encoder bert \
