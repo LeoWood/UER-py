@@ -1,6 +1,6 @@
 export PYTHONUNBUFFERED=1
 python ../pretrain.py \
---dataset_path ../cscd_r.pt \
+--dataset_path cscd_r_512.pt \
 --vocab_path ../models/google_zh_vocab.txt \
 --pretrained_model_path ../models/cscd_R_based_on_google_zh_60w+-best.bin \
 --output_model_path ../models/cscd_R_based_on_google_zh_512.bin  \
@@ -10,7 +10,7 @@ python ../pretrain.py \
 --total_steps 2000000 \
 --save_checkpoint_steps 100000 \
 --encoder bert \
---batch_size 10 \
+--batch_size 5 \
 --embedding bert \
 --target mlm \
 --add_pos 0 \
