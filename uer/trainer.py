@@ -468,10 +468,10 @@ def train_mlm(args, gpu_id, rank, loader, model, optimizer, scheduler):
     total_steps = args.total_steps
     loader_iter = iter(loader)
 
-    # report_dict = {}
-    # report_dict['steps'] = []
-    # report_dict['loss'] = []
-    # report_dict['acc'] = []
+    report_dict = {}
+    report_dict['steps'] = []
+    report_dict['loss'] = []
+    report_dict['acc'] = []
     with open(args.output_log_path,'a', encoding='utf-8') as f:
         f.write('steps,loss,acc\n')
 
@@ -575,10 +575,10 @@ def train_csci_mlm(args, gpu_id, rank, loader, model, optimizer, scheduler):
     total_steps = args.total_steps
     loader_iter = iter(loader)
 
-    # report_dict = {}
-    # report_dict['steps'] = []
-    # report_dict['loss'] = []
-    # report_dict['acc'] = []
+    report_dict = {}
+    report_dict['steps'] = []
+    report_dict['loss'] = []
+    report_dict['acc'] = []
     with open(args.output_log_path,'a', encoding='utf-8') as f:
         f.write('steps,loss,acc\n')
 
