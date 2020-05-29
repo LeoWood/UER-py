@@ -10,7 +10,7 @@ python ../pretrain.py \
 --total_steps 2000000 \
 --save_checkpoint_steps 100000 \
 --encoder bert \
---batch_size 8 \
+--batch_size 10 \
 --embedding bert \
 --target mlm \
 --add_pos 0 \
