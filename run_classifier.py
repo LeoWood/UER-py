@@ -494,7 +494,7 @@ def main():
             best_result = result
             save_model(model, args.output_model_path)
             print('~~~ Best Result Until Now ~~~')
-            with open(args.log_path,'w',encoding='utf-8') as f:
+            with open(args.log_path,'a',encoding='utf-8') as f:
                 f.write('BEST F1 on dev:'+ str(result) + '\n')
         else:
             continue
