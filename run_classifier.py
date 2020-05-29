@@ -187,8 +187,8 @@ def main():
     # Build classification model.
     model = BertClassifier(args, model)
 
-    print(model)
-    exit()
+    # print(model)
+    # exit()
 
     # For simplicity, we use DataParallel wrapper to use multiple GPUs.
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
