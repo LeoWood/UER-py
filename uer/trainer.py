@@ -468,10 +468,12 @@ def train_mlm(args, gpu_id, rank, loader, model, optimizer, scheduler):
     total_steps = args.total_steps
     loader_iter = iter(loader)
 
-    report_dict = {}
-    report_dict['steps'] = []
-    report_dict['loss'] = []
-    report_dict['acc'] = []
+    # report_dict = {}
+    # report_dict['steps'] = []
+    # report_dict['loss'] = []
+    # report_dict['acc'] = []
+    with open(args.output_log_path,'a', encoding='utf-8') as f:
+        f.write('steps,loss,acc\n')
 
 
     while True:
@@ -531,9 +533,12 @@ def train_mlm(args, gpu_id, rank, loader, model, optimizer, scheduler):
                     loss, 
                     acc))
 
-            report_dict['steps'].append(steps)
-            report_dict['loss'].append(loss)
-            report_dict['acc'].append(acc)
+            # report_dict['steps'].append(steps)
+            # report_dict['loss'].append(loss)
+            # report_dict['acc'].append(acc)
+
+            with open(args.output_log_path,'a', encoding='utf-8') as f:
+                f.write(str(steps) + ',' + str(loss) + ',' + str(acc) + '\n')
 
             best_score = max(report_dict['acc'])
             if acc >= best_score and acc >= 0.85 and \
@@ -553,8 +558,8 @@ def train_mlm(args, gpu_id, rank, loader, model, optimizer, scheduler):
 
         steps += 1
 
-    report = pd.DataFrame(report_dict)
-    report.to_csv(args.output_log_path)
+    # report = pd.DataFrame(report_dict)
+    # report.to_csv(args.output_log_path)
 
 
 
@@ -570,10 +575,12 @@ def train_csci_mlm(args, gpu_id, rank, loader, model, optimizer, scheduler):
     total_steps = args.total_steps
     loader_iter = iter(loader)
 
-    report_dict = {}
-    report_dict['steps'] = []
-    report_dict['loss'] = []
-    report_dict['acc'] = []
+    # report_dict = {}
+    # report_dict['steps'] = []
+    # report_dict['loss'] = []
+    # report_dict['acc'] = []
+    with open(args.output_log_path,'a', encoding='utf-8') as f:
+        f.write('steps,loss,acc\n')
 
     while True:
         if steps == total_steps + 1:
@@ -659,9 +666,12 @@ def train_csci_mlm(args, gpu_id, rank, loader, model, optimizer, scheduler):
                 loss,
                 acc))
 
-            report_dict['steps'].append(steps)
-            report_dict['loss'].append(loss)
-            report_dict['acc'].append(acc)
+            # report_dict['steps'].append(steps)
+            # report_dict['loss'].append(loss)
+            # report_dict['acc'].append(acc)
+
+            with open(args.output_log_path,'a', encoding='utf-8') as f:
+                f.write(str(steps) + ',' + str(loss) + ',' + str(acc) + '\n')
 
             best_score = max(report_dict['acc'])
             if acc >= best_score and acc >= 0.85 and \
@@ -680,8 +690,8 @@ def train_csci_mlm(args, gpu_id, rank, loader, model, optimizer, scheduler):
 
         steps += 1
 
-    report = pd.DataFrame(report_dict)
-    report.to_csv(args.output_log_path)
+    # report = pd.DataFrame(report_dict)
+    # report.to_csv(args.output_log_path)
 
 
 # def train_nsp(args, gpu_id, rank, loader, model, optimizer):
