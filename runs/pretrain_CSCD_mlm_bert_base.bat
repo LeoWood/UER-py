@@ -2,8 +2,8 @@ python ../pretrain.py ^
 --dataset_path ../cscd.pt ^
 --vocab_path ../models/google_zh_vocab.txt ^
 --pretrained_model_path ../models/google_zh_model.bin ^
---output_model_path ../models/pre_cscd_from_bert_base.bin  ^
---output_log_path ../models/pre_cscd_from_bert_base.csv  ^
+--output_model_path ../output_pre/pre_cscd_from_bert_base.bin  ^
+--output_log_path ../output_pre/pre_cscd_from_bert_base.csv  ^
 --world_size 1 ^
 --gpu_ranks 1 ^
 --total_steps 5000000 ^
