@@ -32,11 +32,10 @@ if __name__ == '__main__':
     while True:
         text = input()
         text = text.lower()
-        print("google_zh_vocab")
+        print("BertVocab")
         print(tokenizer_1.tokenize(text))
+        print("CsciVocab:")
+        print(tokenizer_3.tokenize(text))
         print("uer_create_vocab:")
         print(tokenizer_2.tokenize(text))
-        print("google_create_vocab:")
-        print(tokenizer_3.tokenize(text))
-
 
