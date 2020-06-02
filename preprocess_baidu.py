@@ -1,9 +1,8 @@
 # -*- encoding:utf-8 -*-
+from __future__ import absolute_import
 import sys
 sys.path.append('/home/aistudio/external-libraries')
-from __future__ import absolute_import
 import os
-import sys
 import torch
 import argparse
 from uer.utils.vocab import Vocab
