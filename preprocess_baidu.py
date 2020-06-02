@@ -1,4 +1,6 @@
 # -*- encoding:utf-8 -*-
+import sys
+sys.path.append('/home/aistudio/external-libraries')
 from __future__ import absolute_import
 import os
 import sys
@@ -7,8 +9,7 @@ import argparse
 from uer.utils.vocab import Vocab
 from uer.utils.data import *
 from uer.utils.tokenizer import *
-import sys
-sys.path.append('/home/aistudio/external-libraries')
+
 
 
 def main():

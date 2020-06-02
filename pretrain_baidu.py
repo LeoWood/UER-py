@@ -1,12 +1,13 @@
 # -*- encoding:utf-8 -*-
+import sys
+sys.path.append('/home/aistudio/external-libraries')
 import os
 import json
 import torch
 import argparse
 import uer.trainer as trainer
 from uer.utils.config import load_hyperparam
-import sys
-sys.path.append('/home/aistudio/external-libraries')
+
 
 
 def main():
