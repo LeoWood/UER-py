@@ -11,7 +11,32 @@ from uer.utils.constants import *
 from uer.utils.misc import count_lines
 from uer.utils.seed import set_seed
 
+# import pkuseg
+# pku_seg = pkuseg.pkuseg(model_name="medicine",user_dict="../uer/utils/pku_seg_dict.txt")
+# pku_seg_pos = pkuseg.pkuseg(model_name="medicine",user_dict="../uer/utils/pku_seg_dict.txt",postag=True)
 
+
+# pos_dict = {}
+# with open('../uer/utils/pos_tags_old.txt','r',encoding='utf-8') as f:
+#     i = 0
+#     for line in f.readlines():
+#         if line:
+#             pos_dict[line.strip().split()[0]] = i
+#             i += 1
+
+
+# # 获取本地术语表
+# a = []
+# term_dict = {}
+# with open('../uer/utils/medical_terms/medical_terms(final).txt', 'r', encoding='utf-8') as f:
+#     for line in f.readlines():
+#         line = line.strip()
+#         a.append(line)
+#         term_dict[line.lower()] = 1
+
+# term_set = set(a)
+
+# max_num = max([len(line) for line in a])
 
 
 def mask_seq(src, vocab_size):
@@ -744,33 +769,7 @@ class MlmDataLoader(DataLoader):
 
 
 class Csci_mlmDataset(Dataset):
-    import pkuseg
-    pku_seg = pkuseg.pkuseg(model_name="medicine",user_dict="../uer/utils/pku_seg_dict.txt")
-    pku_seg_pos = pkuseg.pkuseg(model_name="medicine",user_dict="../uer/utils/pku_seg_dict.txt",postag=True)
-
-
-    pos_dict = {}
-    with open('../uer/utils/pos_tags_old.txt','r',encoding='utf-8') as f:
-        i = 0
-        for line in f.readlines():
-            if line:
-                pos_dict[line.strip().split()[0]] = i
-                i += 1
-
-
-    # 获取本地术语表
-    a = []
-    term_dict = {}
-    with open('../uer/utils/medical_terms/medical_terms(final).txt', 'r', encoding='utf-8') as f:
-        for line in f.readlines():
-            line = line.strip()
-            a.append(line)
-            term_dict[line.lower()] = 1
-
-    term_set = set(a)
-
-    max_num = max([len(line) for line in a])
-
+    
     def __init__(self, args, vocab, tokenizer):
         super(Csci_mlmDataset, self).__init__(args, vocab, tokenizer)
         self.dup_factor = args.dup_factor
