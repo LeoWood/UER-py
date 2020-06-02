@@ -23,8 +23,8 @@ def seg_char(sent):
 
     return chars_list
 
-with open('R_seg.txt','w',encoding='utf-8') as fw:
-    with open('R.txt','r',encoding='utf-8') as f:
+with open('CSCD_seg.txt','w',encoding='utf-8') as fw:
+    with open('CSCD.txt','r',encoding='utf-8') as f:
         for line in tqdm(f.readlines()):
             line = line.strip().lower()
             if line:
