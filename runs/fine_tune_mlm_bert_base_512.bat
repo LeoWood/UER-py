@@ -1,13 +1,13 @@
-set PRETRAINED_MODEL=cscd_R_csci_mlm_based_on_google_zh_220w+best.bin
-set TUNE_MODEL=fine_tune_1.bin
+set PRETRAINED_MODEL=cscd_R_based_on_google_zh_512_100w+best.bin
+set TUNE_MODEL=fine_tune_0.bin
 set VOCAB=google_zh_vocab.txt
 set EMBEDDING=cscibert
-set LOG_FILE=pos_term_bert_base_pre_220w+best.log
-set GPU=1
+set LOG_FILE=fine_tune_mlm_bert_base_512_100w+best.log
+set GPU=0
 
 
 echo "amttl:" >> %LOG_FILE%
-python ../run_ner_csci_emb_old.py ^
+python ../run_ner_csci_emb.py ^
 --pretrained_model_path ../models/%PRETRAINED_MODEL% ^
 --vocab_path ../models/%VOCAB% ^
 --output_model_path ../output_tune/$TUNE_MODEL ^
@@ -15,9 +15,6 @@ python ../run_ner_csci_emb_old.py ^
 --train_path ../datasets/amttl/train.tsv ^
 --dev_path ../datasets/amttl/dev.tsv ^
 --test_path ../datasets/amttl/test.tsv ^
---train_pt_path ../datasets/amttl/train.pt ^
---dev_pt_path ../datasets/amttl/dev.pt ^
---test_pt_path ../datasets/amttl/test.pt ^
 --log_path %LOG_FILE% ^
 --embedding %EMBEDDING% ^
 --encoder bert ^
@@ -28,14 +25,13 @@ python ../run_ner_csci_emb_old.py ^
 --batch_size 16 ^
 --report_steps 50 ^
 --gpu_rank %GPU% ^
---add_pos 1 ^
---add_term 1 ^
+--add_pos 0 ^
+--add_term 0 ^
 --init_pos 0 ^
---init_term 0 ^
---preprocess 0
+--init_term 0
 
 echo "ccks:" >> %LOG_FILE%
-python ../run_ner_csci_emb_old.py ^
+python ../run_ner_csci_emb.py ^
 --pretrained_model_path ../models/%PRETRAINED_MODEL% ^
 --vocab_path ../models/%VOCAB% ^
 --output_model_path ../output_tune/$TUNE_MODEL ^
@@ -56,14 +52,13 @@ python ../run_ner_csci_emb_old.py ^
 --batch_size 16 ^
 --report_steps 50 ^
 --gpu_rank %GPU% ^
---add_pos 1 ^
---add_term 1 ^
+--add_pos 0 ^
+--add_term 0 ^
 --init_pos 0 ^
---init_term 0 ^
---preprocess 0
+--init_term 0
 
 echo "cnmer:" >> %LOG_FILE%
-python ../run_ner_csci_emb_old.py ^
+python ../run_ner_csci_emb.py ^
 --pretrained_model_path ../models/%PRETRAINED_MODEL% ^
 --vocab_path ../models/%VOCAB% ^
 --output_model_path ../output_tune/$TUNE_MODEL ^
@@ -84,11 +79,10 @@ python ../run_ner_csci_emb_old.py ^
 --batch_size 5 ^
 --report_steps 50 ^
 --gpu_rank %GPU% ^
---add_pos 1 ^
---add_term 1 ^
+--add_pos 0 ^
+--add_term 0 ^
 --init_pos 0 ^
---init_term 0 ^
---preprocess 0
+--init_term 0
 
 echo "cmedqa:" >> %LOG_FILE%
 python ../run_classifier_csci_emb_old.py ^
@@ -112,11 +106,10 @@ python ../run_classifier_csci_emb_old.py ^
 --batch_size 10 ^
 --report_steps 100 ^
 --gpu_rank %GPU% ^
---add_pos 1 ^
---add_term 1 ^
+--add_pos 0 ^
+--add_term 0 ^
 --init_pos 0 ^
---init_term 0 ^
---preprocess 0
+--init_term 0
 
 echo "csl:" >> %LOG_FILE%
 python ../run_classifier_csci_emb_old.py ^
@@ -140,11 +133,10 @@ python ../run_classifier_csci_emb_old.py ^
 --batch_size 10 ^
 --report_steps 100 ^
 --gpu_rank %GPU% ^
---add_pos 1 ^
---add_term 1 ^
+--add_pos 0 ^
+--add_term 0 ^
 --init_pos 0 ^
---init_term 0 ^
---preprocess 0
+--init_term 0
 
 echo "cla_16:" >> %LOG_FILE%
 python ../run_classifier_csci_emb_old.py ^
@@ -168,11 +160,10 @@ python ../run_classifier_csci_emb_old.py ^
 --batch_size 5 ^
 --report_steps 100 ^
 --gpu_rank %GPU% ^
---add_pos 1 ^
---add_term 1 ^
+--add_pos 0 ^
+--add_term 0 ^
 --init_pos 0 ^
---init_term 0 ^
---preprocess 0
+--init_term 0
 
 echo "cla_32:" >> %LOG_FILE%
 python ../run_classifier_csci_emb_old.py ^
@@ -196,8 +187,7 @@ python ../run_classifier_csci_emb_old.py ^
 --batch_size 5 ^
 --report_steps 100 ^
 --gpu_rank %GPU% ^
---add_pos 1 ^
---add_term 1 ^
+--add_pos 0 ^
+--add_term 0 ^
 --init_pos 0 ^
---init_term 0 ^
---preprocess 0
+--init_term 0
