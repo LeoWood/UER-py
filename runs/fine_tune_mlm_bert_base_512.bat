@@ -1,8 +1,8 @@
-set PRETRAINED_MODEL=cscd_R_based_on_google_zh_512_100w+best.bin
+set PRETRAINED_MODEL=cscd_R_based_on_google_zh_512_100w_best.bin
 set TUNE_MODEL=fine_tune_0.bin
 set VOCAB=google_zh_vocab.txt
 set EMBEDDING=cscibert
-set LOG_FILE=fine_tune_mlm_bert_base_512_100w+best.log
+set LOG_FILE=fine_tune_mlm_bert_base_512_100w_best.log
 set GPU=0
 
 
@@ -39,9 +39,6 @@ python ../run_ner_csci_emb.py ^
 --train_path ../datasets/ccks/train.tsv ^
 --dev_path ../datasets/ccks/dev.tsv ^
 --test_path ../datasets/ccks/test.tsv ^
---train_pt_path ../datasets/ccks/train.pt ^
---dev_pt_path ../datasets/ccks/dev.pt ^
---test_pt_path ../datasets/ccks/test.pt ^
 --log_path %LOG_FILE% ^
 --embedding %EMBEDDING% ^
 --encoder bert ^
@@ -66,9 +63,6 @@ python ../run_ner_csci_emb.py ^
 --train_path ../datasets/cnmer/train.tsv ^
 --dev_path ../datasets/cnmer/dev.tsv ^
 --test_path ../datasets/cnmer/test.tsv ^
---train_pt_path ../datasets/cnmer/train.pt ^
---dev_pt_path ../datasets/cnmer/dev.pt ^
---test_pt_path ../datasets/cnmer/test.pt ^
 --log_path %LOG_FILE% ^
 --embedding %EMBEDDING% ^
 --encoder bert ^
@@ -85,7 +79,7 @@ python ../run_ner_csci_emb.py ^
 --init_term 0
 
 echo "cmedqa:" >> %LOG_FILE%
-python ../run_classifier_csci_emb_old.py ^
+python ../run_classifier_csci_emb.py ^
 --pretrained_model_path ../output_pre/%PRETRAINED_MODEL% ^
 --vocab_path ../models/%VOCAB% ^
 --output_model_path ../output_tune/$TUNE_MODEL ^
@@ -93,9 +87,6 @@ python ../run_classifier_csci_emb_old.py ^
 --train_path ../datasets/cmedqa/train.tsv ^
 --dev_path ../datasets/cmedqa/dev.tsv ^
 --test_path ../datasets/cmedqa/test.tsv ^
---train_pt_path ../datasets/cmedqa/train.pt ^
---dev_pt_path ../datasets/cmedqa/dev.pt ^
---test_pt_path ../datasets/cmedqa/test.pt ^
 --log_path %LOG_FILE% ^
 --embedding %EMBEDDING% ^
 --encoder bert ^
@@ -112,7 +103,7 @@ python ../run_classifier_csci_emb_old.py ^
 --init_term 0
 
 echo "csl:" >> %LOG_FILE%
-python ../run_classifier_csci_emb_old.py ^
+python ../run_classifier_csci_emb.py ^
 --pretrained_model_path ../output_pre/%PRETRAINED_MODEL% ^
 --vocab_path ../models/%VOCAB% ^
 --output_model_path ../output_tune/$TUNE_MODEL ^
@@ -120,9 +111,6 @@ python ../run_classifier_csci_emb_old.py ^
 --train_path ../datasets/csl/train.tsv ^
 --dev_path ../datasets/csl/dev.tsv ^
 --test_path ../datasets/csl/test.tsv ^
---train_pt_path ../datasets/csl/train.pt ^
---dev_pt_path ../datasets/csl/dev.pt ^
---test_pt_path ../datasets/csl/test.pt ^
 --log_path %LOG_FILE% ^
 --embedding %EMBEDDING% ^
 --encoder bert ^
@@ -139,7 +127,7 @@ python ../run_classifier_csci_emb_old.py ^
 --init_term 0
 
 echo "cla_16:" >> %LOG_FILE%
-python ../run_classifier_csci_emb_old.py ^
+python ../run_classifier_csci_emb.py ^
 --pretrained_model_path ../output_pre/%PRETRAINED_MODEL% ^
 --vocab_path ../models/%VOCAB% ^
 --output_model_path ../output_tune/$TUNE_MODEL ^
@@ -147,9 +135,6 @@ python ../run_classifier_csci_emb_old.py ^
 --train_path ../datasets/wanfang_16000/train.tsv ^
 --dev_path ../datasets/wanfang_16000/dev.tsv ^
 --test_path ../datasets/wanfang_16000/test.tsv ^
---train_pt_path ../datasets/wanfang_16000/train.pt ^
---dev_pt_path ../datasets/wanfang_16000/dev.pt ^
---test_pt_path ../datasets/wanfang_16000/test.pt ^
 --log_path %LOG_FILE% ^
 --embedding %EMBEDDING% ^
 --encoder bert ^
@@ -166,7 +151,7 @@ python ../run_classifier_csci_emb_old.py ^
 --init_term 0
 
 echo "cla_32:" >> %LOG_FILE%
-python ../run_classifier_csci_emb_old.py ^
+python ../run_classifier_csci_emb.py ^
 --pretrained_model_path ../output_pre/%PRETRAINED_MODEL% ^
 --vocab_path ../models/%VOCAB% ^
 --output_model_path ../output_tune/$TUNE_MODEL ^
@@ -174,9 +159,6 @@ python ../run_classifier_csci_emb_old.py ^
 --train_path ../datasets/wanfang_32000/train.tsv ^
 --dev_path ../datasets/wanfang_32000/dev.tsv ^
 --test_path ../datasets/wanfang_32000/test.tsv ^
---train_pt_path ../datasets/wanfang_32000/train.pt ^
---dev_pt_path ../datasets/wanfang_32000/dev.pt ^
---test_pt_path ../datasets/wanfang_32000/test.pt ^
 --log_path %LOG_FILE% ^
 --embedding %EMBEDDING% ^
 --encoder bert ^
