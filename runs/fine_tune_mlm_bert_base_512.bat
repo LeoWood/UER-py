@@ -1,8 +1,8 @@
-set PRETRAINED_MODEL=cscd_R_based_on_google_zh_512_100w_best.bin
+set PRETRAINED_MODEL=cscd_R_based_on_google_zh_512_100w.bin
 set TUNE_MODEL=fine_tune_0.bin
 set VOCAB=google_zh_vocab.txt
 set EMBEDDING=cscibert
-set LOG_FILE=fine_tune_mlm_bert_base_512_100w_best.log
+set LOG_FILE=fine_tune_mlm_bert_base_512_100w.log
 set GPU=0
 
 
