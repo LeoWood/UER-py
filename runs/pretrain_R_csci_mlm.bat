@@ -1,13 +1,13 @@
 python ../pretrain.py ^
 --dataset_path ../cscd_r_csci_mlm.pt ^
 --vocab_path ../models/google_zh_vocab.txt ^
---pretrained_model_path ../models/cscd_R_csci_mlm_based_on_google_zh_220w.bin ^
---output_model_path ../models/cscd_R_csci_mlm_based_on_google_zh_220w+.bin  ^
---output_log_path ../models/cscd_R_csci_mlm_220w+.csv  ^
+--pretrained_model_path ../models/cscd_R_csci_mlm_based_on_google_zh_300w.bin ^
+--output_model_path ../output_pre/cscd_R_csci_mlm_based_on_google_zh_300w+.bin  ^
+--output_log_path ../output_pre/cscd_R_csci_mlm_300w+.csv  ^
 --world_size 1 ^
 --gpu_ranks 1 ^
 --total_steps 1000000 ^
---save_checkpoint_steps 10000 ^
+--save_checkpoint_steps 100000 ^
 --encoder bert ^
 --batch_size 40 ^
 --embedding cscibert ^
