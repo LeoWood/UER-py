@@ -7,7 +7,7 @@ python ../pretrain.py ^
 --world_size 1 ^
 --gpu_ranks 0 ^
 --total_steps 5000000 ^
---save_checkpoint_steps 100000 ^
+--save_checkpoint_steps 10000 ^
 --encoder bert ^
 --batch_size 40 ^
 --embedding bert ^
