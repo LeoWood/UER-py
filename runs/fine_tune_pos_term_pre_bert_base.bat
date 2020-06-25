@@ -1,9 +1,9 @@
-set PRETRAINED_MODEL=cscd_R_csci_mlm_based_on_google_zh_220w+best.bin
-set TUNE_MODEL=fine_tune_1.bin
+set PRETRAINED_MODEL=cscd_R_csci_mlm_based_on_google_zh_410w-500w_best.bin
+set TUNE_MODEL=fine_tune_0.bin
 set VOCAB=google_zh_vocab.txt
 set EMBEDDING=cscibert
-set LOG_FILE=pos_term_bert_base_pre_220w+best.log
-set GPU=1
+set LOG_FILE=pos_term_bert_base_pre_400w+best.log
+set GPU=0
 
 
 echo "amttl:" >> %LOG_FILE%
