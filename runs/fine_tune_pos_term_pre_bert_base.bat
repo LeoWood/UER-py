@@ -8,7 +8,7 @@ set GPU=0
 
 echo "amttl:" >> %LOG_FILE%
 python ../run_ner_csci_emb_old.py ^
---pretrained_model_path ../models/%PRETRAINED_MODEL% ^
+--pretrained_model_path ../output_pre/%PRETRAINED_MODEL% ^
 --vocab_path ../models/%VOCAB% ^
 --output_model_path ../output_tune/%TUNE_MODEL% ^
 --config_path ../models/bert_base_config.json ^
@@ -36,7 +36,7 @@ python ../run_ner_csci_emb_old.py ^
 
 echo "ccks:" >> %LOG_FILE%
 python ../run_ner_csci_emb_old.py ^
---pretrained_model_path ../models/%PRETRAINED_MODEL% ^
+--pretrained_model_path ../output_pre/%PRETRAINED_MODEL% ^
 --vocab_path ../models/%VOCAB% ^
 --output_model_path ../output_tune/%TUNE_MODEL% ^
 --config_path ../models/bert_base_config.json ^
@@ -64,7 +64,7 @@ python ../run_ner_csci_emb_old.py ^
 
 echo "cnmer:" >> %LOG_FILE%
 python ../run_ner_csci_emb_old.py ^
---pretrained_model_path ../models/%PRETRAINED_MODEL% ^
+--pretrained_model_path ../output_pre/%PRETRAINED_MODEL% ^
 --vocab_path ../models/%VOCAB% ^
 --output_model_path ../output_tune/%TUNE_MODEL% ^
 --config_path ../models/bert_base_config.json ^
@@ -92,7 +92,7 @@ python ../run_ner_csci_emb_old.py ^
 
 echo "cmedqa:" >> %LOG_FILE%
 python ../run_classifier_csci_emb_old.py ^
---pretrained_model_path ../models/%PRETRAINED_MODEL% ^
+--pretrained_model_path ../output_pre/%PRETRAINED_MODEL% ^
 --vocab_path ../models/%VOCAB% ^
 --output_model_path ../output_tune/%TUNE_MODEL% ^
 --config_path ../models/bert_base_config.json ^
@@ -120,7 +120,7 @@ python ../run_classifier_csci_emb_old.py ^
 
 echo "csl:" >> %LOG_FILE%
 python ../run_classifier_csci_emb_old.py ^
---pretrained_model_path ../models/%PRETRAINED_MODEL% ^
+--pretrained_model_path ../output_pre/%PRETRAINED_MODEL% ^
 --vocab_path ../models/%VOCAB% ^
 --output_model_path ../output_tune/%TUNE_MODEL% ^
 --config_path ../models/bert_base_config.json ^
@@ -148,7 +148,7 @@ python ../run_classifier_csci_emb_old.py ^
 
 echo "cla_16:" >> %LOG_FILE%
 python ../run_classifier_csci_emb_old.py ^
---pretrained_model_path ../models/%PRETRAINED_MODEL% ^
+--pretrained_model_path ../output_pre/%PRETRAINED_MODEL% ^
 --vocab_path ../models/%VOCAB% ^
 --output_model_path ../output_tune/%TUNE_MODEL% ^
 --config_path ../models/bert_base_config.json ^
@@ -176,7 +176,7 @@ python ../run_classifier_csci_emb_old.py ^
 
 echo "cla_32:" >> %LOG_FILE%
 python ../run_classifier_csci_emb_old.py ^
---pretrained_model_path ../models/%PRETRAINED_MODEL% ^
+--pretrained_model_path ../output_pre/%PRETRAINED_MODEL% ^
 --vocab_path ../models/%VOCAB% ^
 --output_model_path ../output_tune/%TUNE_MODEL% ^
 --config_path ../models/bert_base_config.json ^
