@@ -70,13 +70,13 @@ if __name__ == '__main__':
     df = df.sample(frac=1).reset_index(drop=True)
 
     df_train = df[:60000]
-    df_train.to_csv('train.tsv'), sep='\t', header=True, index=False)
+    df_train.to_csv('train.tsv', sep='\t', header=True, index=False)
 
     df_dev = df[60000:80000]
-    df_dev.to_csv('dev.tsv'), sep='\t', header=True, index=False)
+    df_dev.to_csv('dev.tsv', sep='\t', header=True, index=False)
 
     df_test = df[80000:100000]
-    df_test.to_csv('test.tsv'), sep='\t', header=True, index=False)
+    df_test.to_csv('test.tsv', sep='\t', header=True, index=False)
 
 
 
