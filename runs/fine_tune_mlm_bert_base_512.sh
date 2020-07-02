@@ -1,16 +1,16 @@
 #!/usr/bin/env bash
 export PYTHONUNBUFFERED=1
-export PRETRAINED_MODEL=cscd_R_based_on_google_zh_512_100w.bin
+export PRETRAINED_MODEL=cscd_R_based_on_google_zh_512_200w+best.bin
 export TUNE_MODEL=fine_tune_0.bin
 export VOCAB=google_zh_vocab.txt
 export EMBEDDING=bert
-export LOG_FILE=fine_tune_mlm_bert_base_512_100w.log
+export LOG_FILE=cscd_R_based_on_google_zh_512_200w+best.log
 export GPU=0
 
 
 echo "amttl:" >> $LOG_FILE
 python ../run_ner_csci_emb.py \
---pretrained_model_path ../output_pre/$PRETRAINED_MODEL \
+--pretrained_model_path ../models/$PRETRAINED_MODEL \
 --vocab_path ../models/$VOCAB \
 --output_model_path ../output_tune/$TUNE_MODEL \
 --config_path ../models/bert_base_config.json \
@@ -34,7 +34,7 @@ python ../run_ner_csci_emb.py \
 
 echo "ccks:" >> $LOG_FILE
 python ../run_ner_csci_emb.py \
---pretrained_model_path ../output_pre/$PRETRAINED_MODEL \
+--pretrained_model_path ../models/$PRETRAINED_MODEL \
 --vocab_path ../models/$VOCAB \
 --output_model_path ../output_tune/$TUNE_MODEL \
 --config_path ../models/bert_base_config.json \
@@ -58,7 +58,7 @@ python ../run_ner_csci_emb.py \
 
 echo "cnmer:" >> $LOG_FILE
 python ../run_ner_csci_emb.py \
---pretrained_model_path ../output_pre/$PRETRAINED_MODEL \
+--pretrained_model_path ../models/$PRETRAINED_MODEL \
 --vocab_path ../models/$VOCAB \
 --output_model_path ../output_tune/$TUNE_MODEL \
 --config_path ../models/bert_base_config.json \
@@ -82,7 +82,7 @@ python ../run_ner_csci_emb.py \
 
 echo "cmedqa:" >> $LOG_FILE
 python ../run_classifier_csci_emb.py \
---pretrained_model_path ../output_pre/$PRETRAINED_MODEL \
+--pretrained_model_path ../models/$PRETRAINED_MODEL \
 --vocab_path ../models/$VOCAB \
 --output_model_path ../output_tune/$TUNE_MODEL \
 --config_path ../models/bert_base_config.json \
@@ -106,7 +106,7 @@ python ../run_classifier_csci_emb.py \
 
 echo "csl:" >> $LOG_FILE
 python ../run_classifier_csci_emb.py \
---pretrained_model_path ../output_pre/$PRETRAINED_MODEL \
+--pretrained_model_path ../models/$PRETRAINED_MODEL \
 --vocab_path ../models/$VOCAB \
 --output_model_path ../output_tune/$TUNE_MODEL \
 --config_path ../models/bert_base_config.json \
@@ -130,7 +130,7 @@ python ../run_classifier_csci_emb.py \
 
 echo "cla_16:" >> $LOG_FILE
 python ../run_classifier_csci_emb.py \
---pretrained_model_path ../output_pre/$PRETRAINED_MODEL \
+--pretrained_model_path ../models/$PRETRAINED_MODEL \
 --vocab_path ../models/$VOCAB \
 --output_model_path ../output_tune/$TUNE_MODEL \
 --config_path ../models/bert_base_config.json \
@@ -154,7 +154,7 @@ python ../run_classifier_csci_emb.py \
 
 echo "cla_32:" >> $LOG_FILE
 python ../run_classifier_csci_emb.py \
---pretrained_model_path ../output_pre/$PRETRAINED_MODEL \
+--pretrained_model_path ../models/$PRETRAINED_MODEL \
 --vocab_path ../models/$VOCAB \
 --output_model_path ../output_tune/$TUNE_MODEL \
 --config_path ../models/bert_base_config.json \
