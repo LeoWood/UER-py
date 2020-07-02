@@ -65,7 +65,7 @@ if __name__ == '__main__':
             extract_move_from_abs(data['abstract'],f)
     
     # 重新读取，划分train,dev,test
-    df = pd.read_csv('all_data.tsv'), sep='\t', names=['label', 'text_a'])
+    df = pd.read_csv('all_data.tsv', sep='\t', names=['label', 'text_a'])
 
     df = df.sample(frac=1).reset_index(drop=True)
 
