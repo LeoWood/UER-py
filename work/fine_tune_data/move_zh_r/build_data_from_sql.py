@@ -54,7 +54,7 @@ if __name__ == '__main__':
     sql = "SELECT paper_id,abstract FROM [CSCD].[dbo].[article_info] where abstract like '目的:%' and classification like 'R%'"
 
     # 原始数据
-    df = pySql.read_sql(sql)
+    df = db_server.read_sql(sql)
     df.to_csv("origin_data_from_sql.csv",encoding="utf_8_sig")
 
     df = df.sample(frac=1,random_state=666).reset_index(drop=True)
