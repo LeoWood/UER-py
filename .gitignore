@@ -3,6 +3,7 @@
 *.bin
 *.spo
 *.csv
+*.json
 __pycache__/
 datasets/
 output_pre/
