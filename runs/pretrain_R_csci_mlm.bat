@@ -1,4 +1,4 @@
-python ../pretrain.py ^
+git python ../pretrain.py ^
 --dataset_path ../cscd_r_csci_mlm.pt ^
 --vocab_path ../models/google_zh_vocab.txt ^
 --pretrained_model_path ../output_pre/cscd_R_csci_mlm_based_on_google_zh_410w.bin ^
