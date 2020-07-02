@@ -60,7 +60,7 @@ if __name__ == '__main__':
     df = df.sample(frac=1,random_state=666).reset_index(drop=True)
 
     # 全部数据提取语步，放入文件
-    with open('all_data.tsv','w',encoding='utf-8') as f
+    with open('all_data.tsv','w',encoding='utf-8') as f:
         for data in df:
             extract_move_from_abs(data['abstract'],f)
     
