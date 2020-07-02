@@ -4,7 +4,9 @@
 *.spo
 *.csv
 *.json
+*.log
 __pycache__/
 datasets/
 output_pre/
 output_tune/
+models/
