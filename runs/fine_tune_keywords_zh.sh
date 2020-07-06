@@ -137,6 +137,6 @@ python ../run_ner_csci_emb_old.py \
 --gpu_rank $GPU \
 --add_pos 1 \
 --add_term 1 \
---init_pos 1 \
---init_term 1 \
+--init_pos 0 \
+--init_term 0 \
 --preprocess 0
