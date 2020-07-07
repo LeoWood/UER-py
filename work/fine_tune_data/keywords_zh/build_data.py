@@ -48,11 +48,11 @@ if __name__ == '__main__':
     df = df.sample(frac=1, random_state=666).reset_index(drop=True)
     print(df.head())
 
-    df_train = df[:60000]
+    df_train = df[:10000]
     df_train.to_csv('uer_data/train.tsv', sep='\t', header=True, index=False)
 
-    df_dev = df[60000:80000]
+    df_dev = df[10000:12000]
     df_dev.to_csv('uer_data/dev.tsv', sep='\t', header=True, index=False)
 
-    df_test = df[80000:100000]
+    df_test = df[12000:14000]
     df_test.to_csv('uer_data/test.tsv', sep='\t', header=True, index=False)
