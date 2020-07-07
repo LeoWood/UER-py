@@ -9,7 +9,7 @@ export GPU=0
 
 echo "512:" >> $LOG_FILE
 python ../run_classifier_csci_emb.py \
---pretrained_model_path ../models/$PRETRAINED_MODEL \
+--pretrained_model_path ../output_pre/$PRETRAINED_MODEL \
 --vocab_path ../models/$VOCAB \
 --output_model_path ../output_tune/$TUNE_MODEL \
 --config_path ../models/bert_base_config.json \
@@ -36,7 +36,7 @@ export PRETRAINED_MODEL=for_test/cscd_R_csci_mlm_based_on_google_zh_220w+best.bi
 export EMBEDDING=cscibert
 
 python ../run_classifier_csci_emb_old.py \
---pretrained_model_path ../models/$PRETRAINED_MODEL \
+--pretrained_model_path ../output_pre/$PRETRAINED_MODEL \
 --vocab_path ../models/$VOCAB \
 --output_model_path ../models/fine_tune.bin \
 --config_path ../models/bert_base_config.json \
@@ -65,7 +65,7 @@ python ../run_classifier_csci_emb_old.py \
 
 echo "pos+term:" >> $LOG_FILE
 python ../run_classifier_csci_emb_old.py \
---pretrained_model_path ../models/$PRETRAINED_MODEL \
+--pretrained_model_path ../output_pre/$PRETRAINED_MODEL \
 --vocab_path ../models/$VOCAB \
 --output_model_path ../models/fine_tune.bin \
 --config_path ../models/bert_base_config.json \
