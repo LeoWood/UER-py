@@ -1,9 +1,9 @@
 export PYTHONUNBUFFERED=1
 python ../pretrain.py \
 --dataset_path ../wanfang_r_128.pt \
---vocab_path ../output_pre/google_zh_vocab.txt \
+--vocab_path ../models/google_zh_vocab.txt \
 --pretrained_model_path ../models/google_zh_model.bin \
---output_model_path ../models/wanfang_r_128_mlm_bert_base.bin  \
+--output_model_path ../output_pre/wanfang_r_128_mlm_bert_base.bin  \
 --output_log_path ../output_pre/wanfang_r_128_mlm_bert_base.csv  \
 --world_size 2 \
 --gpu_ranks 0 1 \
