@@ -27,7 +27,8 @@ class Vocab(object):
                     self.w2i["???"+str(index)] = index
                     self.i2w.append("???"+str(index))
                     if not is_quiet:
-                        print("Vocabulary file line " + str(index+1) + " has bad format token")
+                        #print("Vocabulary file line " + str(index+1) + " has bad format token")
+                        pass
             assert len(self.w2i) == len(self.i2w)
         if not is_quiet:
             print("Vocabulary Size: ", len(self))

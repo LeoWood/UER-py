@@ -1,0 +1,41 @@
+f01r4n12
+Using distributed mode for training.
+Vocabulary Size:  21128
+Worker 0 is training ... 
+Worker 2 is training ... 
+Worker 1 is training ... 
+Worker 3 is training ... 
+|       10/    4000 steps|    0.04 steps/s|  1677.47 tokens/s| loss    2.51| acc: 0.535
+|       20/    4000 steps|    0.27 steps/s| 11079.43 tokens/s| loss    2.25| acc: 0.578
+|       30/    4000 steps|    0.27 steps/s| 10958.13 tokens/s| loss    2.12| acc: 0.585
+|       40/    4000 steps|    0.27 steps/s| 10964.53 tokens/s| loss    1.91| acc: 0.628
+|       50/    4000 steps|    0.27 steps/s| 10965.30 tokens/s| loss    1.82| acc: 0.645
+|       60/    4000 steps|    0.27 steps/s| 10932.43 tokens/s| loss    1.67| acc: 0.673
+Traceback (most recent call last):
+  File "../pretrain_419.py", line 127, in <module>
+    main()
+  File "../pretrain_419.py", line 123, in main
+    trainer.train_and_validate(args)
+  File "/work1/zzx6320/lh/Projects/UER-py/uer/trainer_419.py", line 59, in train_and_validate
+    mp.spawn(worker, nprocs=args.ranks_num, args=(args.gpu_ranks, args, model))
+  File "/public/software/deeplearning/anaconda3/lib/python3.7/site-packages/torch/multiprocessing/spawn.py", line 171, in spawn
+    while not spawn_context.join():
+  File "/public/software/deeplearning/anaconda3/lib/python3.7/site-packages/torch/multiprocessing/spawn.py", line 118, in join
+    raise Exception(msg)
+Exception: 
+
+-- Process 1 terminated with the following error:
+Traceback (most recent call last):
+  File "/public/software/deeplearning/anaconda3/lib/python3.7/site-packages/torch/multiprocessing/spawn.py", line 19, in _wrap
+    fn(i, *args)
+  File "/work1/zzx6320/lh/Projects/UER-py/uer/trainer_419.py", line 128, in worker
+    globals().get("train_"+args.target)(args, gpu_id, rank, train_loader, model, optimizer, scheduler)
+  File "/work1/zzx6320/lh/Projects/UER-py/uer/trainer_419.py", line 510, in train_mlm
+    loss.backward()
+  File "/public/software/deeplearning/anaconda3/lib/python3.7/site-packages/torch/tensor.py", line 134, in backward
+    torch.autograd.backward(self, gradient, retain_graph, create_graph)
+  File "/public/software/deeplearning/anaconda3/lib/python3.7/site-packages/torch/autograd/__init__.py", line 99, in backward
+    allow_unreachable=True)  # allow_unreachable flag
+RuntimeError: [/IO_data/pytorch_rocm2.8_src/third_party/gloo/gloo/transport/tcp/unbound_buffer.cc:72] Timed out waiting 60000ms for recv operation to complete
+
+20200802-22:39 ---> 20200802-22:49 Total:635 seconds
