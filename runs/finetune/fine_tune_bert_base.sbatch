@@ -3,7 +3,8 @@
 #SBATCH -p normal
 #SBATCH -N 1
 #SBATCH -J tune_base
-#SBATCH -o fine_tune_base.out
+#SBATCH -o fine_tune_base_1.out
+#SBATCH --gres=dcu:4
 
 module rm compiler/rocm/2.9
 module load compiler/rocm/3.3
@@ -15,7 +16,7 @@ export PRETRAINED_MODEL=google_zh_model.bin
 export TUNE_MODEL=fine_tune_0.bin
 export VOCAB=google_zh_vocab.txt
 export EMBEDDING=bert
-export LOG_FILE=fine_tune_base.log
+export LOG_FILE=fine_tune_base_1.log
 export GPU=0
 
 

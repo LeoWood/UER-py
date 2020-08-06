@@ -2,7 +2,8 @@
 #SBATCH -p normal
 #SBATCH -N 4
 #SBATCH -J pre_wanfang
-#SBATCH -o wanfang_r_128_from_base_16gpus.out
+#SBATCH -o wanfang_r_128_from_base_16gpus_5w_.out
+#SBATCH --gres=dcu:4
 
 
 hostfile=./$SLURM_JOB_ID

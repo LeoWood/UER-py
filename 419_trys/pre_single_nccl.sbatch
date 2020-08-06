@@ -2,6 +2,7 @@
 #SBATCH -p debug
 #SBATCH -J pre_nccl
 #SBATCH -N 1
+#SBATCH --gres=dcu:4
 
 module rm compiler/rocm/2.9
 module load compiler/rocm/3.3

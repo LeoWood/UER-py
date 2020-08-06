@@ -18,9 +18,9 @@ gpu4=$6
 python /work1/zzx6320/lh/Projects/UER-py/pretrain.py \
 --dataset_path /work1/zzx6320/lh/Projects/UER-py/corpora/wanfang_r_128.pt \
 --vocab_path /work1/zzx6320/lh/Projects/UER-py/models/google_zh_vocab.txt \
---pretrained_model_path /work1/zzx6320/lh/Projects/UER-py/output_pre/wanfang_r_128_from_base_16gpus_5w.bin \
---output_model_path /work1/zzx6320/lh/Projects/UER-py/output_pre/wanfang_r_128_from_base_16gpus_5w_.bin  \
---output_log_path /work1/zzx6320/lh/Projects/UER-py/output_pre/wanfang_r_128_from_base_16gpus_5w_.csv  \
+--pretrained_model_path /work1/zzx6320/lh/Projects/UER-py/models/google_zh_model.bin \
+--output_model_path /work1/zzx6320/lh/Projects/UER-py/output_pre/wanfang_r_128_from_base_16gpus_fp16.bin  \
+--output_log_path /work1/zzx6320/lh/Projects/UER-py/output_pre/wanfang_r_128_from_base_16gpus_fp16.csv  \
 --world_size $WORLD_SIZE \
 --gpu_ranks $gpu1 $gpu2 $gpu3 $gpu4 \
 --master_ip tcp://${DIST_URL}:34567 \
@@ -28,10 +28,11 @@ python /work1/zzx6320/lh/Projects/UER-py/pretrain.py \
 --total_steps 100000 \
 --save_checkpoint_steps 10000 \
 --encoder bert \
---batch_size 75 \
+--batch_size 48 \
 --embedding bert \
 --target mlm \
 --backend nccl \
+--fp16 \
 --add_pos 0 \
 --add_term 0 \
 
