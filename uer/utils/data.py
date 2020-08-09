@@ -164,12 +164,23 @@ class Dataset(object):
         self.dataset_path = args.dataset_path
         self.seq_length = args.seq_length
         self.seed = args.seed
+        self.stats_tokens = args.stats_tokens
 
     def build_and_save(self, workers_num):
         """
         Build dataset from the given corpus.
         Start workers_num processes and each process deals with a part of data.
         """
+
+        if self.stats_tokens:
+            tokens_count = 0
+            with open(self.corpus_path, mode="r", encoding="utf-8") as f:
+                for line in tqdm(f.readlines()):
+                    line = line.strip()
+                    if line:
+                        tokens_count += len(self.tokenizer.tokenize(line))
+            print(tokens_count)
+
         lines_num = count_lines(self.corpus_path)
         print("Total %d lines in courpus ... " % lines_num)
         print("Starting %d workers for building datasets ... " % workers_num)
@@ -685,6 +696,7 @@ class MlmDataset(Dataset):
         super(MlmDataset, self).__init__(args, vocab, tokenizer)
         self.dup_factor = args.dup_factor
 
+    
     def worker(self, proc_id, start, end):
         print("Worker %d is building dataset ... " % proc_id)
         set_seed(self.seed)

@@ -1,0 +1,16 @@
+#!/bin/bash
+#SBATCH -p normal
+#SBATCH -N 1
+#SBATCH -J pro_cscd
+#SBATCH -n 32
+#SBATCH --exclusive
+#SBATCH -o cscd_512_mlm.out
+
+
+python ../../preprocess.py \
+--corpus_path ../../corpora/CSCD_512_mlm.txt \
+--vocab_path ../../models/google_zh_vocab.txt \
+--dataset_path ../../corpora/cscd_512_mlm.pt \
+--seq_length 512 \
+--processes_num 32 \
+--target mlm

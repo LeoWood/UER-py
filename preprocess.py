@@ -43,6 +43,8 @@ def main():
     parser.add_argument("--seed", type=int, default=7, help="Random seed.")
     # parser.add_argument("--add_pos", type=int, default=0, help="if you want to add pos infomation in process procedure, use 1/0 = yes/no.")
 
+    parser.add_argument("--stats_tokens", action='store_true', help="stats for tokens of training data")
+
     args = parser.parse_args()
     
     # Load vocabulary.

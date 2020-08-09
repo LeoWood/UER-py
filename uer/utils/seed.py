@@ -9,5 +9,9 @@ def set_seed(seed=7):
     np.random.seed(seed)
     torch.manual_seed(seed)
     torch.cuda.manual_seed(seed)
+    ## 增加两个seed
+    torch.cuda.manual_seed_all(seed)
+    torch.backends.cudnn.benchmark = False
+    ##
     torch.backends.cudnn.deterministic = True
 

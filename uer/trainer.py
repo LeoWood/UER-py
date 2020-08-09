@@ -521,6 +521,15 @@ def train_mlm(args, gpu_id, rank, loader, model, optimizer, scheduler):
                 else args.batch_size * src.size(1) * args.report_steps
 
             acc = total_correct / total_denominator
+            ## debug for loss = nan
+            if not acc > 0:
+                print("loss: ",loss)
+                print("src:\n",src)
+                print("tgt:\n",tgt)
+                print("seg:\n",seg)
+                exit()
+
+
             print("| {:8d}/{:8d} steps"
                   "| {:7.2f} steps/s"
                   "| {:8.2f} tokens/s"

@@ -2,7 +2,7 @@
 #SBATCH -p normal
 #SBATCH -N 8
 #SBATCH -J pre_32gpus
-#SBATCH -o wanfang_r_128_from_base_32gpus.out
+#SBATCH -o wanfang_r_128_from_base_32gpus_5w_.out
 #SBATCH --gres=dcu:4
 
 
