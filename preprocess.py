@@ -44,6 +44,7 @@ def main():
     # parser.add_argument("--add_pos", type=int, default=0, help="if you want to add pos infomation in process procedure, use 1/0 = yes/no.")
 
     parser.add_argument("--stats_tokens", action='store_true', help="stats for tokens of training data")
+    parser.add_argument("--stats_instances", action='store_true', help="stats for instances of training data")
 
     args = parser.parse_args()
     

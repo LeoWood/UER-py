@@ -522,7 +522,7 @@ def train_mlm(args, gpu_id, rank, loader, model, optimizer, scheduler):
 
             acc = total_correct / total_denominator
             ## debug for loss = nan
-            if not acc > 0:
+            if not (loss > 0 and loss < 10):
                 print("loss: ",loss)
                 print("src:\n",src)
                 print("tgt:\n",tgt)
