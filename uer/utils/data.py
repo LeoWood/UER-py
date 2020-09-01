@@ -166,6 +166,7 @@ class Dataset(object):
         self.seed = args.seed
         self.stats_tokens = args.stats_tokens
         self.stats_instances = args.stats_instances
+        self.stats_lines = args.stats_lines
 
 
     def build_and_save(self, workers_num):
@@ -174,33 +175,41 @@ class Dataset(object):
         Start workers_num processes and each process deals with a part of data.
         """
 
+        if self.stats_instances:
+            ins_count = 0
+            with open(self.dataset_path,'rb') as f:
+                i = 0
+                while i<21:
+                    try:
+                        instance = pickle.load(f)
+                        ins_count += len(instance)
+                        print(instance)
+                    except EOFError:
+                        break
+                    i += 1
+            print("instances: ", ins_count)
+
         if self.stats_tokens:
             tokens_count = 0
-            lines_count = 0
             with open(self.corpus_path, mode="r", encoding="utf-8") as f:
                 for line in tqdm(f.readlines()):
                     line = line.strip()
                     if line:
                         tokens_count += len(self.tokenizer.tokenize(line))
-                        lines_count += 1
             print("tokens: ",tokens_count)
+        
+        if self.stats_lines:
+            lines_count = 0
+            with open(self.corpus_path, mode="r", encoding="utf-8") as f:
+                for line in tqdm(f.readlines()):
+                    line = line.strip()
+                    if line:
+                        lines_count += 1
             print("lines: ",lines_count)
             exit()
 
-        if self.stats_instances:
-            ins_count = 0
-            with open(self.dataset_path,'rb') as f:
-                while 1:
-                    try:
-                        instance = pickle.load(f)
-                        print(len(instance))
-                        exit()
-                        ins_count += len(instance)
-                    except EOFError:
-                        break
-            print("instances: ", ins_count)
 
-
+    
         lines_num = count_lines(self.corpus_path)
         print("Total %d lines in courpus ... " % lines_num)
         print("Starting %d workers for building datasets ... " % workers_num)

@@ -4,7 +4,7 @@
 #SBATCH -J stats
 #SBATCH -n 32
 #SBATCH --exclusive
-#SBATCH -o cscd_stats_ins.out
+#SBATCH -o wanfang_r_stats.out
 
 module rm compiler/rocm/2.9
 module load compiler/rocm/3.3
@@ -13,8 +13,8 @@ export LD_LIBRARY_PATH=/public/software/deeplearning/anaconda3/lib:$LD_LIBRARY_P
 export PYTHONUNBUFFERED=1
 
 python ../../preprocess.py \
---corpus_path ../../corpora/CSCD_512_mlm.txt \
+--corpus_path ../../corpora/wanfang.txt \
 --vocab_path ../../models/google_zh_vocab.txt \
---dataset_path ../../corpora/cscd_512_mlm.pt \
+--dataset_path ../../corpora/wanfang_r_128.pt \
 --stats_tokens \
---stats_instances
+--stats_lines \

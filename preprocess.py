@@ -45,6 +45,7 @@ def main():
 
     parser.add_argument("--stats_tokens", action='store_true', help="stats for tokens of training data")
     parser.add_argument("--stats_instances", action='store_true', help="stats for instances of training data")
+    parser.add_argument("--stats_lines", action='store_true', help="stats for lines of training data")
 
     args = parser.parse_args()
     

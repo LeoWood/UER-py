@@ -3,7 +3,7 @@
 #SBATCH -p normal
 #SBATCH -N 1
 #SBATCH -J tune_cscd
-#SBATCH -o fine_tune_cscd_512.out
+#SBATCH -o fine_tune_cscd_512_30w.out
 #SBATCH --gres=dcu:4
 
 module rm compiler/rocm/2.9
@@ -12,11 +12,11 @@ export MIOPEN_DEBUG_DISABLE_FIND_DB=1
 export LD_LIBRARY_PATH=/public/software/deeplearning/anaconda3/lib:$LD_LIBRARY_PATH
 export PYTHONUNBUFFERED=1
 
-export PRETRAINED_MODEL=cscd_512_mlm_from_base_100gpus_20w.bin
-export TUNE_MODEL=fine_tune_cscd_512.bin
+export PRETRAINED_MODEL=cscd_512_mlm_from_base_100gpus_30w_best.bin
+export TUNE_MODEL=fine_tune_cscd_512_30w.bin
 export VOCAB=google_zh_vocab.txt
 export EMBEDDING=bert
-export LOG_FILE=fine_tune_cscd_512.log
+export LOG_FILE=fine_tune_cscd_512_30w.log
 export GPU=0
 
 

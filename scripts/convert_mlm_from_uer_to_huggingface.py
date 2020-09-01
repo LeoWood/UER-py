@@ -2,8 +2,12 @@ import torch
 import argparse
 import collections
 
+## 用于mlm re-pretrained模型
+
 parser = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter)
 parser.add_argument("--input_model_path", type=str, default="google_model.bin",
+                        help=".")
+parser.add_argument("--bert_model_path", type=str, default="google_model.bin",
                         help=".")
 parser.add_argument("--output_model_path", type=str, default="huggingface_model.bin",
                         help=".")
@@ -13,7 +17,8 @@ args = parser.parse_args()
 path = args.input_model_path
 
 input_model = torch.load(args.input_model_path)
-print(input_model)
+
+bert_model = torch.load(args.bert_model_path)
 
 output_model = collections.OrderedDict()
 
@@ -41,10 +46,16 @@ for i in range(args.layers_num):
     output_model["bert.encoder.layer." + str(i) + ".output.LayerNorm.weight"] = input_model["encoder.transformer." + str(i) + ".layer_norm_2.gamma"]
     output_model["bert.encoder.layer." + str(i) + ".output.LayerNorm.bias"] = input_model["encoder.transformer." + str(i) + ".layer_norm_2.beta"]
 
-output_model["bert.pooler.dense.weight"] = input_model["target.nsp_linear_1.weight"]
-output_model["bert.pooler.dense.bias"] = input_model["target.nsp_linear_1.bias"]
-output_model["cls.seq_relationship.weight"] = input_model["target.nsp_linear_2.weight"]
-output_model["cls.seq_relationship.bias"] = input_model["target.nsp_linear_2.bias"]
+# output_model["bert.pooler.dense.weight"] = input_model["target.nsp_linear_1.weight"]
+# output_model["bert.pooler.dense.bias"] = input_model["target.nsp_linear_1.bias"]
+# output_model["cls.seq_relationship.weight"] = input_model["target.nsp_linear_2.weight"]
+# output_model["cls.seq_relationship.bias"] = input_model["target.nsp_linear_2.bias"]
+
+output_model["bert.pooler.dense.weight"] = bert_model["target.nsp_linear_1.weight"]
+output_model["bert.pooler.dense.bias"] = bert_model["target.nsp_linear_1.bias"]
+output_model["cls.seq_relationship.weight"] = bert_model["target.nsp_linear_2.weight"]
+output_model["cls.seq_relationship.bias"] = bert_model["target.nsp_linear_2.bias"]
+
 output_model["cls.predictions.transform.dense.weight"] = input_model["target.mlm_linear_1.weight"]
 output_model["cls.predictions.transform.dense.bias"] = input_model["target.mlm_linear_1.bias"]
 output_model["cls.predictions.transform.LayerNorm.weight"] = input_model["target.layer_norm.gamma"]
