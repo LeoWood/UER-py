@@ -1,8 +1,8 @@
 #!/bin/bash
 #SBATCH -p normal
 #SBATCH -N 25
-#SBATCH -J pre_roberta
-#SBATCH -o r_512_mlm_from_roberta_wwm_100gpus.out
+#SBATCH -J r_roberta
+#SBATCH -o r_512_mlm_from_roberta_wwm_100gpus_10w_.out
 #SBATCH --gres=dcu:4
 
 

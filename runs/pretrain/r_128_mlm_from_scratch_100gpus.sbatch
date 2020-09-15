@@ -2,7 +2,7 @@
 #SBATCH -p normal
 #SBATCH -N 25
 #SBATCH -J r1280
-#SBATCH -o r_128_mlm_from_scratch_100gpus_6w_.out
+#SBATCH -o r_128_mlm_from_scratch_100gpus_32w_.out
 #SBATCH --gres=dcu:4
 
 

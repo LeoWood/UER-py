@@ -2,8 +2,8 @@
 
 #SBATCH -p normal
 #SBATCH -N 1
-#SBATCH -J tune_512
-#SBATCH -o fine_tune_r_512_85w_1.out
+#SBATCH -J tune_128_512
+#SBATCH -o fine_tune_r_128_512_30w_1.out
 #SBATCH --gres=dcu:4
 
 module rm compiler/rocm/2.9
@@ -12,11 +12,11 @@ export MIOPEN_DEBUG_DISABLE_FIND_DB=1
 export LD_LIBRARY_PATH=/public/software/deeplearning/anaconda3/lib:$LD_LIBRARY_PATH
 export PYTHONUNBUFFERED=1
 
-export PRETRAINED_MODEL=r_512_mlm_from_base_100gpus_85w_12k_best.bin
-export TUNE_MODEL=fine_tune_r_512_85w_1.bin
+export PRETRAINED_MODEL=r_128_512_mlm_from_base_100gpus_30w_5k_best.bin
+export TUNE_MODEL=fine_tune_r_128_512_30w_1.bin
 export VOCAB=google_zh_vocab.txt
 export EMBEDDING=bert
-export LOG_FILE=fine_tune_r_512_85w_1.log
+export LOG_FILE=fine_tune_r_128_512_30w_1.log
 export GPU=0
 
 

@@ -3,7 +3,7 @@
 #SBATCH -p debug
 #SBATCH -N 1
 #SBATCH -J convert
-#SBATCH -o convert_r_512.out
+#SBATCH -o convert_r_128_512.out
 #SBATCH --gres=dcu:4
 
 module rm compiler/rocm/2.9
@@ -14,6 +14,7 @@ export PYTHONUNBUFFERED=1
 
 
 python convert_mlm_from_uer_to_huggingface.py \
---input_model_path ../output_pre/r_512_mlm_from_base_100gpus_48w_best.bin \
+--input_model_path ../output_pre/r_128_512_mlm_from_base_100gpus_20w_best.bin \
 --bert_model_path ../models/google_zh_model.bin \
---output_model_path ../output_pre/hugging_r_512_mlm_from_base_100gpus_48w_best.bin
+--output_model_path ../output_pre/hugging_r_128_512_mlm_from_base_100gpus_20w_best.bin
+ ， 。 。

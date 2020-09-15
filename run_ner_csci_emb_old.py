@@ -44,14 +44,7 @@ with open('../../uer/utils/pos_tags.txt','r',encoding='utf-8') as f:
 print(pos_dict)
 print(pos_dict_reverse)
 
-# 获取本地术语表
-a = []
-with open('../../uer/utils/medical_terms/medical_terms(final).txt', 'r', encoding='utf-8') as f:
-    for line in f.readlines():
-        line = line.strip()
-        a.append(line)
 
-term_set = set(a)
 
 
 class BertTagger(nn.Module):
@@ -188,12 +181,24 @@ def main():
     # Preprocess Data
     parser.add_argument("--preprocess", type=int, default=0,
                         help="Only to preprocess the data.")
+    parser.add_argument("--terms_path", type=str, default="./terms",
+                        help="terms path preprocess the data.")
 
     # GPU
     parser.add_argument("--gpu_rank", type=str, default='0',
                         help="Gpu Rank.")
 
     args = parser.parse_args()
+
+
+    # 获取本地术语表
+    a = []
+    with open(args.terms_path, 'r', encoding='utf-8') as f:
+        for line in f.readlines():
+            line = line.strip()
+            a.append(line)
+
+    term_set = set(a)
 
     os.environ['CUDA_VISIBLE_DEVICES'] = args.gpu_rank
 

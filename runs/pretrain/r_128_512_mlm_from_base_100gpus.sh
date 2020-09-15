@@ -16,11 +16,11 @@ gpu4=$6
 
 
 python /work1/zzx6320/lh/Projects/UER-py/pretrain.py \
---dataset_path /work1/zzx6320/lh/Projects/UER-py/corpora/r_128_mlm.pt \
+--dataset_path /work1/zzx6320/lh/Projects/UER-py/corpora/r_512_mlm.pt \
 --vocab_path /work1/zzx6320/lh/Projects/UER-py/models/google_zh_vocab.txt \
---pretrained_model_path /work1/zzx6320/lh/Projects/UER-py/output_pre/r_128_mlm_from_base_100gpus_34w.bin \
---output_model_path /work1/zzx6320/lh/Projects/UER-py/output_pre/r_128_mlm_from_base_100gpus_34w_.bin  \
---output_log_path /work1/zzx6320/lh/Projects/UER-py/output_pre/r_128_mlm_from_base_100gpus_34w_.csv  \
+--pretrained_model_path /work1/zzx6320/lh/Projects/UER-py/output_pre/r_128_512_mlm_from_base_100gpus_45w.bin \
+--output_model_path /work1/zzx6320/lh/Projects/UER-py/output_pre/r_128_512_mlm_from_base_100gpus_45w_.bin  \
+--output_log_path /work1/zzx6320/lh/Projects/UER-py/output_pre/r_128_512_mlm_from_base_100gpus_45w_.csv  \
 --world_size $WORLD_SIZE \
 --gpu_ranks $gpu1 $gpu2 $gpu3 $gpu4 \
 --master_ip tcp://${DIST_URL}:34567 \
@@ -28,10 +28,11 @@ python /work1/zzx6320/lh/Projects/UER-py/pretrain.py \
 --total_steps 100000 \
 --save_checkpoint_steps 10000 \
 --encoder bert \
---batch_size 75 \
+--batch_size 12 \
 --embedding bert \
 --target mlm \
 --backend nccl \
 --add_pos 0 \
---add_term 0 \
+--add_term 0
+
 
