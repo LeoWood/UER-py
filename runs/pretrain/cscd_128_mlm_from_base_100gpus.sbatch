@@ -2,7 +2,7 @@
 #SBATCH -p normal
 #SBATCH -N 25
 #SBATCH -J cscd1281
-#SBATCH -o cscd_128_mlm_from_base_100gpus_75w_.out
+#SBATCH -o cscd_128_mlm_from_base_100gpus_86w_.out
 #SBATCH --gres=dcu:4
 
 
@@ -10,7 +10,7 @@ hostfile=./$SLURM_JOB_ID
 scontrol show hostnames $SLURM_JOB_NODELIST > ${hostfile}
 
 hostname=`sed -n '1p' ${hostfile}`
-child1=`sed -n '2p' ${hostfile}`
+child1=`sed -n '2p' ${hostfile}` 
 child2=`sed -n '3p' ${hostfile}`
 child3=`sed -n '4p' ${hostfile}`
 child4=`sed -n '5p' ${hostfile}`

@@ -18,9 +18,9 @@ gpu4=$6
 python /work1/zzx6320/lh/Projects/UER-py/pretrain.py \
 --dataset_path /work1/zzx6320/lh/Projects/UER-py/corpora/cscd_128_mlm.pt \
 --vocab_path /work1/zzx6320/lh/Projects/UER-py/models/google_zh_vocab.txt \
---pretrained_model_path /work1/zzx6320/lh/Projects/UER-py/output_pre/cscd_128_mlm_from_scratch_100gpus_57w.bin \
---output_model_path /work1/zzx6320/lh/Projects/UER-py/output_pre/cscd_128_mlm_from_scratch_100gpus_57w_.bin  \
---output_log_path /work1/zzx6320/lh/Projects/UER-py/output_pre/cscd_128_mlm_from_scratch_100gpus_57w_.csv  \
+--pretrained_model_path /work1/zzx6320/lh/Projects/UER-py/output_pre/cscd_128_mlm_from_scratch_100gpus_64w.bin \
+--output_model_path /work1/zzx6320/lh/Projects/UER-py/output_pre/cscd_128_mlm_from_scratch_100gpus_68w_.bin  \
+--output_log_path /work1/zzx6320/lh/Projects/UER-py/output_pre/cscd_128_mlm_from_scratch_100gpus_68w_.csv  \
 --world_size $WORLD_SIZE \
 --gpu_ranks $gpu1 $gpu2 $gpu3 $gpu4 \
 --master_ip tcp://${DIST_URL}:34567 \

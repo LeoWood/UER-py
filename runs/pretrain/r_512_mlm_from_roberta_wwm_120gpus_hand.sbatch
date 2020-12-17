@@ -1,8 +1,8 @@
 #!/bin/bash
 #SBATCH -p normal
-#SBATCH -N 25
+#SBATCH -N 30
 #SBATCH -J r_roberta
-#SBATCH -o r_512_mlm_from_roberta_wwm_100gpus_25w_.out
+#SBATCH -o r_512_mlm_from_roberta_wwm_120gpus_hand.out
 #SBATCH --gres=dcu:4
 
 
@@ -34,12 +34,17 @@ child21=`sed -n '22p' ${hostfile}`
 child22=`sed -n '23p' ${hostfile}`
 child23=`sed -n '24p' ${hostfile}`
 child24=`sed -n '25p' ${hostfile}`
+child25=`sed -n '26p' ${hostfile}`
+child26=`sed -n '27p' ${hostfile}`
+child27=`sed -n '28p' ${hostfile}`
+child28=`sed -n '29p' ${hostfile}`
+child29=`sed -n '30p' ${hostfile}`
 
 
 
 # echo ${hostname} ${child1} ${child2} ${child3} ${child4} ${child5} ${child6} ${child7} 
 
-world_size=100
+world_size=120
 
 # start child processes
 gpu1=4
@@ -186,6 +191,35 @@ gpu3=98
 gpu4=99
 ssh ${child24} "bash `pwd`/r_512_mlm_from_roberta_wwm_100gpus.sh ${hostname} $world_size $gpu1 $gpu2 $gpu3 $gpu4" &
 
+gpu1=100
+gpu2=101
+gpu3=102
+gpu4=103
+ssh ${child25} "bash `pwd`/r_512_mlm_from_roberta_wwm_100gpus.sh ${hostname} $world_size $gpu1 $gpu2 $gpu3 $gpu4" &
+
+gpu1=104
+gpu2=105
+gpu3=106
+gpu4=107
+ssh ${child26} "bash `pwd`/r_512_mlm_from_roberta_wwm_100gpus.sh ${hostname} $world_size $gpu1 $gpu2 $gpu3 $gpu4" &
+
+gpu1=108
+gpu2=109
+gpu3=110
+gpu4=111
+ssh ${child27} "bash `pwd`/r_512_mlm_from_roberta_wwm_100gpus.sh ${hostname} $world_size $gpu1 $gpu2 $gpu3 $gpu4" &
+
+gpu1=112
+gpu2=113
+gpu3=114
+gpu4=115
+ssh ${child28} "bash `pwd`/r_512_mlm_from_roberta_wwm_100gpus.sh ${hostname} $world_size $gpu1 $gpu2 $gpu3 $gpu4" &
+
+gpu1=116
+gpu2=117
+gpu3=118
+gpu4=119
+ssh ${child29} "bash `pwd`/r_512_mlm_from_roberta_wwm_100gpus.sh ${hostname} $world_size $gpu1 $gpu2 $gpu3 $gpu4" &
 
 # start main process
 gpu1=0
