@@ -33,10 +33,12 @@ for path,dir_list,file_list in os.walk(path):
                 if dicts_out:
                     for dict in dicts_out:
                         print(dict)
-                        para = dict['text']
-                        f.write(para+'\n')
+                        para = dict['text'].strip()
+                        if para:
+                            f.write(para+'\n')
                     f.write('\n')
-                    exit()
+                    if file_count == 1000:
+                        exit()
 
 print(file_count)
 # exit()
