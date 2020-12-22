@@ -49,13 +49,6 @@ def seg_sens(text):
                 flag = 1
                 break
 
-            # 小于30字符
-            if len(sen)<30:
-                sentences[i - 1] = sen_pre + ' ' + sen
-                sentences.remove(sen)
-                flag = 1
-                break
-
             # 括号不对称的
             if ")" in sen and (sen_pre.count("(") + sen_pre.count(")")) % 2 == 1:
                 sentences[i - 1] = sen_pre + ' ' + sen

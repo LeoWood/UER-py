@@ -34,7 +34,11 @@ with open('corpora/pubmed_oa_noncm.txt','w',encoding='utf-8') as f:
             for dict in dicts_out:
                 para = dict['text'].strip()
                 if para:
-                    sens = seg_sens(para)
+                    sens = []
+                    try:
+                        sens = seg_sens(para)
+                    except Exception as e:
+                        print(para)
                     for sen in sens:
                         f.write(sen+'\n')
                     f.write(para+'\n')
