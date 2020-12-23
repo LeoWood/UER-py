@@ -209,7 +209,6 @@ class Dataset(object):
             exit()
 
 
-    
         lines_num = count_lines(self.corpus_path)
         print("Total %d lines in courpus ... " % lines_num)
         print("Starting %d workers for building datasets ... " % workers_num)

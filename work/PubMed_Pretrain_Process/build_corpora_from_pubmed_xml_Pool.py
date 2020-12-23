@@ -30,20 +30,20 @@ def worker(proc_id, start, end, files):
                             f.write(sen+'\n')
                         f.write('\n')
 
-# def merge_dataset(dataset_path, workers_num):
-#     # Merge datasets.
-#     f_writer = open(dataset_path, "wb")
-#     for i in range(workers_num):
-#         tmp_dataset_reader = open("dataset-tmp-"+str(i)+".pt", "rb")
-#         while True:
-#             tmp_data = tmp_dataset_reader.read(2^20)
-#             if tmp_data:
-#                 f_writer.write(tmp_data)
-#             else:
-#                 break
-#         tmp_dataset_reader.close()
-#         os.remove("dataset-tmp-"+str(i)+".pt")
-#     f_writer.close()
+def merge_dataset(workers_num):
+    # Merge datasets.
+    f_writer = open('corpora/pubmed_oa_noncm'+'.txt', 'w',encoding='utf-8')
+    for i in range(workers_num):
+        tmp_dataset_reader = open('corpora/pubmed_oa_noncm'+str(i)+'.txt', 'r',encoding='utf-8')
+        while True:
+            tmp_data = tmp_dataset_reader.read(2^20)
+            if tmp_data:
+                f_writer.write(tmp_data)
+            else:
+                break
+        tmp_dataset_reader.close()
+        # os.remove('corpora/pubmed_oa_noncm'+str(i)+'.txt')
+    f_writer.close()
 
 
 if __name__ == '__main__':
@@ -52,21 +52,23 @@ if __name__ == '__main__':
     file_count = 0
     files = []
     
-    # 遍历整个文件夹，查找nxml文件
-    for path,dir_list,file_list in os.walk(path):
-        for file_name in file_list:
-            if '.nxml' in file_name:
-                file_count += 1
-                files.append(os.path.join(path, file_name))
-    print(file_count)
+    # # 遍历整个文件夹，查找nxml文件
+    # for path,dir_list,file_list in os.walk(path):
+    #     for file_name in file_list:
+    #         if '.nxml' in file_name:
+    #             file_count += 1
+    #             files.append(os.path.join(path, file_name))
+    # print(file_count)
 
     # 设置进程数
     workers_num = 10
     
-    pool = Pool(workers_num)
-    for i in range(workers_num):
-        start = i * file_count // workers_num
-        end = (i+1) * file_count // workers_num
-        pool.apply_async(func=worker, args=[i, start, end, files])
-    pool.close()
-    pool.join()
+    # pool = Pool(workers_num)
+    # for i in range(workers_num):
+    #     start = i * file_count // workers_num
+    #     end = (i+1) * file_count // workers_num
+    #     pool.apply_async(func=worker, args=[i, start, end, files])
+    # pool.close()
+    # pool.join()
+
+    merge_dataset(workers_num)
