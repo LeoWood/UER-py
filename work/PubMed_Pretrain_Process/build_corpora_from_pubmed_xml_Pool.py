@@ -34,7 +34,7 @@ def merge_dataset(workers_num):
     # Merge datasets.
     f_writer = open('corpora/pubmed_oa_noncm'+'.txt', 'w',encoding='utf-8')
     for i in range(workers_num):
-        tmp_dataset_reader = open('corpora/pubmed_oa_noncm'+str(i)+'.txt', 'r',encoding='utf-8')
+        tmp_dataset_reader = open('corpora/pubmed_oa_noncm-'+str(i)+'.txt', 'r',encoding='utf-8')
         while True:
             tmp_data = tmp_dataset_reader.read(2^20)
             if tmp_data:
