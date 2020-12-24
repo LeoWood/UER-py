@@ -16,7 +16,7 @@ python ../../pretrain.py \
 --total_steps 100000 \
 --save_checkpoint_steps 10000 \
 --encoder bert \
---batch_size 22 \
+--batch_size 20 \
 --embedding bert \
 --target bert \
 --backend nccl \
