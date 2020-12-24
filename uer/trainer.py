@@ -135,6 +135,19 @@ def train_bert(args, gpu_id, rank, loader, model, optimizer, scheduler):
     done_tokens = 0
     loader_iter = iter(loader)
 
+    report_dict = {}
+    report_dict['steps'] = []
+    report_dict['loss_mlm'] = []
+    report_dict['acc_mlm'] = []
+    report_dict['loss_nsp'] = []
+    report_dict['acc_nsp'] = []
+    report_dict['loss'] = []
+
+
+
+    with open(args.output_log_path,'a', encoding='utf-8') as f:
+        f.write('steps,loss_mlm,acc_mlm,loss_nsp,acc_nsp,loss\n')
+
     while True:
         if steps == total_steps + 1:
             break
@@ -181,12 +194,16 @@ def train_bert(args, gpu_id, rank, loader, model, optimizer, scheduler):
             loss_mlm = total_loss_mlm / args.report_steps
             loss_nsp = total_loss_nsp / args.report_steps
 
+            acc_mlm = total_correct_mlm / total_denominator
+            acc_nsp = total_correct_nsp  / total_instances
+
             elapsed = time.time() - start_time
 
             if args.dist_train:
                 done_tokens *= args.world_size
 
             print("| {:8d}/{:8d} steps"
+                  "| {:7.2f} steps/s"
                   "| {:8.2f} tokens/s"
                   "| loss {:7.2f}"
                   "| loss_mlm: {:3.3f}"
@@ -195,13 +212,31 @@ def train_bert(args, gpu_id, rank, loader, model, optimizer, scheduler):
                   "| acc_nsp: {:3.3f}".format(
                     steps, 
                     total_steps, 
+                    args.report_steps / elapsed,
                     done_tokens / elapsed, 
                     loss, 
                     loss_mlm,
                     loss_nsp,
-                    total_correct_mlm / total_denominator,
-                    total_correct_nsp  / total_instances))
-            
+                    acc_mlm,
+                    acc_nsp))
+
+            report_dict['steps'].append(steps)
+            report_dict['loss_mlm'].append(loss_mlm)
+            report_dict['acc_mlm'].append(acc_mlm)
+            report_dict['loss_nsp'].append(loss_nsp)
+            report_dict['acc_nsp'].append(acc_nsp)
+            report_dict['loss'].append(loss)
+
+            with open(args.output_log_path,'a', encoding='utf-8') as f:
+                f.write(str(steps) + ',' + str(loss_mlm) + ',' + str(acc_mlm) + ',' + str(loss_nsp) +  ',' + str(acc_nsp) + ',' + str(loss) + '\n')
+
+            # store best model
+            best_score = min(report_dict['loss'])
+            if loss <= best_score and loss <= 1.3 and \
+                    (not args.dist_train or (args.dist_train and rank == 0)):
+                save_model(model, args.output_model_path + "-best")
+                print("~~~New Best Score loss: {:3.3f}~~~".format(loss))
+
             done_tokens = 0
             total_loss, total_loss_mlm, total_loss_nsp = 0., 0., 0.
             total_correct_mlm, total_denominator = 0., 0.
