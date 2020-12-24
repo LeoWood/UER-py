@@ -143,8 +143,6 @@ def train_bert(args, gpu_id, rank, loader, model, optimizer, scheduler):
     report_dict['acc_nsp'] = []
     report_dict['loss'] = []
 
-
-
     with open(args.output_log_path,'a', encoding='utf-8') as f:
         f.write('steps,loss_mlm,acc_mlm,loss_nsp,acc_nsp,loss\n')
 
