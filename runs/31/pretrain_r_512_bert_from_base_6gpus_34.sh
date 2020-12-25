@@ -1,7 +1,7 @@
 #!/bin/bash
 
 DIST_URL=159.226.102.31
-WORLD_SIZE=6
+WORLD_SIZE=5
 
 python ../../pretrain.py \
 --dataset_path ../../corpora/pubmed_oa_noncm.pt \
@@ -10,7 +10,7 @@ python ../../pretrain.py \
 --output_model_path ../../output_pre/pretrain_r_512_bert_from_base_6gpus.bin  \
 --output_log_path ../../output_pre/pretrain_r_512_bert_from_base_6gpus.csv  \
 --world_size $WORLD_SIZE \
---gpu_ranks 3 4 5 \
+--gpu_ranks 3 4 \
 --master_ip tcp://${DIST_URL}:34567 \
 --report_steps 100 \
 --total_steps 100000 \

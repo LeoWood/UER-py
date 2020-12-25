@@ -1,7 +1,7 @@
 #!/bin/bash
 
 DIST_URL=159.226.102.31
-WORLD_SIZE=6
+WORLD_SIZE=5
 
 python ../../pretrain.py \
 --dataset_path ../../corpora/pubmed_oa_noncm.pt \
