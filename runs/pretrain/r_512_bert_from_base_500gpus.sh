@@ -30,7 +30,7 @@ python /work1/zzx6320/lh/Projects/UER-py/pretrain.py \
 --encoder bert \
 --batch_size 12 \
 --embedding bert \
---target mlm \
+--target bert \
 --backend nccl \
 --add_pos 0 \
 --add_term 0 \

@@ -197,6 +197,7 @@ class Dataset(object):
                     if line:
                         tokens_count += len(self.tokenizer.tokenize(line))
             print("tokens: ",tokens_count)
+            exit()
         
         if self.stats_lines:
             lines_count = 0
