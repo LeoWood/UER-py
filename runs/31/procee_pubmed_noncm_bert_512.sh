@@ -4,4 +4,5 @@ python ../../preprocess.py \
 --dataset_path ../../corpora/pubmed_oa_noncm.pt \
 --seq_length 512 \
 --processes_num 16 \
---target bert
+--target bert \
+--stats_tokens
