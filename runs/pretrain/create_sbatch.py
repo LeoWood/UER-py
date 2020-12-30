@@ -10,9 +10,9 @@ import os
 os.chdir(sys.path[0])
 
 
-nodes = 200
-job = "r_roberta"
-name = "r_512_mlm_from_roberta_wwm_" + str(4*nodes) + "gpus"
+nodes = 50
+job = "p_200"
+name = "pubmed_bert_from_base_" + str(4*nodes) + "gpus"
 
 with open(name + ".sbatch",'w',encoding='utf-8') as f:
     f.write("#!/bin/bash")
@@ -67,7 +67,7 @@ with open(name + ".sbatch",'w',encoding='utf-8') as f:
     f.write("\n")
     f.write("gpu4=3")
     f.write("\n")
-    f.write(r'ssh ${hostname} bash `pwd`/' + name + r'.sh ${hostname} $world_size $gpu1 $gpu2 $gpu3 $gpu4"')
+    f.write(r'ssh ${hostname} "bash `pwd`/' + name + r'.sh ${hostname} $world_size $gpu1 $gpu2 $gpu3 $gpu4"')
     f.write("\n")
     f.write("\n")
     f.write("echo END")
