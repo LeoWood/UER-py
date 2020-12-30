@@ -1,7 +1,7 @@
 #!/bin/bash
 
 DIST_URL=159.226.102.31
-WORLD_SIZE=5
+WORLD_SIZE=6
 
 python ../../pretrain.py \
 --dataset_path ../../corpora/pubmed_oa_noncm.pt \
@@ -12,7 +12,7 @@ python ../../pretrain.py \
 --world_size $WORLD_SIZE \
 --gpu_ranks 0 1 2 \
 --master_ip tcp://${DIST_URL}:34567 \
---report_steps 100 \
+--report_steps 10 \
 --total_steps 100000 \
 --save_checkpoint_steps 10000 \
 --encoder bert \
