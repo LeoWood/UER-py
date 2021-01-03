@@ -2,7 +2,7 @@
 #SBATCH -p normal
 #SBATCH -N 50
 #SBATCH -J p_200
-#SBATCH -o pubmed_bert_from_base_200gpus_3w5_.out
+#SBATCH -o pubmed_bert_from_base_200gpus_15w_.out
 #SBATCH --gres=dcu:4
 
 hostfile=./$SLURM_JOB_ID
