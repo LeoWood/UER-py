@@ -12,11 +12,11 @@ python ../../pretrain.py \
 --world_size $WORLD_SIZE \
 --gpu_ranks 0 1 2 \
 --master_ip tcp://${DIST_URL}:34567 \
---report_steps 100 \
+--report_steps 10 \
 --total_steps 5000000 \
 --save_checkpoint_steps 10000 \
 --encoder bert \
---batch_size 20 \
+--batch_size 19 \
 --embedding bert \
 --target bert \
 --backend nccl \
