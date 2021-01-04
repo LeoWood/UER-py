@@ -2,6 +2,7 @@
 
 DIST_URL=159.226.102.34
 WORLD_SIZE=3
+export PYTHONUNBUFFERED=1
 
 python ../../pretrain.py \
 --dataset_path ../../corpora/pubmed_oa_noncm.pt \
