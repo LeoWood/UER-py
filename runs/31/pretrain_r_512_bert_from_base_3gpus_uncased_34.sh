@@ -5,7 +5,7 @@ WORLD_SIZE=3
 export PYTHONUNBUFFERED=1
 
 python ../../pretrain.py \
---dataset_path ../../corpora/pubmed_oa_noncm.pt \
+--dataset_path ../../corpora/pubmed_oa_noncm_uncased.pt \
 --vocab_path ../../models/google_uncased_en_vocab.txt \
 --pretrained_model_path ../../models/google_uncased_en.bin \
 --output_model_path ../../output_pre/pretrain_r_512_bert_from_base_3gpus_uncased_34.bin  \
