@@ -5,4 +5,3 @@ python ../../preprocess.py \
 --seq_length 512 \
 --processes_num 16 \
 --target bert \
---stats_tokens
