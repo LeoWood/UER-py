@@ -13,7 +13,7 @@ python ../../pretrain.py \
 --gpu_ranks 0 1 2 \
 --master_ip tcp://${DIST_URL}:34567 \
 --report_steps 100 \
---total_steps 100000 \
+--total_steps 5000000 \
 --save_checkpoint_steps 10000 \
 --encoder bert \
 --batch_size 20 \
