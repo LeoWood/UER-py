@@ -10,9 +10,9 @@ import os
 os.chdir(sys.path[0])
 
 
-nodes = 50
-job = "p_200"
-name = "pubmed_bert_from_base_" + str(4*nodes) + "gpus"
+nodes = 10
+job = "conti10"
+name = "pubmed_bert_from_base_" + str(4*nodes) + "gpus_conti"
 
 with open(name + ".sbatch",'w',encoding='utf-8') as f:
     f.write("#!/bin/bash")

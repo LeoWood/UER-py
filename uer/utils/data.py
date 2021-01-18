@@ -179,15 +179,15 @@ class Dataset(object):
             ins_count = 0
             with open(self.dataset_path,'rb') as f:
                 i = 0
-                while i<21:
+                while True:
                     try:
                         instance = pickle.load(f)
                         ins_count += len(instance)
-                        print(instance)
                     except EOFError:
                         break
                     i += 1
             print("instances: ", ins_count)
+            exit()
 
         if self.stats_tokens:
             tokens_count = 0

@@ -143,8 +143,9 @@ def train_bert(args, gpu_id, rank, loader, model, optimizer, scheduler):
     report_dict['acc_nsp'] = []
     report_dict['loss'] = []
 
-    with open(args.output_log_path,'a', encoding='utf-8') as f:
-        f.write('steps,loss_mlm,acc_mlm,loss_nsp,acc_nsp,loss\n')
+    if not args.dist_train or (args.dist_train and rank == 0):
+        with open(args.output_log_path,'a', encoding='utf-8') as f:
+            f.write('steps,loss_mlm,acc_mlm,loss_nsp,acc_nsp,loss\n')
 
     while True:
         if steps == total_steps + 1:
@@ -484,7 +485,7 @@ def train_cls(args, gpu_id, rank, loader, model, optimizer, scheduler):
 
         if steps % args.save_checkpoint_steps == 0 and \
                 (not args.dist_train or (args.dist_train and rank == 0)):
-            save_model(model, args.output_model_path + "-" + str(steps))
+            save_model(model, args.output_model_path + "-" + str(steps) + "-" + str(round(loss, 2)))
 
         steps += 1
 
