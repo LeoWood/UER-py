@@ -20,5 +20,4 @@ export MIOPEN_DEBUG_DISABLE_FIND_DB=1
 
 /public/software/deeplearning/anaconda3/bin/python3 convert_bert_from_uer_to_google.py \
 --input_model_path ../output_pre/pubmed_bert_from_base_200gpus_best_0121.bin \
---bert_model_path ../models/google_cased_en.bin \
 --output_model_path ../output_pre/pubmed_ckpts/pubmed_bert_from_base_200gpus_best_0121.ckpt
