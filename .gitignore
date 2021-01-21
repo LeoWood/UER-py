@@ -10,3 +10,6 @@ datasets/
 output_pre/
 output_tune/
 models/
+.DS_Store
+uer/.DS_Store
+work/.DS_Store
